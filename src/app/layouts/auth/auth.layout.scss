@@ -1,0 +1,14 @@
+.auth-container {
+    display: flex;
+    justify-content: space-between;
+    min-height: 100vh;
+
+    .container-left {
+        flex: 1;
+        min-height: 100%;
+    }
+    .container-right {
+        flex: 1;
+        min-height: 100%;
+    }
+}

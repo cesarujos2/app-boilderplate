@@ -1,0 +1,5 @@
+<button mat-icon-button (click)="isDarkMode.set(!isDarkMode())">
+    <mat-icon>
+        {{ isDarkMode() ? 'dark_mode' : 'light_mode' }}
+    </mat-icon>
+</button>

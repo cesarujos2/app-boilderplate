@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@custom-variant dark (&:where([class=dark], [class=dark] *));
+
+.mdc-notched-outline__notch{
+    border-style: none;
+}
+
+.mat-mdc-icon-button{
+    line-height: normal;
+}

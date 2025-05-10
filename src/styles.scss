@@ -1,1 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@use './app/styles/custom_theme-colors.scss' as custom-colors;
+@use './app/styles/transition-theme';
+@use 'sass:map';
+@import "./app//styles/tailwind.css";
+
+
+$light-background: #f5f5f5; // Fondo para modo claro
+$dark-background: #0f1210; // Fondo para modo oscuro
+
+html{
+    @include mat.theme((
+        color: (
+            primary: custom-colors.$primary-palette,
+            tertiary: custom-colors.$tertiary-palette,
+        ),
+        typography: Roboto,
+        density: 0,
+    ))
+}
+
+body{
+    background-color: $light-background;
+    &.dark-mode{
+        color-scheme: dark;
+        background-color: $dark-background;
+    }
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

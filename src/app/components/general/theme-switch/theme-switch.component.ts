@@ -1,0 +1,34 @@
+import { Component, effect, inject, signal } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatIconButton } from '@angular/material/button';
+import { DOCUMENT } from '@angular/common';
+
+@Component({
+  selector: 'app-theme-switch',
+  imports: [MatIcon, MatIconButton],
+  templateUrl: './theme-switch.component.html',
+  styleUrl: './theme-switch.component.scss'
+})
+export class ThemeSwitchComponent {
+  private document = inject(DOCUMENT);
+  isDarkMode = signal(this.getInitialTheme());
+
+  constructor() {
+    effect(() => {
+      const isDark = this.isDarkMode();
+      const toggle = () => {
+        this.document.body.classList.toggle('dark-mode', isDark);
+        this.document.documentElement.classList.toggle('dark', isDark);
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      };
+
+      document.startViewTransition?.(toggle) ?? toggle();
+    });
+  }
+
+  private getInitialTheme(): boolean {
+    return localStorage.getItem('theme') === 'dark' ||
+      (localStorage.getItem('theme') !== 'light' &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches);
+  }
+}
