@@ -12,7 +12,7 @@
                 <mat-label>Registro Único de Contibuyente</mat-label>
                 <input matInput type="text" formControlName="ruc">
                 <mat-error *ngIf="form.get('ruc')?.hasError('required')">
-                    RUC requerido
+                    Campo requerido
                 </mat-error>
                 <mat-error *ngIf="form.get('ruc')?.hasError('invalidRuc')">
                     RUC incorrecto
@@ -29,18 +29,22 @@
                 </mat-select>
                 <mat-error
                     *ngIf="form.get('documentType')?.hasError('required')">
-                    Tipo de documento requerido
+                    Campo requerido
                 </mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>Número de documento</mat-label>
                 <input matInput type="text" formControlName="documentNumber">
+                <mat-error
+                    *ngIf="form.get('documentNumber')?.hasError('required')">
+                    Campo requerido
+                </mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>Contraseña</mat-label>
                 <input matInput type="password" formControlName="password">
                 <mat-error *ngIf="form.get('password')?.hasError('required')">
-                    Contraseña requerida
+                    Campo requerido
                 </mat-error>
             </mat-form-field>
         </div>

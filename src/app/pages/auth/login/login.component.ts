@@ -33,16 +33,6 @@ export default class LoginComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
 
-  personTypes = signal<PersonType[]>([{
-    value: 'N',
-    label: 'Natural',
-    requiredRuc: false
-  }, {
-    value: 'J',
-    label: 'Juridica',
-    requiredRuc: true
-  }])
-
   documentTypes = signal<DocumentType[]>([{
     value: 'DNI',
     label: 'Documento Nacional de Identidad'
@@ -59,7 +49,7 @@ export default class LoginComponent implements OnInit {
     documentType: [null, Validators.required],
     documentNumber: [null, [Validators.required]],
     rememberMe: [false],
-    password: [null, [Validators.required, Validators.minLength(6)]],
+    password: [null, [Validators.required, Validators.minLength(8)]],
   });
 
   ngOnInit() {
