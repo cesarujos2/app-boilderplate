@@ -7,9 +7,11 @@ export const AUTH_PATHS = {
   BASE_PATH: [...MAIN_PATHS.BASE_PATH, MAIN_PATHS.AUTH],
   LOGIN: 'login',
   REGISTER: 'register',
+  FORGOT_PASSWORD: 'forgot-password',
   FULL: {
     LOGIN: () => [...AUTH_PATHS.BASE_PATH, AUTH_PATHS.LOGIN],
     REGISTER: () => [...AUTH_PATHS.BASE_PATH, AUTH_PATHS.REGISTER],
+    FORGOT_PASSWORD: () => [...AUTH_PATHS.BASE_PATH, AUTH_PATHS.FORGOT_PASSWORD],
   }
 }
 
@@ -25,6 +27,10 @@ export const AUTH_ROUTES: Routes = [
       {
         path: AUTH_PATHS.REGISTER,
         loadComponent: () => import('./register/register.component'),
+      },
+      {
+        path: AUTH_PATHS.FORGOT_PASSWORD,
+        loadComponent: () => import('./forgot-password/forgot-password.page'),
       },
       {
         path: '',
