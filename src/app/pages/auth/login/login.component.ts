@@ -65,6 +65,10 @@ export default class LoginComponent implements OnInit {
     }
   }
 
+  toForgotPasswordPage() {
+    this.router.navigate(AUTH_PATHS.FULL.FORGOT_PASSWORD());
+  }
+
   toRegisterPage(){
     this.router.navigate(AUTH_PATHS.FULL.REGISTER());
   }
