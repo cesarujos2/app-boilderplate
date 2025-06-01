@@ -7,12 +7,13 @@ import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { isRucValidator } from '@validators/sync/ruc/is-ruc.validator';
+import { rucValidator } from '@validators/sync/peruvian/ruc.validator';
 import { CommonModule } from '@angular/common';
 import { DocumentType } from '@models/general/document-type.interface';
 import { PersonType } from '@models/general/person-type.interface';
 import { Router } from '@angular/router';
 import { AUTH_PATHS } from '../auth.routes';
+import { peruvianDocumentValidator } from '@validators/sync/peruvian/peruvian-doc.validator';
 
 @Component({
   selector: 'app-login',
@@ -45,11 +46,11 @@ export default class LoginComponent implements OnInit {
   }])
 
   form: FormGroup = this.fb.group({
-    ruc: [null, [Validators.required, isRucValidator()]],
+    ruc: [null, [Validators.required, rucValidator()]],
     documentType: [null, Validators.required],
-    documentNumber: [null, [Validators.required]],
+    documentNumber: [null, [Validators.required, peruvianDocumentValidator()]],
     rememberMe: [false],
-    password: [null, [Validators.required, Validators.minLength(8)]],
+    password: [null, [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,}$/)]],
   });
 
   ngOnInit() {

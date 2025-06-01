@@ -2,7 +2,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 type RucType = 'any' | '10' | '20';
 
-export function isRucValidator(type: RucType = 'any'): ValidatorFn {
+export function rucValidator(type: RucType = 'any'): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = control.value?.toString().trim();
 

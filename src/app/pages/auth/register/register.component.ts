@@ -8,6 +8,9 @@ import { Router } from '@angular/router';
 import { AUTH_PATHS } from '../auth.routes';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { peruvianDocumentValidator } from '@validators/sync/peruvian/peruvian-doc.validator';
+import { rucValidator } from '@validators/sync/peruvian/ruc.validator';
+import { equalToValidator } from '@validators/sync/general/equal-to.validator';
 
 @Component({
   selector: 'app-register',
@@ -37,9 +40,9 @@ export default class RegisterComponent {
   }])
 
   form: FormGroup = this.fb.group({
-    ruc: [null, [Validators.required]],
+    ruc: [null, [Validators.required, rucValidator()]],
     documentType: [null, Validators.required],
-    documentNumber: [null, [Validators.required]],
+    documentNumber: [null, [Validators.required, peruvianDocumentValidator()]],
     firstName: [null, [Validators.required, Validators.minLength(2)]],
     lastName: [null, [Validators.required, Validators.minLength(2)]],
     secondLastName: [null, [Validators.minLength(2)]],
@@ -50,7 +53,7 @@ export default class RegisterComponent {
     province: [null, [Validators.required]],
     district: [null, [Validators.required]],
     password: [null, [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,}$/)]],
-    confirmPassword: [null, [Validators.required]],
+    confirmPassword: [null, [Validators.required, equalToValidator('password')]],
   });
 
   onSubmit() {

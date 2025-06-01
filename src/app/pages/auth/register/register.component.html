@@ -2,12 +2,12 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()"
         class="w-full max-w-2xl min-w-xs flex flex-col items-center p-8 rounded-2xl">
         <div class="w-full mb-4">
-            <h1
+            <h1 class="text-xl text-gray-700 dark:text-gray-400">Bienvenido</h1>
+            <h2
                 class="text-3xl font-medium text-emerald-700 dark:text-emerald-600">
-                Regístrate</h1>
-            <h2 class="text-xl text-gray-700 dark:text-gray-400">Bienvenido</h2>
+                Regístrate</h2>
         </div>
-        <div class="flex flex-col w-full gap-3">
+        <div class="flex flex-col w-full gap-2">
             <div class="flex flex-col lg:flex-row gap-2">
                 <mat-form-field appearance="outline" class="flex-1">
                     <mat-label>Registro Único de Contribuyente</mat-label>
@@ -182,6 +182,10 @@
                     <mat-error
                         *ngIf="form.get('confirmPassword')?.hasError('required')">
                         Campo requerido
+                    </mat-error>
+                    <mat-error
+                        *ngIf="form.get('confirmPassword')?.hasError('notEqual')">
+                        Las contraseñas no coinciden
                     </mat-error>
                 </mat-form-field>
             </div>
