@@ -12,6 +12,7 @@ import { DOCUMENT } from '@angular/common';
 export class ThemeSwitchComponent {
   private document = inject(DOCUMENT);
   isDarkMode = signal(this.getInitialTheme());
+  private initialized = signal(false);
 
   constructor() {
     effect(() => {
@@ -21,6 +22,12 @@ export class ThemeSwitchComponent {
         this.document.documentElement.classList.toggle('dark', isDark);
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
       };
+
+      if (!this.initialized()) {
+        toggle();
+        this.initialized.set(true);
+        return;
+      }
 
       document.startViewTransition?.(toggle) ?? toggle();
     });
