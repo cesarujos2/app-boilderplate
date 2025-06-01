@@ -1,1 +1,179 @@
-<p>register works!</p>
+<div class="w-full flex justify-center px-6 py-16">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()"
+        class="w-full max-w-2xl min-w-xs flex flex-col items-center p-8 rounded-2xl">
+        <div class="w-full mb-4">
+            <h1
+                class="text-3xl font-medium text-emerald-700 dark:text-emerald-600">
+                Regístrate</h1>
+            <h2 class="text-xl text-gray-700 dark:text-gray-400">Bienvenido</h2>
+        </div>
+        <div class="flex flex-col w-full gap-2">
+            <div class="flex flex-col lg:flex-row gap-2">
+                <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Registro Único de Contribuyente</mat-label>
+                    <input matInput type="text" formControlName="ruc">
+                    <mat-error *ngIf="form.get('ruc')?.hasError('required')">
+                        Campo requerido
+                    </mat-error>
+                    <mat-error *ngIf="form.get('ruc')?.hasError('invalidRuc')">
+                        RUC incorrecto
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col lg:flex-row gap-2">
+                <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Tipo de Documento</mat-label>
+                    <mat-select formControlName="documentType">
+                        @for(item of documentTypes(); track item.value){
+                        <mat-option [value]="item.value">
+                            {{ item.label }}
+                        </mat-option>
+                        }
+                    </mat-select>
+                    <mat-error
+                        *ngIf="form.get('documentType')?.hasError('required')">
+                        Campo requerido
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Número de documento</mat-label>
+                    <input matInput type="text"
+                        formControlName="documentNumber">
+                    <mat-error
+                        *ngIf="form.get('documentNumber')?.hasError('required')">
+                        Campo requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col lg:flex-row gap-2">
+                <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Apellido paterno</mat-label>
+                    <input matInput type="text"
+                        formControlName="lastName">
+                    <mat-error
+                        *ngIf="form.get('lastName')?.hasError('required')">
+                        Campo requerido
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Apellido materno</mat-label>
+                    <input matInput type="text"
+                        formControlName="secondLastName">
+                    <mat-error
+                        *ngIf="form.get('secondLastName')?.hasError('required')">
+                        Campo requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col lg:flex-row gap-2">
+                <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Nombres</mat-label>
+                    <input matInput type="text"
+                        formControlName="firstName">
+                    <mat-error
+                        *ngIf="form.get('firstName')?.hasError('required')">
+                        Campo requerido
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Celular</mat-label>
+                    <input matInput type="text"
+                        formControlName="phone">
+                    <mat-error
+                        *ngIf="form.get('phone')?.hasError('required')">
+                        Campo requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col lg:flex-row gap-2">
+                <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Dirección</mat-label>
+                    <input matInput type="text"
+                        formControlName="address">
+                    <mat-error
+                        *ngIf="form.get('address')?.hasError('required')">
+                        Campo requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col lg:flex-row gap-2">
+                <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Departamento</mat-label>
+                    <input matInput type="text"
+                        formControlName="department">
+                    <mat-error
+                        *ngIf="form.get('department')?.hasError('required')">
+                        Campo requerido
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Provincia</mat-label>
+                    <input matInput type="text"
+                        formControlName="province">
+                    <mat-error
+                        *ngIf="form.get('province')?.hasError('required')">
+                        Campo requerido
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Distrito</mat-label>
+                    <input matInput type="text"
+                        formControlName="district">
+                    <mat-error
+                        *ngIf="form.get('district')?.hasError('required')">
+                        Campo requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col lg:flex-row gap-2">
+                <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Correo</mat-label>
+                    <input matInput type="text"
+                        formControlName="email">
+                    <mat-error
+                        *ngIf="form.get('email')?.hasError('required')">
+                        Campo requerido
+                    </mat-error>
+                    <mat-error
+                        *ngIf="form.get('email')?.hasError('email')">
+                        Correo electrónico inválido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col lg:flex-row gap-2">
+                <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput type="password" formControlName="password">
+                    <mat-error
+                        *ngIf="form.get('password')?.hasError('required')">
+                        Campo requerido
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Confirmar Contraseña</mat-label>
+                    <input matInput type="password"
+                        formControlName="confirmPassword">
+                    <mat-error
+                        *ngIf="form.get('confirmPassword')?.hasError('required')">
+                        Campo requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="mt-6 w-full flex justify-end">
+            <button mat-flat-button>
+                <mat-icon>person_add</mat-icon>
+                Registrarse
+            </button>
+        </div>
+        <div class="mt-8 w-full flex flex-col items-center">
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+                ¿Ya tienes cuenta?
+                <a (click)="toLogin()"
+                    class="text-emerald-700 dark:text-emerald-600 cursor-pointer hover:underline">
+                    Inicia sesión
+                </a>
+            </p>
+        </div>
+    </form>
+</div>
