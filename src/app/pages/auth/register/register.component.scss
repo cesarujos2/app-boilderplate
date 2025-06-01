@@ -1,0 +1,14 @@
+::ng-deep mat-form-field .mat-mdc-form-field-bottom-align::before {
+  display: none !important;
+  content: none !important;
+}
+
+::ng-deep mat-form-field .mat-mdc-form-field-bottom-align{
+  div{
+    position: relative;
+  }
+}
+
+::ng-deep mat-form-field{
+  display: block !important;
+}

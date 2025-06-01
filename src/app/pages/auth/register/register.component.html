@@ -7,7 +7,7 @@
                 Regístrate</h1>
             <h2 class="text-xl text-gray-700 dark:text-gray-400">Bienvenido</h2>
         </div>
-        <div class="flex flex-col w-full gap-2">
+        <div class="flex flex-col w-full gap-3">
             <div class="flex flex-col lg:flex-row gap-2">
                 <mat-form-field appearance="outline" class="flex-1">
                     <mat-label>Registro Único de Contribuyente</mat-label>
@@ -54,6 +54,10 @@
                         *ngIf="form.get('lastName')?.hasError('required')">
                         Campo requerido
                     </mat-error>
+                    <mat-error
+                        *ngIf="form.get('lastName')?.hasError('minlength')">
+                        El apellido paterno debe tener al menos 2 caracteres
+                    </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="flex-1">
                     <mat-label>Apellido materno</mat-label>
@@ -62,6 +66,10 @@
                     <mat-error
                         *ngIf="form.get('secondLastName')?.hasError('required')">
                         Campo requerido
+                    </mat-error>
+                    <mat-error
+                        *ngIf="form.get('secondLastName')?.hasError('minlength')">
+                        El apellido materno debe tener al menos 2 caracteres
                     </mat-error>
                 </mat-form-field>
             </div>
@@ -74,6 +82,10 @@
                         *ngIf="form.get('firstName')?.hasError('required')">
                         Campo requerido
                     </mat-error>
+                    <mat-error
+                        *ngIf="form.get('firstName')?.hasError('minlength')">
+                        El nombre debe tener al menos 2 caracteres
+                    </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="flex-1">
                     <mat-label>Celular</mat-label>
@@ -82,6 +94,10 @@
                     <mat-error
                         *ngIf="form.get('phone')?.hasError('required')">
                         Campo requerido
+                    </mat-error>
+                    <mat-error
+                        *ngIf="form.get('phone')?.hasError('pattern')">
+                        Celular inválido
                     </mat-error>
                 </mat-form-field>
             </div>
@@ -93,6 +109,10 @@
                     <mat-error
                         *ngIf="form.get('address')?.hasError('required')">
                         Campo requerido
+                    </mat-error>
+                    <mat-error
+                        *ngIf="form.get('address')?.hasError('minlength')">
+                        La dirección debe tener al menos 10 caracteres
                     </mat-error>
                 </mat-form-field>
             </div>
@@ -143,10 +163,16 @@
             <div class="flex flex-col lg:flex-row gap-2">
                 <mat-form-field appearance="outline" class="flex-1">
                     <mat-label>Contraseña</mat-label>
-                    <input matInput type="password" formControlName="password">
+                    <input matInput type="password"
+                        formControlName="password" />
                     <mat-error
                         *ngIf="form.get('password')?.hasError('required')">
                         Campo requerido
+                    </mat-error>
+                    <mat-error
+                        *ngIf="form.get('password')?.hasError('pattern')">
+                        La contraseña debe tener al menos 8 caracteres, con
+                        mayúscula, minúscula, número y símbolo.
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="flex-1">

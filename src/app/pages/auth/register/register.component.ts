@@ -45,12 +45,12 @@ export default class RegisterComponent {
     secondLastName: [null, [Validators.minLength(2)]],
     email: [null, [Validators.required, Validators.email]],
     phone: [null, [Validators.required, Validators.pattern(/^\d{9}$/)]],
-    address: [null, [Validators.required, Validators.minLength(5)]],
+    address: [null, [Validators.required, Validators.minLength(10)]],
     department: [null, [Validators.required]],
     province: [null, [Validators.required]],
     district: [null, [Validators.required]],
-    password: [null, [Validators.required, Validators.minLength(8)]],
-    confirmPassword: [null, [Validators.required, Validators.minLength(8)]],
+    password: [null, [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,}$/)]],
+    confirmPassword: [null, [Validators.required]],
   });
 
   onSubmit() {
