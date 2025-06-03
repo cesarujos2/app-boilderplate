@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { ThemeService } from '@services/core/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +9,9 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'appBoilderplate';
+  private themeService = inject(ThemeService);
+
+  constructor() {
+    this.themeService.applyInitialTheme();
+  }
 }
