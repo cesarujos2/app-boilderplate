@@ -1,7 +1,6 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal, DOCUMENT } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
-import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-theme-switch',

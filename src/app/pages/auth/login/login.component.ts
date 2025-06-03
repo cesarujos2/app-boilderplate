@@ -8,9 +8,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { rucValidator } from '@validators/sync/peruvian/ruc.validator';
-import { CommonModule } from '@angular/common';
 import { DocumentType } from '@models/general/document-type.interface';
-import { PersonType } from '@models/general/person-type.interface';
 import { Router } from '@angular/router';
 import { AUTH_PATHS } from '../auth.routes';
 import { peruvianDocumentValidator } from '@validators/sync/peruvian/peruvian-doc.validator';
@@ -18,15 +16,17 @@ import { peruvianDocumentValidator } from '@validators/sync/peruvian/peruvian-do
 @Component({
   selector: 'app-login',
   imports: [
-    CommonModule,
     ReactiveFormsModule,
-    MatFormField, MatLabel, MatError,
-    MatSelect, MatOption,
+    MatFormField,
+    MatLabel,
+    MatError,
+    MatSelect,
+    MatOption,
     MatInput,
     MatButton,
     MatIcon,
     MatCheckbox
-  ],
+],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })

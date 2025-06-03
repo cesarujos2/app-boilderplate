@@ -1,84 +1,98 @@
 <div class="login-container size-full flex justify-center items-center p-6">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()"
-        class="w-full max-w-lg min-w-xs flex flex-col items-center p-8 rounded-2xl">
-        <div class="w-full mb-4">
-            <h1 class="text-xl text-gray-700 dark:text-gray-400">Bienvenido</h1>
-            <h2
-                class="text-3xl font-medium text-emerald-700 dark:text-emerald-600">
-                Inicia Sesión</h2>
-        </div>
-        <div class="flex flex-col w-full gap-2">
-            <mat-form-field appearance="outline">
-                <mat-label>Registro Único de Contibuyente</mat-label>
-                <input matInput type="text" formControlName="ruc">
-                <mat-error *ngIf="form.get('ruc')?.hasError('required')">
-                    Campo requerido
-                </mat-error>
-                <mat-error *ngIf="form.get('ruc')?.hasError('invalidRuc')">
-                    RUC incorrecto
-                </mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-                <mat-label>Tipo de Documento</mat-label>
-                <mat-select formControlName="documentType">
-                    @for(item of documentTypes(); track item.value){
-                    <mat-option [value]="item.value">
-                        {{ item.label }}
-                    </mat-option>
-                    }
-                </mat-select>
-                <mat-error
-                    *ngIf="form.get('documentType')?.hasError('required')">
-                    Campo requerido
-                </mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-                <mat-label>Número de documento</mat-label>
-                <input matInput type="text" formControlName="documentNumber">
-                <mat-error
-                    *ngIf="form.get('documentNumber')?.hasError('required')">
-                    Campo requerido
-                </mat-error>
-                <mat-error
-                    *ngIf="form.get('documentNumber')?.hasError('invalidPeruvianDocument')">
-                    Número de documento incorrecto
-                </mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-                <mat-label>Contraseña</mat-label>
-                <input matInput type="password" formControlName="password">
-                <mat-error *ngIf="form.get('password')?.hasError('required')">
-                    Campo requerido
-                </mat-error>
-                <mat-error
-                    *ngIf="form.get('password')?.hasError('pattern')">
-                    La contraseña debe tener al menos 8 caracteres, con
-                    mayúscula, minúscula, número y símbolo.
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="w-full flex items-center justify-between ">
-            <mat-checkbox formControlName="rememberMe">
-                Recordarme
-            </mat-checkbox>
-            <a (click)="toForgotPasswordPage()"
-                class="text-emerald-700 dark:text-emerald-600 cursor-pointer text-sm hover:underline text-end">¿Olvidaste
-                tu contraseña?</a>
-        </div>
-        <div class="mt-6 w-full flex justify-end">
-            <button mat-flat-button>
-                <mat-icon>login</mat-icon>
-                Ingresar
-            </button>
-        </div>
-        <div class="mt-8 w-full flex flex-col items-center">
-            <p class="text-sm text-gray-500 dark:text-gray-400">
-                ¿No tienes cuenta?
-                <a (click)="toRegisterPage()"
-                    class="text-emerald-700 dark:text-emerald-600 cursor-pointer hover:underline">
-                    Regístrate
-                </a>
-            </p>
-        </div>
-    </form>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()"
+    class="w-full max-w-lg min-w-xs flex flex-col items-center p-8 rounded-2xl">
+    <div class="w-full mb-4">
+      <h1 class="text-xl text-gray-700 dark:text-gray-400">Bienvenido</h1>
+      <h2
+        class="text-3xl font-medium text-emerald-700 dark:text-emerald-600">
+      Inicia Sesión</h2>
+    </div>
+    <div class="flex flex-col w-full gap-2">
+      <mat-form-field appearance="outline">
+        <mat-label>Registro Único de Contibuyente</mat-label>
+        <input matInput type="text" formControlName="ruc">
+        @if (form.get('ruc')?.hasError('required')) {
+          <mat-error>
+            Campo requerido
+          </mat-error>
+        }
+        @if (form.get('ruc')?.hasError('invalidRuc')) {
+          <mat-error>
+            RUC incorrecto
+          </mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo de Documento</mat-label>
+        <mat-select formControlName="documentType">
+          @for(item of documentTypes(); track item.value){
+            <mat-option [value]="item.value">
+              {{ item.label }}
+            </mat-option>
+          }
+        </mat-select>
+        @if (form.get('documentType')?.hasError('required')) {
+          <mat-error
+            >
+            Campo requerido
+          </mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Número de documento</mat-label>
+        <input matInput type="text" formControlName="documentNumber">
+        @if (form.get('documentNumber')?.hasError('required')) {
+          <mat-error
+            >
+            Campo requerido
+          </mat-error>
+        }
+        @if (form.get('documentNumber')?.hasError('invalidPeruvianDocument')) {
+          <mat-error
+            >
+            Número de documento incorrecto
+          </mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" formControlName="password">
+        @if (form.get('password')?.hasError('required')) {
+          <mat-error>
+            Campo requerido
+          </mat-error>
+        }
+        @if (form.get('password')?.hasError('pattern')) {
+          <mat-error
+            >
+            La contraseña debe tener al menos 8 caracteres, con
+            mayúscula, minúscula, número y símbolo.
+          </mat-error>
+        }
+      </mat-form-field>
+    </div>
+    <div class="w-full flex items-center justify-between ">
+      <mat-checkbox formControlName="rememberMe">
+        Recordarme
+      </mat-checkbox>
+      <a (click)="toForgotPasswordPage()"
+        class="text-emerald-700 dark:text-emerald-600 cursor-pointer text-sm hover:underline text-end">¿Olvidaste
+      tu contraseña?</a>
+    </div>
+    <div class="mt-6 w-full flex justify-end">
+      <button mat-flat-button>
+        <mat-icon>login</mat-icon>
+        Ingresar
+      </button>
+    </div>
+    <div class="mt-8 w-full flex flex-col items-center">
+      <p class="text-sm text-gray-500 dark:text-gray-400">
+        ¿No tienes cuenta?
+        <a (click)="toRegisterPage()"
+          class="text-emerald-700 dark:text-emerald-600 cursor-pointer hover:underline">
+          Regístrate
+        </a>
+      </p>
+    </div>
+  </form>
 </div>

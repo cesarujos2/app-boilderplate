@@ -7,7 +7,6 @@ import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { AUTH_PATHS } from '../auth.routes';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { peruvianDocumentValidator } from '@validators/sync/peruvian/peruvian-doc.validator';
 import { rucValidator } from '@validators/sync/peruvian/ruc.validator';
 import { equalToValidator } from '@validators/sync/general/equal-to.validator';
@@ -16,11 +15,15 @@ import { equalToValidator } from '@validators/sync/general/equal-to.validator';
   selector: 'app-register',
   imports: [
     ReactiveFormsModule,
-    CommonModule,
-    MatButton, MatIcon,
-    MatLabel, MatError, MatFormField,
-    MatInput, MatSelect, MatOption
-  ],
+    MatButton,
+    MatIcon,
+    MatLabel,
+    MatError,
+    MatFormField,
+    MatInput,
+    MatSelect,
+    MatOption
+],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })

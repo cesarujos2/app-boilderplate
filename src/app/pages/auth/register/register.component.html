@@ -1,209 +1,255 @@
 <div class="w-full flex justify-center px-6 py-16">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()"
-        class="w-full max-w-2xl min-w-xs flex flex-col items-center p-8 rounded-2xl">
-        <div class="w-full mb-4">
-            <h1 class="text-xl text-gray-700 dark:text-gray-400">Bienvenido</h1>
-            <h2
-                class="text-3xl font-medium text-emerald-700 dark:text-emerald-600">
-                Regístrate</h2>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()"
+    class="w-full max-w-2xl min-w-xs flex flex-col items-center p-8 rounded-2xl">
+    <div class="w-full mb-4">
+      <h1 class="text-xl text-gray-700 dark:text-gray-400">Bienvenido</h1>
+      <h2
+        class="text-3xl font-medium text-emerald-700 dark:text-emerald-600">
+      Regístrate</h2>
+    </div>
+    <div class="flex flex-col w-full gap-2">
+      <div class="flex flex-col lg:flex-row gap-2">
+        <mat-form-field appearance="outline" class="flex-1">
+          <mat-label>Registro Único de Contribuyente</mat-label>
+          <input matInput type="text" formControlName="ruc">
+          @if (form.get('ruc')?.hasError('required')) {
+            <mat-error>
+              Campo requerido
+            </mat-error>
+          }
+          @if (form.get('ruc')?.hasError('invalidRuc')) {
+            <mat-error>
+              RUC incorrecto
+            </mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="flex flex-col lg:flex-row gap-2">
+        <mat-form-field appearance="outline" class="flex-1">
+          <mat-label>Tipo de Documento</mat-label>
+          <mat-select formControlName="documentType">
+            @for(item of documentTypes(); track item.value){
+              <mat-option [value]="item.value">
+                {{ item.label }}
+              </mat-option>
+            }
+          </mat-select>
+          @if (form.get('documentType')?.hasError('required')) {
+            <mat-error
+              >
+              Campo requerido
+            </mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="flex-1">
+          <mat-label>Número de documento</mat-label>
+          <input matInput type="text"
+            formControlName="documentNumber">
+            @if (form.get('documentNumber')?.hasError('required')) {
+              <mat-error
+                >
+                Campo requerido
+              </mat-error>
+            }
+          </mat-form-field>
         </div>
-        <div class="flex flex-col w-full gap-2">
-            <div class="flex flex-col lg:flex-row gap-2">
-                <mat-form-field appearance="outline" class="flex-1">
-                    <mat-label>Registro Único de Contribuyente</mat-label>
-                    <input matInput type="text" formControlName="ruc">
-                    <mat-error *ngIf="form.get('ruc')?.hasError('required')">
-                        Campo requerido
-                    </mat-error>
-                    <mat-error *ngIf="form.get('ruc')?.hasError('invalidRuc')">
-                        RUC incorrecto
-                    </mat-error>
-                </mat-form-field>
+        <div class="flex flex-col lg:flex-row gap-2">
+          <mat-form-field appearance="outline" class="flex-1">
+            <mat-label>Apellido paterno</mat-label>
+            <input matInput type="text"
+              formControlName="lastName">
+              @if (form.get('lastName')?.hasError('required')) {
+                <mat-error
+                  >
+                  Campo requerido
+                </mat-error>
+              }
+              @if (form.get('lastName')?.hasError('minlength')) {
+                <mat-error
+                  >
+                  El apellido paterno debe tener al menos 2 caracteres
+                </mat-error>
+              }
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="flex-1">
+              <mat-label>Apellido materno</mat-label>
+              <input matInput type="text"
+                formControlName="secondLastName">
+                @if (form.get('secondLastName')?.hasError('required')) {
+                  <mat-error
+                    >
+                    Campo requerido
+                  </mat-error>
+                }
+                @if (form.get('secondLastName')?.hasError('minlength')) {
+                  <mat-error
+                    >
+                    El apellido materno debe tener al menos 2 caracteres
+                  </mat-error>
+                }
+              </mat-form-field>
             </div>
             <div class="flex flex-col lg:flex-row gap-2">
-                <mat-form-field appearance="outline" class="flex-1">
-                    <mat-label>Tipo de Documento</mat-label>
-                    <mat-select formControlName="documentType">
-                        @for(item of documentTypes(); track item.value){
-                        <mat-option [value]="item.value">
-                            {{ item.label }}
-                        </mat-option>
-                        }
-                    </mat-select>
+              <mat-form-field appearance="outline" class="flex-1">
+                <mat-label>Nombres</mat-label>
+                <input matInput type="text"
+                  formControlName="firstName">
+                  @if (form.get('firstName')?.hasError('required')) {
                     <mat-error
-                        *ngIf="form.get('documentType')?.hasError('required')">
-                        Campo requerido
+                      >
+                      Campo requerido
                     </mat-error>
+                  }
+                  @if (form.get('firstName')?.hasError('minlength')) {
+                    <mat-error
+                      >
+                      El nombre debe tener al menos 2 caracteres
+                    </mat-error>
+                  }
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="flex-1">
-                    <mat-label>Número de documento</mat-label>
-                    <input matInput type="text"
-                        formControlName="documentNumber">
-                    <mat-error
-                        *ngIf="form.get('documentNumber')?.hasError('required')">
+                  <mat-label>Celular</mat-label>
+                  <input matInput type="text"
+                    formControlName="phone">
+                    @if (form.get('phone')?.hasError('required')) {
+                      <mat-error
+                        >
                         Campo requerido
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="flex flex-col lg:flex-row gap-2">
-                <mat-form-field appearance="outline" class="flex-1">
-                    <mat-label>Apellido paterno</mat-label>
-                    <input matInput type="text"
-                        formControlName="lastName">
-                    <mat-error
-                        *ngIf="form.get('lastName')?.hasError('required')">
-                        Campo requerido
-                    </mat-error>
-                    <mat-error
-                        *ngIf="form.get('lastName')?.hasError('minlength')">
-                        El apellido paterno debe tener al menos 2 caracteres
-                    </mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="outline" class="flex-1">
-                    <mat-label>Apellido materno</mat-label>
-                    <input matInput type="text"
-                        formControlName="secondLastName">
-                    <mat-error
-                        *ngIf="form.get('secondLastName')?.hasError('required')">
-                        Campo requerido
-                    </mat-error>
-                    <mat-error
-                        *ngIf="form.get('secondLastName')?.hasError('minlength')">
-                        El apellido materno debe tener al menos 2 caracteres
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="flex flex-col lg:flex-row gap-2">
-                <mat-form-field appearance="outline" class="flex-1">
-                    <mat-label>Nombres</mat-label>
-                    <input matInput type="text"
-                        formControlName="firstName">
-                    <mat-error
-                        *ngIf="form.get('firstName')?.hasError('required')">
-                        Campo requerido
-                    </mat-error>
-                    <mat-error
-                        *ngIf="form.get('firstName')?.hasError('minlength')">
-                        El nombre debe tener al menos 2 caracteres
-                    </mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="outline" class="flex-1">
-                    <mat-label>Celular</mat-label>
-                    <input matInput type="text"
-                        formControlName="phone">
-                    <mat-error
-                        *ngIf="form.get('phone')?.hasError('required')">
-                        Campo requerido
-                    </mat-error>
-                    <mat-error
-                        *ngIf="form.get('phone')?.hasError('pattern')">
+                      </mat-error>
+                    }
+                    @if (form.get('phone')?.hasError('pattern')) {
+                      <mat-error
+                        >
                         Celular inválido
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="flex flex-col lg:flex-row gap-2">
-                <mat-form-field appearance="outline" class="flex-1">
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+                <div class="flex flex-col lg:flex-row gap-2">
+                  <mat-form-field appearance="outline" class="flex-1">
                     <mat-label>Dirección</mat-label>
                     <input matInput type="text"
-                        formControlName="address">
-                    <mat-error
-                        *ngIf="form.get('address')?.hasError('required')">
-                        Campo requerido
-                    </mat-error>
-                    <mat-error
-                        *ngIf="form.get('address')?.hasError('minlength')">
-                        La dirección debe tener al menos 10 caracteres
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="flex flex-col lg:flex-row gap-2">
-                <mat-form-field appearance="outline" class="flex-1">
-                    <mat-label>Departamento</mat-label>
-                    <input matInput type="text"
+                      formControlName="address">
+                      @if (form.get('address')?.hasError('required')) {
+                        <mat-error
+                          >
+                          Campo requerido
+                        </mat-error>
+                      }
+                      @if (form.get('address')?.hasError('minlength')) {
+                        <mat-error
+                          >
+                          La dirección debe tener al menos 10 caracteres
+                        </mat-error>
+                      }
+                    </mat-form-field>
+                  </div>
+                  <div class="flex flex-col lg:flex-row gap-2">
+                    <mat-form-field appearance="outline" class="flex-1">
+                      <mat-label>Departamento</mat-label>
+                      <input matInput type="text"
                         formControlName="department">
-                    <mat-error
-                        *ngIf="form.get('department')?.hasError('required')">
-                        Campo requerido
-                    </mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="outline" class="flex-1">
-                    <mat-label>Provincia</mat-label>
-                    <input matInput type="text"
-                        formControlName="province">
-                    <mat-error
-                        *ngIf="form.get('province')?.hasError('required')">
-                        Campo requerido
-                    </mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="outline" class="flex-1">
-                    <mat-label>Distrito</mat-label>
-                    <input matInput type="text"
-                        formControlName="district">
-                    <mat-error
-                        *ngIf="form.get('district')?.hasError('required')">
-                        Campo requerido
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="flex flex-col lg:flex-row gap-2">
-                <mat-form-field appearance="outline" class="flex-1">
-                    <mat-label>Correo</mat-label>
-                    <input matInput type="text"
-                        formControlName="email">
-                    <mat-error
-                        *ngIf="form.get('email')?.hasError('required')">
-                        Campo requerido
-                    </mat-error>
-                    <mat-error
-                        *ngIf="form.get('email')?.hasError('email')">
-                        Correo electrónico inválido
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="flex flex-col lg:flex-row gap-2">
-                <mat-form-field appearance="outline" class="flex-1">
-                    <mat-label>Contraseña</mat-label>
-                    <input matInput type="password"
-                        formControlName="password" />
-                    <mat-error
-                        *ngIf="form.get('password')?.hasError('required')">
-                        Campo requerido
-                    </mat-error>
-                    <mat-error
-                        *ngIf="form.get('password')?.hasError('pattern')">
-                        La contraseña debe tener al menos 8 caracteres, con
-                        mayúscula, minúscula, número y símbolo.
-                    </mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="outline" class="flex-1">
-                    <mat-label>Confirmar Contraseña</mat-label>
-                    <input matInput type="password"
-                        formControlName="confirmPassword">
-                    <mat-error
-                        *ngIf="form.get('confirmPassword')?.hasError('required')">
-                        Campo requerido
-                    </mat-error>
-                    <mat-error
-                        *ngIf="form.get('confirmPassword')?.hasError('notEqual')">
-                        Las contraseñas no coinciden
-                    </mat-error>
-                </mat-form-field>
-            </div>
-        </div>
-        <div class="mt-6 w-full flex justify-end">
-            <button mat-flat-button>
-                <mat-icon>person_add</mat-icon>
-                Registrarse
-            </button>
-        </div>
-        <div class="mt-8 w-full flex flex-col items-center">
-            <p class="text-sm text-gray-500 dark:text-gray-400">
-                ¿Ya tienes cuenta?
-                <a (click)="toLogin()"
-                    class="text-emerald-700 dark:text-emerald-600 cursor-pointer hover:underline">
-                    Inicia sesión
-                </a>
-            </p>
-        </div>
-    </form>
-</div>
+                        @if (form.get('department')?.hasError('required')) {
+                          <mat-error
+                            >
+                            Campo requerido
+                          </mat-error>
+                        }
+                      </mat-form-field>
+                      <mat-form-field appearance="outline" class="flex-1">
+                        <mat-label>Provincia</mat-label>
+                        <input matInput type="text"
+                          formControlName="province">
+                          @if (form.get('province')?.hasError('required')) {
+                            <mat-error
+                              >
+                              Campo requerido
+                            </mat-error>
+                          }
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="flex-1">
+                          <mat-label>Distrito</mat-label>
+                          <input matInput type="text"
+                            formControlName="district">
+                            @if (form.get('district')?.hasError('required')) {
+                              <mat-error
+                                >
+                                Campo requerido
+                              </mat-error>
+                            }
+                          </mat-form-field>
+                        </div>
+                        <div class="flex flex-col lg:flex-row gap-2">
+                          <mat-form-field appearance="outline" class="flex-1">
+                            <mat-label>Correo</mat-label>
+                            <input matInput type="text"
+                              formControlName="email">
+                              @if (form.get('email')?.hasError('required')) {
+                                <mat-error
+                                  >
+                                  Campo requerido
+                                </mat-error>
+                              }
+                              @if (form.get('email')?.hasError('email')) {
+                                <mat-error
+                                  >
+                                  Correo electrónico inválido
+                                </mat-error>
+                              }
+                            </mat-form-field>
+                          </div>
+                          <div class="flex flex-col lg:flex-row gap-2">
+                            <mat-form-field appearance="outline" class="flex-1">
+                              <mat-label>Contraseña</mat-label>
+                              <input matInput type="password"
+                                formControlName="password" />
+                                @if (form.get('password')?.hasError('required')) {
+                                  <mat-error
+                                    >
+                                    Campo requerido
+                                  </mat-error>
+                                }
+                                @if (form.get('password')?.hasError('pattern')) {
+                                  <mat-error
+                                    >
+                                    La contraseña debe tener al menos 8 caracteres, con
+                                    mayúscula, minúscula, número y símbolo.
+                                  </mat-error>
+                                }
+                              </mat-form-field>
+                              <mat-form-field appearance="outline" class="flex-1">
+                                <mat-label>Confirmar Contraseña</mat-label>
+                                <input matInput type="password"
+                                  formControlName="confirmPassword">
+                                  @if (form.get('confirmPassword')?.hasError('required')) {
+                                    <mat-error
+                                      >
+                                      Campo requerido
+                                    </mat-error>
+                                  }
+                                  @if (form.get('confirmPassword')?.hasError('notEqual')) {
+                                    <mat-error
+                                      >
+                                      Las contraseñas no coinciden
+                                    </mat-error>
+                                  }
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            <div class="mt-6 w-full flex justify-end">
+                              <button mat-flat-button>
+                                <mat-icon>person_add</mat-icon>
+                                Registrarse
+                              </button>
+                            </div>
+                            <div class="mt-8 w-full flex flex-col items-center">
+                              <p class="text-sm text-gray-500 dark:text-gray-400">
+                                ¿Ya tienes cuenta?
+                                <a (click)="toLogin()"
+                                  class="text-emerald-700 dark:text-emerald-600 cursor-pointer hover:underline">
+                                  Inicia sesión
+                                </a>
+                              </p>
+                            </div>
+                          </form>
+                        </div>

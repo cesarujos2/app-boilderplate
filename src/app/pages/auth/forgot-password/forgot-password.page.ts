@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
@@ -15,11 +15,16 @@ import { AUTH_PATHS } from '../auth.routes';
 @Component({
   selector: 'app-forgot-password',
   imports: [
-    NgIf,
     ReactiveFormsModule,
-    MatFormField, MatLabel, MatError, MatInput, MatOption, MatSelect,
-    MatButton, MatIcon
-  ],
+    MatFormField,
+    MatLabel,
+    MatError,
+    MatInput,
+    MatOption,
+    MatSelect,
+    MatButton,
+    MatIcon
+],
   templateUrl: './forgot-password.page.html',
   styleUrl: './forgot-password.page.scss'
 })
