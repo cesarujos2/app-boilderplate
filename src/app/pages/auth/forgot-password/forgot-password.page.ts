@@ -1,4 +1,3 @@
-
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
@@ -7,10 +6,10 @@ import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { Router } from '@angular/router';
-import { DocumentType } from '@models/general/document-type.interface';
+import { DocumentType } from 'app/core/models/general/document-type.interface';
 import { peruvianDocumentValidator } from '@validators/sync/peruvian/peruvian-doc.validator';
 import { rucValidator } from '@validators/sync/peruvian/ruc.validator';
-import { AUTH_PATHS } from '../auth.routes';
+import { AUTH_ROUTE_BRANCHES } from '../auth.routes';
 
 @Component({
   selector: 'app-forgot-password',
@@ -58,7 +57,7 @@ export default class ForgotPasswordComponent {
   }
 
   toLoginPage(){
-    this.router.navigate(AUTH_PATHS.FULL.LOGIN());
+    this.router.navigate(AUTH_ROUTE_BRANCHES.LOGIN.fullPath());
   }
 
 }

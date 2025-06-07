@@ -1,25 +1,26 @@
 import { Routes } from '@angular/router';
+import { RouteTreeNode } from './core/routes/route-tree-node';
 
-export const MAIN_PATHS = {
-    BASE_PATH: ['/'],
-    AUTH: 'auth',
-    FULL: {
-        AUTH: () => [...MAIN_PATHS.BASE_PATH, MAIN_PATHS.AUTH]
-    }
-}
+const ROOT_ROUTE_NODE = new RouteTreeNode('', 'Inicio')
+
+export const ROOT_ROUTE_BRANCHES = {
+    BASE: ROOT_ROUTE_NODE,
+    AUTH: ROOT_ROUTE_NODE.addChild('AUTH', 'auth', 'Autenticación'),
+    DASHBOARD: ROOT_ROUTE_NODE.addChild('DASHBOARD', 'dashboard', 'Dashboard'),
+};
 
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: MAIN_PATHS.AUTH,
+        redirectTo: ROOT_ROUTE_BRANCHES.AUTH.path,
         pathMatch: 'full'
     },
     {
-        path: MAIN_PATHS.AUTH,
+        path: ROOT_ROUTE_BRANCHES.AUTH.path,
         loadChildren: () => import('./pages/auth/auth.routes').then(m => m.AUTH_ROUTES)
     },
     {
         path: '**',
-        redirectTo: MAIN_PATHS.AUTH
+        redirectTo: ROOT_ROUTE_BRANCHES.AUTH.path
     }
 ];

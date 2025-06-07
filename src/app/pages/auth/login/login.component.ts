@@ -8,10 +8,10 @@ import { MatIcon } from '@angular/material/icon';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { rucValidator } from '@validators/sync/peruvian/ruc.validator';
-import { DocumentType } from '@models/general/document-type.interface';
+import { DocumentType } from 'app/core/models/general/document-type.interface';
 import { Router } from '@angular/router';
-import { AUTH_PATHS } from '../auth.routes';
 import { peruvianDocumentValidator } from '@validators/sync/peruvian/peruvian-doc.validator';
+import { AUTH_ROUTE_BRANCHES } from '../auth.routes';
 
 @Component({
   selector: 'app-login',
@@ -66,11 +66,11 @@ export default class LoginComponent implements OnInit {
   }
 
   toForgotPasswordPage() {
-    this.router.navigate(AUTH_PATHS.FULL.FORGOT_PASSWORD());
+    this.router.navigate(AUTH_ROUTE_BRANCHES.FORGOT_PASSWORD.fullPath());
   }
 
   toRegisterPage(){
-    this.router.navigate(AUTH_PATHS.FULL.REGISTER());
+    this.router.navigate(AUTH_ROUTE_BRANCHES.REGISTER.fullPath());
   }
 
   private saveLoginData() {

@@ -1,3 +1,4 @@
+import { AUTH_ROUTE_BRANCHES } from './../auth.routes';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatInput } from '@angular/material/input';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
@@ -5,7 +6,6 @@ import { Component, inject, signal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
-import { AUTH_PATHS } from '../auth.routes';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { peruvianDocumentValidator } from '@validators/sync/peruvian/peruvian-doc.validator';
 import { rucValidator } from '@validators/sync/peruvian/ruc.validator';
@@ -69,6 +69,6 @@ export default class RegisterComponent {
   }
 
   toLogin() {
-    this.router.navigate(AUTH_PATHS.FULL.LOGIN())
+    this.router.navigate(AUTH_ROUTE_BRANCHES.LOGIN.fullPath())
   }
 }

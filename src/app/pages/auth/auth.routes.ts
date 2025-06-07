@@ -1,18 +1,15 @@
 // auth.routes.ts
 import { Routes } from '@angular/router';
 import AuthPage from './auth.page';
-import { MAIN_PATHS } from '../../app.routes';
+import { ROOT_ROUTE_BRANCHES } from 'app/app.routes';
 
-export const AUTH_PATHS = {
-  BASE_PATH: [...MAIN_PATHS.BASE_PATH, MAIN_PATHS.AUTH],
-  LOGIN: 'login',
-  REGISTER: 'register',
-  FORGOT_PASSWORD: 'forgot-password',
-  FULL: {
-    LOGIN: () => [...AUTH_PATHS.BASE_PATH, AUTH_PATHS.LOGIN],
-    REGISTER: () => [...AUTH_PATHS.BASE_PATH, AUTH_PATHS.REGISTER],
-    FORGOT_PASSWORD: () => [...AUTH_PATHS.BASE_PATH, AUTH_PATHS.FORGOT_PASSWORD],
-  }
+const AUTH_ROUTE_NODE = ROOT_ROUTE_BRANCHES.AUTH;
+
+export const AUTH_ROUTE_BRANCHES = {
+  BASE: AUTH_ROUTE_NODE,
+  LOGIN: AUTH_ROUTE_NODE.addChild('LOGIN', 'login', 'Iniciar sesión'),
+  REGISTER: AUTH_ROUTE_NODE.addChild('REGISTER', 'register', 'Registrarse'),
+  FORGOT_PASSWORD: AUTH_ROUTE_NODE.addChild('FORGOT_PASSWORD', 'forgot-password', 'Olvidé mi contraseña'),
 }
 
 export const AUTH_ROUTES: Routes = [
@@ -21,25 +18,25 @@ export const AUTH_ROUTES: Routes = [
     component: AuthPage,
     children: [
       {
-        path: AUTH_PATHS.LOGIN,
+        path: AUTH_ROUTE_BRANCHES.LOGIN.path,
         loadComponent: () => import('./login/login.component'),
       },
       {
-        path: AUTH_PATHS.REGISTER,
+        path: AUTH_ROUTE_BRANCHES.REGISTER.path,
         loadComponent: () => import('./register/register.component'),
       },
       {
-        path: AUTH_PATHS.FORGOT_PASSWORD,
+        path: AUTH_ROUTE_BRANCHES.FORGOT_PASSWORD.path,
         loadComponent: () => import('./forgot-password/forgot-password.page'),
       },
       {
         path: '',
-        redirectTo: AUTH_PATHS.LOGIN,
+        redirectTo: AUTH_ROUTE_BRANCHES.LOGIN.path,
         pathMatch: 'full',
       },
       {
         path: '**',
-        redirectTo: AUTH_PATHS.LOGIN,
+        redirectTo: AUTH_ROUTE_BRANCHES.LOGIN.path,
       }
     ],
   },
