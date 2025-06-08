@@ -7,10 +7,19 @@
   scrollbar-color: vars.$dark-background vars.$light-background;
 }
 
+.custom-bg
+{
+  background-color: vars.$light-background !important;
+}
+
 :host-context(body.dark-mode) 
 {
   .custom-scrollbar
   {
     scrollbar-color: vars.$light-background vars.$dark-background;
+  }
+  .custom-bg
+  {
+    background-color: vars.$dark-background !important;
   }
 }
