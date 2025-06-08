@@ -1,0 +1,19 @@
+<mat-drawer-container class="bg-transparent! size-full">
+    <mat-drawer #drawer [(opened)]="sidebarService.isOpen"
+        class="max-w-80 custom-scrollbar bg-[#fff]! dark:bg-[#05090e]!"
+        [mode]="isMd() ? 'over' : 'side'">
+    </mat-drawer>
+    <mat-drawer-content>
+        <dashboard-layout>
+            <ng-container header>
+                <app-nav-bar />
+            </ng-container>
+            <ng-container content>
+                <router-outlet />
+            </ng-container>
+            <ng-container footer>
+                <p>Footer content</p>
+            </ng-container>
+        </dashboard-layout>
+    </mat-drawer-content>
+</mat-drawer-container>

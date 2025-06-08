@@ -1,6 +1,6 @@
 import { Component, effect, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ThemeService } from '@services/core/theme.service';
+import { ThemeService } from 'app/core/services/ui/theme.service';
 
 @Component({
   selector: 'app-root',

@@ -31,4 +31,8 @@ export class RouteTreeNode {
     this.children[key] = child;
     return child;
   }
+
+  getChildren(): Record<string, RouteTreeNode> {
+    return this.children;
+  }
 }

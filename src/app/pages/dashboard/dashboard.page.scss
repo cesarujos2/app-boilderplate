@@ -1,0 +1,16 @@
+@use '../../styles/themes/vars.scss' as vars;
+
+.custom-scrollbar
+{
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: vars.$dark-background vars.$light-background;
+}
+
+:host-context(body.dark-mode) 
+{
+  .custom-scrollbar
+  {
+    scrollbar-color: vars.$light-background vars.$dark-background;
+  }
+}

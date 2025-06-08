@@ -13,7 +13,10 @@ html{
             primary: custom-colors.$primary-palette,
             tertiary: custom-colors.$tertiary-palette,
         ),
-        typography: Poppins,
+        typography: (
+            plain-family: Poppins,
+            display-family: Helvetica Neue
+        ),
         density: 0,
     ))
 }

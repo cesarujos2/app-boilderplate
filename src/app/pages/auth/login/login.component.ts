@@ -12,6 +12,7 @@ import { DocumentType } from 'app/core/models/general/document-type.interface';
 import { Router } from '@angular/router';
 import { peruvianDocumentValidator } from '@validators/sync/peruvian/peruvian-doc.validator';
 import { AUTH_ROUTE_BRANCHES } from '../auth.routes';
+import { DASHBOARD_ROUTE_BRANCHES } from 'app/pages/dashboard/dashboard.routes';
 
 @Component({
   selector: 'app-login',
@@ -59,6 +60,7 @@ export default class LoginComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
+      this.router.navigate(DASHBOARD_ROUTE_BRANCHES.BASE.fullPath());
       this.saveLoginData();
     } else {
       this.form.markAllAsTouched();

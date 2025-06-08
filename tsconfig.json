@@ -6,6 +6,7 @@
     "baseUrl": "src",
     "paths": {
       "@models/*": ["app/models/*"],
+      "@styles/*": ["app/styles/*"],
       "@validators/*": ["app/validators/*"],
       "@components/*": ["app/components/*"],
       "@services/*": ["app/services/*"],

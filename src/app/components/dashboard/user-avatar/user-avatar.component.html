@@ -1,0 +1,23 @@
+<div class="flex items-center gap-2 cursor-pointer">
+    <div
+        class="h-10 w-10 rounded-full bg-gray-300 dark:bg-gray-700 dark:text-gray-300 text-gray-700 overflow-hidden 
+        flex items-center justify-center text-sm font-medium select-none">
+        @if (imageUrl(); as avatar) {
+        <img
+            [src]="avatar"
+            alt="Avatar"
+            class="h-full w-full object-cover" />
+        } @else {
+        {{ initials() }}
+        }
+    </div>
+
+    <div class="hidden sm:flex flex-col">
+        <span class="font-medium text-sm text-gray-700 dark:text-gray-300">
+            {{ name() }}
+        </span>
+        <span class="text-xs text-gray-500 dark:text-gray-400">
+            {{ rolName() }}
+        </span>
+    </div>
+</div>
