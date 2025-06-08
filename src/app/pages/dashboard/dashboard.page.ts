@@ -5,6 +5,7 @@ import { RouterOutlet } from '@angular/router';
 import { MatDrawerContainer, MatDrawer, MatDrawerContent } from '@angular/material/sidenav';
 import { SidebarService } from 'app/core/services/ui/side-bar.service';
 import { MediaQueryService } from 'app/core/services/ui/media-query.service';
+import { FooterComponent } from "../../components/dashboard/footer/footer.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -15,6 +16,7 @@ import { MediaQueryService } from 'app/core/services/ui/media-query.service';
     MatDrawerContainer,
     MatDrawer,
     MatDrawerContent,
+    FooterComponent,
   ],
   templateUrl: './dashboard.page.html',
   styleUrl: './dashboard.page.scss'
