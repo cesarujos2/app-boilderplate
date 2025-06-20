@@ -11,13 +11,13 @@
       <div class="flex flex-col lg:flex-row gap-2">
         <mat-form-field appearance="outline" class="flex-1">
           <mat-label>Registro Único de Contribuyente</mat-label>
-          <input matInput type="text" formControlName="ruc">
-          @if (form.get('ruc')?.hasError('required')) {
+          <input matInput type="text" formControlName="documentNumber">
+          @if (form.get('documentNumber')?.hasError('required')) {
             <mat-error>
               Campo requerido
             </mat-error>
           }
-          @if (form.get('ruc')?.hasError('invalidRuc')) {
+          @if (form.get('documentNumber')?.hasError('invalidRuc')) {
             <mat-error>
               RUC incorrecto
             </mat-error>
@@ -27,14 +27,14 @@
       <div class="flex flex-col lg:flex-row gap-2">
         <mat-form-field appearance="outline" class="flex-1">
           <mat-label>Tipo de Documento</mat-label>
-          <mat-select formControlName="documentType">
+          <mat-select formControlName="contactDocumentTypeId">
             @for(item of documentTypes(); track item.value){
               <mat-option [value]="item.value">
                 {{ item.label }}
               </mat-option>
             }
           </mat-select>
-          @if (form.get('documentType')?.hasError('required')) {
+          @if (form.get('contactDocumentTypeId')?.hasError('required')) {
             <mat-error
               >
               Campo requerido
@@ -44,8 +44,8 @@
         <mat-form-field appearance="outline" class="flex-1">
           <mat-label>Número de documento</mat-label>
           <input matInput type="text"
-            formControlName="documentNumber">
-            @if (form.get('documentNumber')?.hasError('required')) {
+            formControlName="contactDocumentNumber">
+            @if (form.get('contactDocumentNumber')?.hasError('required')) {
               <mat-error
                 >
                 Campo requerido

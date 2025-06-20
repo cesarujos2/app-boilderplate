@@ -7,9 +7,9 @@ import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { peruvianDocumentValidator } from '@validators/sync/peruvian/peruvian-doc.validator';
-import { rucValidator } from '@validators/sync/peruvian/ruc.validator';
-import { equalToValidator } from '@validators/sync/general/equal-to.validator';
+import { rucValidator } from '@shared/validators/peruvian/ruc.validator';
+import { peruvianDocumentValidator } from '@shared/validators/peruvian/peruvian-doc.validator';
+import { equalToValidator } from '@shared/validators/general/equal-to.validator';
 
 @Component({
   selector: 'app-register',
@@ -43,9 +43,9 @@ export default class RegisterComponent {
   }])
 
   form: FormGroup = this.fb.group({
-    ruc: [null, [Validators.required, rucValidator()]],
-    documentType: [null, Validators.required],
-    documentNumber: [null, [Validators.required, peruvianDocumentValidator()]],
+    documentNumber: [null, [Validators.required, rucValidator()]],
+    contactDocumentTypeId: [null, Validators.required],
+    contactDocumentNumber: [null, [Validators.required, peruvianDocumentValidator()]],
     firstName: [null, [Validators.required, Validators.minLength(2)]],
     lastName: [null, [Validators.required, Validators.minLength(2)]],
     secondLastName: [null, [Validators.minLength(2)]],

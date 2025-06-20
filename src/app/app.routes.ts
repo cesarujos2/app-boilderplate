@@ -17,11 +17,11 @@ export const routes: Routes = [
     },
     {
         path: ROOT_ROUTE_BRANCHES.AUTH.path,
-        loadChildren: () => import('./pages/auth/auth.routes').then(m => m.AUTH_ROUTES)
+        loadChildren: () => import('./features/auth/pages/auth.routes').then(m => m.AUTH_ROUTES)
     },
     {
         path: ROOT_ROUTE_BRANCHES.DASHBOARD.path,
-        loadChildren: () => import('./pages/dashboard/dashboard.routes').then(m => m.DASHBOARD_ROUTES)
+        loadChildren: () => import('./features/dashboard/pages/dashboard/dashboard.routes').then(m => m.DASHBOARD_ROUTES)
     },
     {
         path: '**',

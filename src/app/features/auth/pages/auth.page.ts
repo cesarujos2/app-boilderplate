@@ -1,10 +1,10 @@
-import { BrandingComponent } from '../../components/auth/branding/branding.component';
 import { Component, ElementRef, inject, viewChild } from '@angular/core';
-import { AuthLayout } from "../../layouts/auth/auth.layout";
 import { Router, RouterOutlet } from '@angular/router';
 import { MatButton } from '@angular/material/button';
-import { ThemeSwitchComponent } from '../../components/general/theme-switch/theme-switch.component';
 import { AUTH_ROUTE_BRANCHES } from './auth.routes';
+import { AuthLayout } from '../layouts/auth.layout';
+import { BrandingComponent } from '@components/auth/branding/branding.component';
+import { ThemeSwitchComponent } from '@components/general/theme-switch/theme-switch.component';
 
 @Component({
   selector: 'auth-page',

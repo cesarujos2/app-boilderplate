@@ -10,13 +10,13 @@
     <div class="flex flex-col w-full gap-2">
       <mat-form-field appearance="outline">
         <mat-label>Registro Único de Contibuyente</mat-label>
-        <input matInput type="text" formControlName="ruc">
-        @if (form.get('ruc')?.hasError('required')) {
+        <input matInput type="text" formControlName="documentNumber">
+        @if (form.get('documentNumber')?.hasError('required')) {
           <mat-error>
             Campo requerido
           </mat-error>
         }
-        @if (form.get('ruc')?.hasError('invalidRuc')) {
+        @if (form.get('documentNumber')?.hasError('invalidRuc')) {
           <mat-error>
             RUC incorrecto
           </mat-error>
@@ -24,14 +24,14 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Tipo de Documento</mat-label>
-        <mat-select formControlName="documentType">
-          @for(item of documentTypes(); track item.value){
-            <mat-option [value]="item.value">
-              {{ item.label }}
+        <mat-select formControlName="contactDocumentTypeId">
+          @for(item of documentTypes(); track item.id){
+            <mat-option [value]="item.id">
+              {{ item.name }}
             </mat-option>
           }
         </mat-select>
-        @if (form.get('documentType')?.hasError('required')) {
+        @if (form.get('contactDocumentTypeId')?.hasError('required')) {
           <mat-error
             >
             Campo requerido
@@ -40,14 +40,14 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Número de documento</mat-label>
-        <input matInput type="text" formControlName="documentNumber">
-        @if (form.get('documentNumber')?.hasError('required')) {
+        <input matInput type="text" formControlName="contactDocumentNumber">
+        @if (form.get('contactDocumentNumber')?.hasError('required')) {
           <mat-error
             >
             Campo requerido
           </mat-error>
         }
-        @if (form.get('documentNumber')?.hasError('invalidPeruvianDocument')) {
+        @if (form.get('contactDocumentNumber')?.hasError('invalidPeruvianDocument')) {
           <mat-error
             >
             Número de documento incorrecto

@@ -1,0 +1,5 @@
+{
+  "terminal.integrated.env.windows": {
+    "PATH": "D:\\Users\\curiarte-prov\\nodejs22\\nodejs;${env:PATH}"
+  }
+}

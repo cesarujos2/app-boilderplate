@@ -6,10 +6,10 @@ import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { Router } from '@angular/router';
-import { DocumentType } from 'app/core/models/general/document-type.interface';
-import { peruvianDocumentValidator } from '@validators/sync/peruvian/peruvian-doc.validator';
-import { rucValidator } from '@validators/sync/peruvian/ruc.validator';
 import { AUTH_ROUTE_BRANCHES } from '../auth.routes';
+import { LookupService } from '@shared/services/lookup.service';
+import { rucValidator } from '@shared/validators/peruvian/ruc.validator';
+import { peruvianDocumentValidator } from '@shared/validators/peruvian/peruvian-doc.validator';
 
 @Component({
   selector: 'app-forgot-password',
@@ -30,23 +30,15 @@ import { AUTH_ROUTE_BRANCHES } from '../auth.routes';
 export default class ForgotPasswordComponent {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
+  private readonly lookupService = inject(LookupService);
   
   form: FormGroup = this.fb.group({
-    ruc: [null, [Validators.required, rucValidator()]],
-    documentType: [null, Validators.required],
-    documentNumber: [null, [Validators.required, peruvianDocumentValidator()]]
+    documentNumber: [null, [Validators.required, rucValidator()]],
+    contactDocumentTypeId: [null, Validators.required],
+    contactDocumentNumber: [null, [Validators.required, peruvianDocumentValidator()]]
   });
 
-  documentTypes = signal<DocumentType[]>([{
-    value: 'DNI',
-    label: 'Documento Nacional de Identidad'
-  }, {
-    value: 'CE',
-    label: 'Carnet de Extranjería'
-  }, {
-    value: 'PASS',
-    label: 'Pasaporte'
-  }])
+  documentTypes = this.lookupService.documentTypes;
 
   onSubmit() {
     if (this.form.valid) {
