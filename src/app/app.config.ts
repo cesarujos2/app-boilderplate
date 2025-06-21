@@ -1,12 +1,17 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { provideHttpClient, withJsonpSupport, withInterceptors } from '@angular/common/http';
 
 import { routes } from './app.routes';
-import { provideHttpClient, withJsonpSupport } from '@angular/common/http';
+import { errorInterceptor } from './core/interceptors/error.interceptor';
+import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),
-    provideHttpClient(withJsonpSupport()),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes), provideHttpClient(
+      withJsonpSupport(),
+      withInterceptors([errorInterceptor, loadingInterceptor])
+    ),
   ]
 };

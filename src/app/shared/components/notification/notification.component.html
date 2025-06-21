@@ -1,0 +1,42 @@
+<div mat-dialog-title class="modal-header">
+    @if (processedData.icon) {
+    <div class="modal-icon">
+        <mat-icon [style.color]="processedData.iconColor" aria-hidden="true">{{ processedData.icon }}</mat-icon>
+    </div>
+    }
+    <div class="modal-title">
+        <span>{{ processedData.title }}</span>
+    </div>
+</div>
+
+<div mat-dialog-content>
+    @if (processedData.message) {
+    <p>{{ processedData.message }}</p>
+    }
+    @if (processedData.html && safeHtml) {
+    <div [innerHTML]="safeHtml"></div>
+    }
+</div>
+
+<div mat-dialog-actions>
+    @if (processedData.showCancelButton) {
+    <button
+        mat-button
+        mat-dialog-close
+        (click)="onDismissClick()"
+        aria-label="Cancel">
+        {{ processedData.cancelButtonText || 'No' }}
+    </button>
+    }
+    @if (processedData.showConfirmButton) {
+    <button
+        mat-flat-button
+        mat-dialog-close
+        cdkFocusInitial
+        (click)="onConfirmClick()"
+        color="primary"
+        aria-label="Confirm">
+        {{ processedData.confirmButtonText || 'Sí' }}
+    </button>
+    }
+</div>

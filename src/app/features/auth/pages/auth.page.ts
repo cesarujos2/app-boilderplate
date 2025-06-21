@@ -5,14 +5,17 @@ import { AUTH_ROUTE_BRANCHES } from './auth.routes';
 import { AuthLayout } from '../layouts/auth.layout';
 import { BrandingComponent } from '../components/branding/branding.component';
 import { ThemeSwitchComponent } from '@shared/components/theme-switch/theme-switch.component';
+import { LoadingService } from '@shared/services/loading.service';
+import { SpinnerComponent } from '@shared/components/spinner/spinner.component';
 
 @Component({
   selector: 'auth-page',
-  imports: [AuthLayout, RouterOutlet, BrandingComponent, ThemeSwitchComponent, MatButton],
+  imports: [AuthLayout, RouterOutlet, BrandingComponent, ThemeSwitchComponent, MatButton, SpinnerComponent],
   templateUrl: './auth.page.html',
   styleUrl: './auth.page.scss'
 })
 export default class AuthPage {
+  readonly isLoading = inject(LoadingService).isLoading;
   secondSection = viewChild<ElementRef<HTMLElement>>('secondSection')
   router = inject(Router)
 

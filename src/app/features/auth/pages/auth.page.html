@@ -1,10 +1,15 @@
 <auth-layout>
-    <app-branding left >
+    <app-branding left>
         <div class="flex gap-4 md:hidden">
-            <button mat-flat-button (click)="toLoginPage()">Iniciar Sesión</button>
+            <button mat-flat-button (click)="toLoginPage()">Iniciar
+                Sesión</button>
             <button mat-button (click)="toRegisterPage()">Registrarse</button>
         </div>
     </app-branding>
-    <router-outlet right #secondSection/>
+    <router-outlet right #secondSection />
 </auth-layout>
 <app-theme-switch class="fixed top-2 right-2" />
+
+@if (isLoading()) {
+<app-spinner />
+}
