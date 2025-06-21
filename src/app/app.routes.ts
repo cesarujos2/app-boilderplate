@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { ROOT_ROUTE_BRANCHES } from '@core/routes/route-branches';
-import { authGuard, noAuthGuard } from '@core/guards';
+import { authGuard, noAuthGuard, sessionValidGuard } from '@core/guards';
 
 // Re-exportar para mantener compatibilidad
 export { ROOT_ROUTE_BRANCHES };
@@ -18,7 +18,7 @@ export const routes: Routes = [
     },
     {
         path: ROOT_ROUTE_BRANCHES.DASHBOARD.path,
-        canActivate: [authGuard], // Requiere autenticación
+        canActivate: [authGuard, sessionValidGuard], // Requiere autenticación
         loadChildren: () => import('./features/dashboard/pages/dashboard.routes').then(m => m.DASHBOARD_ROUTES)
     },
     {

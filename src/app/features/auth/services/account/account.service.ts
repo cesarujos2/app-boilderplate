@@ -101,7 +101,7 @@ export class AccountService {
      * Verifica la sesión con el servidor (para validar cookies)
      */
     validateSession(): Observable<ApiResponse<Account>> {
-        return this.http.get<ApiResponse<Account>>(`${this.API_URL}/validate-session`).pipe(
+        return this.http.post<ApiResponse<Account>>(`${this.API_URL}/validate-session`, {}).pipe(
             tap(response => {
                 if (response.success && response.data) {
                     const account = response.data;

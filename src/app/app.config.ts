@@ -3,15 +3,15 @@ import { provideRouter } from '@angular/router';
 import { provideHttpClient, withJsonpSupport, withInterceptors } from '@angular/common/http';
 
 import { routes } from './app.routes';
-import { errorInterceptor } from './core/interceptors/error.interceptor';
-import { loadingInterceptor } from './core/interceptors/loading.interceptor';
+import { authInterceptor, errorInterceptor, loadingInterceptor } from './core/interceptors';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes), provideHttpClient(
+    provideZoneChangeDetection({ eventCoalescing: true }), 
+    provideRouter(routes), 
+    provideHttpClient(
       withJsonpSupport(),
-      withInterceptors([errorInterceptor, loadingInterceptor])
+      withInterceptors([authInterceptor, errorInterceptor, loadingInterceptor])
     ),
   ]
 };
