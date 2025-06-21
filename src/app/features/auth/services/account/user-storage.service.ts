@@ -1,4 +1,5 @@
-import { Account } from 'app/core/models/api/Account/account.interface';
+import { Account } from "../../models/Account/account.interface";
+import { Injectable } from "@angular/core";
 
 export interface IUserStorageService {
   setUser(account: Account): void;
@@ -6,6 +7,9 @@ export interface IUserStorageService {
   removeUser(): void;
 }
 
+@Injectable({
+  providedIn: 'root',
+})
 export class LocalStorageUserService implements IUserStorageService {
   private readonly key = 'currentUser';
 

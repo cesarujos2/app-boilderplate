@@ -1,6 +1,6 @@
 // dashboard.routes.ts
 import { Routes } from '@angular/router';
-import DashboardPage from './dashboard.page';
+import DashboardPage from './dashboard/dashboard.page';
 import { ROOT_ROUTE_BRANCHES } from 'app/app.routes';
 
 const DASHBOARD_ROUTE_NODE = ROOT_ROUTE_BRANCHES.DASHBOARD;

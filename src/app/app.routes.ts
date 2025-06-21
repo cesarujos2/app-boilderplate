@@ -21,7 +21,7 @@ export const routes: Routes = [
     },
     {
         path: ROOT_ROUTE_BRANCHES.DASHBOARD.path,
-        loadChildren: () => import('./features/dashboard/pages/dashboard/dashboard.routes').then(m => m.DASHBOARD_ROUTES)
+        loadChildren: () => import('./features/dashboard/pages/dashboard.routes').then(m => m.DASHBOARD_ROUTES)
     },
     {
         path: '**',
