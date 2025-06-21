@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { Router } from '@angular/router';
 import { TitleCasePipe } from '@angular/common';
+import { NotificationService } from 'app/shared/services/ui/notification.service';
 
 @Component({
   selector: 'app-user-avatar',
@@ -23,6 +24,7 @@ import { TitleCasePipe } from '@angular/common';
 })
 export class UserAvatarComponent {
   readonly accountService = inject(AccountService);
+  readonly notificationService = inject(NotificationService);
   
   name = computed(() => this.accountService.user()?.name ?? '');
   rolName = computed(() => this.accountService.user()?.roles[0]);
@@ -36,15 +38,19 @@ export class UserAvatarComponent {
       .toUpperCase()
       .slice(0, 2);
   });
-
   logout(): void {
-    this.accountService.logout().subscribe({
-      next: () => {
-        // El logout se maneja automáticamente en el servicio
-      },
-      error: () => {
-        // En caso de error, forzar logout local
-        this.accountService.forceLogout();
+    this.notificationService.showConfirmation(
+      'Cerrar Sesión',
+      '¿Está seguro que desea cerrar su sesión?'
+    ).subscribe({
+      next: (result) => {
+        if (result.confirmed) {
+          this.accountService.logout().subscribe({
+            error: () => {
+              this.accountService.forceLogout();
+            }
+          });
+        }
       }
     });
   }

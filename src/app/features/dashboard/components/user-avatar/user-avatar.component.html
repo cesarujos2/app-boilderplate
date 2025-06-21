@@ -43,7 +43,7 @@
                     {{ user()?.name }} {{ user()?.lastName }}
                 </p>
                 <p class="text-sm text-gray-500 dark:text-gray-400 truncate">
-                    {{ user()?.documentNumber }}
+                    {{ user()?.email }}
                 </p>
             </div>
         </div>
@@ -54,15 +54,15 @@
         class="px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
         <div class="space-y-2 text-sm">
             <div class="flex justify-between gap-2">
-                <span class="text-gray-600 dark:text-gray-400">Email:</span>
-                <span class="text-gray-900 dark:text-gray-100">
-                    {{ user()?.email }}
-                </span>
-            </div>
-            <div class="flex justify-between gap-2">
                 <span class="text-gray-600 dark:text-gray-400">Empresa:</span>
                 <span class="text-gray-900 dark:text-gray-100 font-medium text-end">
                     {{ user()?.organizationName | titlecase }}
+                </span>
+            </div>
+            <div class="flex justify-between gap-2">
+                <span class="text-gray-600 dark:text-gray-400">RUC:</span>
+                <span class="text-gray-900 dark:text-gray-100">
+                    {{ user()?.documentNumber }}
                 </span>
             </div>
             <div class="flex justify-between gap-2">
