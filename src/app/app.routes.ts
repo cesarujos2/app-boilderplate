@@ -1,13 +1,9 @@
 import { Routes } from '@angular/router';
-import { RouteTreeNode } from './core/routes/route-tree-node';
+import { ROOT_ROUTE_BRANCHES } from '@core/routes/route-branches';
+import { authGuard, noAuthGuard } from '@core/guards';
 
-const ROOT_ROUTE_NODE = new RouteTreeNode('', 'Inicio')
-
-export const ROOT_ROUTE_BRANCHES = {
-    BASE: ROOT_ROUTE_NODE,
-    AUTH: ROOT_ROUTE_NODE.addChild('AUTH', 'auth', 'Autenticación'),
-    DASHBOARD: ROOT_ROUTE_NODE.addChild('DASHBOARD', 'dashboard', 'Principal'),
-};
+// Re-exportar para mantener compatibilidad
+export { ROOT_ROUTE_BRANCHES };
 
 export const routes: Routes = [
     {
@@ -17,10 +13,12 @@ export const routes: Routes = [
     },
     {
         path: ROOT_ROUTE_BRANCHES.AUTH.path,
+        canActivate: [noAuthGuard], // Prevenir acceso si ya está autenticado
         loadChildren: () => import('./features/auth/pages/auth.routes').then(m => m.AUTH_ROUTES)
     },
     {
         path: ROOT_ROUTE_BRANCHES.DASHBOARD.path,
+        canActivate: [authGuard], // Requiere autenticación
         loadChildren: () => import('./features/dashboard/pages/dashboard.routes').then(m => m.DASHBOARD_ROUTES)
     },
     {

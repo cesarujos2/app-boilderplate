@@ -1,7 +1,7 @@
 // auth.routes.ts
 import { Routes } from '@angular/router';
 import AuthPage from './auth.page';
-import { ROOT_ROUTE_BRANCHES } from 'app/app.routes';
+import { ROOT_ROUTE_BRANCHES } from '../../../core/routes/route-branches';
 
 const AUTH_ROUTE_NODE = ROOT_ROUTE_BRANCHES.AUTH;
 
