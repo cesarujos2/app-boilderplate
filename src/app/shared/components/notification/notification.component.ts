@@ -4,8 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, Ma
 import { MatIcon } from '@angular/material/icon';
 import { SafeHtml } from '@angular/platform-browser';
 import { NotificationModalData, NotificationModalResult } from '@shared/models/modals/notification-modal/notification-modal-data.interface';
-import { HtmlSanitizerService } from '@shared/services/html-sanitizer.service';
-import { NotificationConfigService } from '@shared/services/notification-config.service';
+import { HtmlSanitizerService, NotificationConfigService } from '@shared/services';
 
 @Component({
     selector: 'app-notification-modal',

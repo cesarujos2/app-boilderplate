@@ -4,7 +4,7 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
-import { ApiErrorHandlerService } from '@shared/services/api-error-handler.service';
+import { ApiErrorHandlerService } from '@shared/services';
 
 /**
  * Interceptor funcional para manejo de errores de API

@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { HttpInterceptorFn } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
-import { LoadingService } from '@shared/services/loading.service';
+import { LoadingService } from '@core/services/state/loading.service';
 
 let activeRequests = 0;
 

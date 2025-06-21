@@ -1,11 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatDrawerContainer, MatDrawer, MatDrawerContent } from '@angular/material/sidenav';
-import { SidebarService } from 'app/core/services/ui/side-bar.service';
 import { MediaQueryService } from 'app/core/services/ui/media-query.service';
 import { DashboardLayout } from '../../layouts/dashboard.layout';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
+import { SidebarService } from '@core/services';
 
 @Component({
   selector: 'app-dashboard',

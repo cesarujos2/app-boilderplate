@@ -9,12 +9,12 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AUTH_ROUTE_BRANCHES } from '../auth.routes';
-import { LookupService } from '@shared/services/lookup.service';
 import { LoginStorageService } from '../../services/session/login-storage.service';
 import { rucValidator } from '@shared/validators/peruvian/ruc.validator';
 import { peruvianDocumentValidator } from '@shared/validators/peruvian/peruvian-doc.validator';
 import { DASHBOARD_ROUTE_BRANCHES } from 'app/features/dashboard/pages/dashboard.routes';
 import { AccountService } from '../../services/account/account.service';
+import { LookupService } from '@shared/services';
 
 @Component({
   selector: 'app-login',

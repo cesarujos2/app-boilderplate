@@ -7,9 +7,9 @@ import { MatInput } from '@angular/material/input';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { AUTH_ROUTE_BRANCHES } from '../auth.routes';
-import { LookupService } from '@shared/services/lookup.service';
 import { rucValidator } from '@shared/validators/peruvian/ruc.validator';
 import { peruvianDocumentValidator } from '@shared/validators/peruvian/peruvian-doc.validator';
+import { LookupService } from '@shared/services';
 
 @Component({
   selector: 'app-forgot-password',

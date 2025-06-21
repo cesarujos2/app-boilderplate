@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { NotificationComponent } from '../components/notification/notification.component';
 import { 
   NotificationModalData, 
   NotificationModalResult, 
   NotificationModalBuilder 
 } from '@shared/models/modals/notification-modal/notification-modal-data.interface';
 import { NotificationType } from '@shared/models/modals/notification-modal/notification-type.enum';
+import { NotificationComponent } from '@shared/components/notification/notification.component';
 
 @Injectable({
   providedIn: 'root'

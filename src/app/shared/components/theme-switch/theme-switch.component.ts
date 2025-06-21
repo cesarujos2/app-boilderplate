@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
-import { ThemeService } from 'app/core/services/ui/theme.service';
+import { ThemeService } from '@core/services/state/theme.service';
 
 @Component({
   selector: 'app-theme-switch',

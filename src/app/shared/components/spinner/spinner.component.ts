@@ -4,46 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-spinner',
   standalone: true,
   imports: [],
-  template: `
-    <div class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30 backdrop-blur-sm">
-      <div class="relative bg-white dark:bg-neutral-900 rounded-2xl p-8 shadow-2xl border border-neutral-200 dark:border-neutral-700">
-        <!-- Spinner principal -->
-        <div class="relative w-16 h-16 mx-auto mb-4">
-          <!-- Anillo exterior -->
-          <div class="absolute inset-0 rounded-full border-4 border-emerald-100 dark:border-emerald-900/30"></div>
-          <!-- Anillo giratorio -->
-          <div class="absolute inset-0 rounded-full border-4 border-transparent border-t-emerald-500 border-r-emerald-500 animate-spin"></div>
-          <!-- Círculo central pulsante -->
-          <div class="absolute inset-2 rounded-full bg-emerald-500/20 dark:bg-emerald-400/20 animate-pulse"></div>
-          <!-- Punto central -->
-          <div class="absolute inset-6 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-ping"></div>
-        </div>
-        
-        <!-- Texto -->
-        <p class="text-sm font-medium text-neutral-700 dark:text-neutral-300 text-center animate-pulse">
-          Procesando...
-        </p>
-        
-        <!-- Indicador de progreso animado -->
-        <div class="mt-4 w-32 h-1 bg-neutral-200 dark:bg-neutral-700 rounded-full overflow-hidden">
-          <div class="h-full bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full animate-loading-bar"></div>
-        </div>
-      </div>
-    </div>
-  `,
-  styles: [`
-    @keyframes loading-bar {
-      0% {
-        transform: translateX(-100%);
-      }
-      100% {
-        transform: translateX(100%);
-      }
-    }
-    
-    .animate-loading-bar {
-      animation: loading-bar 1.5s ease-in-out infinite;
-    }
-  `]
+  templateUrl: './spinner.component.html',
+  styleUrls: ['./spinner.component.scss']
 })
 export class SpinnerComponent {}
