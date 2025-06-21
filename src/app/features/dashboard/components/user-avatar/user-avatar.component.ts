@@ -1,17 +1,19 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
+import { AccountService } from 'app/features/auth/services/account/account.service';
+import { SentenceCasePipe } from 'app/shared/pipes/text-manipulation';
 
 @Component({
   selector: 'app-user-avatar',
   imports: [
-
+    SentenceCasePipe
   ],
   templateUrl: './user-avatar.component.html',
   styleUrl: './user-avatar.component.scss'
 })
 export class UserAvatarComponent {
-  name = input<string>("César Uriarte");
-  imageUrl = input<string | null>(null);
-  rolName = input<string | null>("Developer");
+  readonly accountService = inject(AccountService);
+  name = computed(() => this.accountService.user()?.name ?? '');
+  rolName = computed(() => this.accountService.user()?.roles[0]);
 
   initials = computed(() => {
     return this.name()
