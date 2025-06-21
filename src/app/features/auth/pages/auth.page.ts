@@ -3,8 +3,8 @@ import { Router, RouterOutlet } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 import { AUTH_ROUTE_BRANCHES } from './auth.routes';
 import { AuthLayout } from '../layouts/auth.layout';
-import { BrandingComponent } from '@components/auth/branding/branding.component';
-import { ThemeSwitchComponent } from '@components/general/theme-switch/theme-switch.component';
+import { BrandingComponent } from '../components/branding/branding.component';
+import { ThemeSwitchComponent } from '@shared/components/theme-switch/theme-switch.component';
 
 @Component({
   selector: 'auth-page',

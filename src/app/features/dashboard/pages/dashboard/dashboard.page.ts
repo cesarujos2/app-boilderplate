@@ -4,8 +4,8 @@ import { MatDrawerContainer, MatDrawer, MatDrawerContent } from '@angular/materi
 import { SidebarService } from 'app/core/services/ui/side-bar.service';
 import { MediaQueryService } from 'app/core/services/ui/media-query.service';
 import { DashboardLayout } from '../../layouts/dashboard.layout';
-import { NavBarComponent } from '@components/dashboard/nav-bar/nav-bar.component';
-import { FooterComponent } from '@components/dashboard/footer/footer.component';
+import { FooterComponent } from '../../components/footer/footer.component';
+import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
 
 @Component({
   selector: 'app-dashboard',

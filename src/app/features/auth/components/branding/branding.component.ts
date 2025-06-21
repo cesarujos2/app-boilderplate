@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LogoComponent } from "../../general/logo/logo.component";
+import { LogoComponent } from '@shared/components/logo/logo.component';
 
 @Component({
   selector: 'app-branding',
