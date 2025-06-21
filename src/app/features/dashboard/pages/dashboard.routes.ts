@@ -2,7 +2,6 @@
 import { Routes } from '@angular/router';
 import DashboardPage from './dashboard/dashboard.page';
 import { ROOT_ROUTE_BRANCHES } from '../../../core/routes/route-branches';
-import { authGuard } from '../../../core/guards';
 
 const DASHBOARD_ROUTE_NODE = ROOT_ROUTE_BRANCHES.DASHBOARD;
 

@@ -1,5 +1,6 @@
 export interface LoginResponse {
   id: number;
+  documentNumber: string;
   contactDocumentType: string;
   contactDocumentNumber: string;
   lastName: string;
