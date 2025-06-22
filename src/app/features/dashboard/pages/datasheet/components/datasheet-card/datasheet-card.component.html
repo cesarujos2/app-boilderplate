@@ -19,10 +19,13 @@
                         {{ datasheetDetails()?.datasheetMods?.length }}
                     </div>
                 </button>
-            </div> <!-- ID (1 col) -->
+            </div>            <!-- ID (1 col) -->
             <div class="col-span-1 flex flex-col items-center px-1.5">
                 <div
-                    class="bg-gradient-to-br from-emerald-500 to-emerald-600 dark:from-emerald-400 dark:to-emerald-500 text-white dark:text-emerald-950 text-sm font-bold px-1.5 py-1 rounded-full shadow-lg min-w-[50px] text-center border border-emerald-400/30 dark:border-emerald-300/30">
+                    class="select-none bg-gradient-to-br from-emerald-500 to-emerald-600 dark:from-emerald-400 dark:to-emerald-500 text-white dark:text-emerald-950 text-sm font-bold px-1.5 py-1 rounded-full shadow-lg min-w-[50px] text-center border border-emerald-400/30 dark:border-emerald-300/30 cursor-pointer hover:shadow-xl hover:scale-105 transition-all duration-200 active:scale-95"
+                    (click)="copyIdToClipboard($event)"
+                    [matTooltip]="'Clic para copiar identificador: ' + (datasheetDetails()?.id || '')"
+                    matTooltipPosition="above">
                     {{ datasheetDetails()?.id }}
                 </div>
             </div>

@@ -8,6 +8,7 @@ import { Datasheet, FitacStatus } from '../../../../models/fta/datasheet.interfa
 import { IExpandableContent } from '../../../../models/common';
 import { StatusDisplayService } from '../../../../services/common/status-display.service';
 import { CustomChipComponent } from '../../../../components/custom-chip';
+import { ClipboardService } from '../../../../../../shared/services/utilities';
 
 @Component({
   selector: 'app-datasheet-card',
@@ -21,6 +22,7 @@ export class DatasheetCardComponent implements IExpandableContent {
   private _isExpanded = signal(false);
 
   statusDisplay = inject(StatusDisplayService);
+  private clipboardService = inject(ClipboardService);
 
   // Computed property to get the status of the datasheet
   datasheetDetails = computed(() => {
@@ -48,8 +50,19 @@ export class DatasheetCardComponent implements IExpandableContent {
   isExpanded(): boolean {
     return this._isExpanded();
   }
-
   trackById(index: number, item: any): any {
     return item.id;
+  }
+  /**
+   * Copia el ID del datasheet al clipboard y muestra un mensaje de confirmación
+   * Delega la responsabilidad al ClipboardService siguiendo SRP
+   */
+  async copyIdToClipboard(event: Event): Promise<void> {
+    event.stopPropagation(); // Evita que se active el toggle
+    
+    const id = this.datasheetDetails()?.id;
+    if (!id) return;
+
+    await this.clipboardService.copyId(id);
   }
 }
