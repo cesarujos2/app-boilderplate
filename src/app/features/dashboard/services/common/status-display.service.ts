@@ -35,23 +35,6 @@ export class StatusDisplayService {
   }
 
   /**
-   * Obtiene el nombre de visualización para un estado
-   */
-  getStatusName(status: FitacStatus): string {
-    const statusItem = this.requestStatusList()?.find(s => s.key === status);
-    return statusItem?.name || 'Desconocido';
-  }
-
-  /**
-   * Obtiene descripción de un estado
-   */
-
-  getStatusDescription(status: FitacStatus): string {
-    const statusItem = this.requestStatusList()?.find(s => s.key === status);
-    return statusItem?.description || 'No disponible';
-  }
-
-  /**
    * Verifica si un estado existe
    */
   hasStatus(status: FitacStatus): boolean {
