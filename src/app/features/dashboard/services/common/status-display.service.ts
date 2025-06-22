@@ -43,6 +43,15 @@ export class StatusDisplayService {
   }
 
   /**
+   * Obtiene descripción de un estado
+   */
+
+  getStatusDescription(status: FitacStatus): string {
+    const statusItem = this.requestStatusList()?.find(s => s.key === status);
+    return statusItem?.description || 'No disponible';
+  }
+
+  /**
    * Verifica si un estado existe
    */
   hasStatus(status: FitacStatus): boolean {

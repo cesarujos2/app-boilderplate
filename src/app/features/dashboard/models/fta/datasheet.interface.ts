@@ -5,6 +5,7 @@ export interface RequestStatus {
   key: FitacStatus;
   name: string;
   description: string;
+  transitionName: string;
   userRole: string;
   nextStatusId: number;
 }
