@@ -97,7 +97,8 @@
                     <mat-icon>more_vert</mat-icon>
                 </button>
             </div>
-        </div> <!-- Contenido principal - Mobile/Tablet -->
+        </div> 
+        <!-- Contenido principal - Mobile/Tablet -->
         <div class="lg:hidden"> <!-- Vista simplificada para móviles (< md) -->
             <div class="md:hidden">
                 <div class="flex items-start space-x-3">
@@ -199,7 +200,7 @@
                             <div class="space-y-1">
                                 <div class="flex items-center space-x-2">
                                     <span
-                                        class="text-gray-500 dark:text-gray-400 text-xs uppercase">Sol:</span>
+                                        class="text-gray-500 dark:text-gray-400 text-xs uppercase">Solicitud:</span>
                                     <span
                                         class="text-gray-900 dark:text-white font-medium">
                                         {{ datasheet().requestNumber }}
@@ -219,7 +220,7 @@
                             <div class="space-y-1">
                                 <div class="flex items-center space-x-2">
                                     <span
-                                        class="text-gray-500 dark:text-gray-400 text-xs uppercase">Exp:</span>
+                                        class="text-gray-500 dark:text-gray-400 text-xs uppercase">Expediente:</span>
                                     <span
                                         class="text-gray-900 dark:text-white font-medium">
                                         {{ datasheet().expedientNumber }}
@@ -239,7 +240,8 @@
                 </div>
             </div>
         </div>
-    </div> <!-- Sección expandible con transiciones -->
+    </div> 
+    <!-- Sección expandible con transiciones -->
     <div
         class="bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-700 relative transition-all duration-300 ease-in-out"
         style="isolation: isolate;"
@@ -254,11 +256,44 @@
             [style.transform]="isExpanded() ? 'translateY(0)' : 'translateY(-8px)'">
             <!-- Información detallada -->
             <div
-                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
+                <!-- Tarjeta de Información del Trámite (solo móvil) -->
                 <div
+                    class="bg-white dark:bg-gray-900 p-3 sm:p-4 rounded-lg shadow-sm md:hidden">
+                    <h4
+                        class="text-sm text-gray-900 dark:text-white mb-3 font-medium flex items-center">
+                        <mat-icon
+                            class="text-blue-600 dark:text-blue-400 mr-2 text-lg">receipt_long</mat-icon>
+                        Información del Trámite
+                    </h4>
+                    <div class="space-y-3 text-sm">
+                        <div
+                            class="flex items-center justify-between p-2 bg-blue-50 dark:bg-blue-900/20 rounded-md">
+                            <span
+                                class="text-blue-600 dark:text-blue-400 font-medium">N°
+                                Solicitud:</span>
+                            <span
+                                class="text-blue-900 dark:text-blue-100 font-bold">
+                                {{ datasheet().requestNumber }}
+                            </span>
+                        </div>
+                        <div
+                            class="flex items-center justify-between p-2 bg-green-50 dark:bg-green-900/20 rounded-md">
+                            <span
+                                class="text-green-600 dark:text-green-400 font-medium">N°
+                                Expediente:</span>
+                            <span
+                                class="text-green-900 dark:text-green-100 font-bold">
+                                {{ datasheet().expedientNumber }}
+                            </span>
+                        </div>
+                    </div>
+                </div> <div
                     class="bg-white dark:bg-gray-900 p-3 sm:p-4 rounded-lg shadow-sm">
                     <h4
-                        class="text-sm sm:text-base text-gray-900 dark:text-white mb-2 sm:mb-3 font-medium">
+                        class="text-sm sm:text-base text-gray-900 dark:text-white mb-2 sm:mb-3 font-medium flex items-center">
+                        <mat-icon
+                            class="text-purple-600 dark:text-purple-400 mr-2 text-lg">business</mat-icon>
                         Información del Proyecto
                     </h4>
                     <div class="space-y-1 sm:space-y-2 text-xs sm:text-sm">
@@ -279,12 +314,12 @@
                             </span>
                         </div>
                     </div>
-                </div>
-
-                <div
+                </div> <div
                     class="bg-white dark:bg-gray-900 p-3 sm:p-4 rounded-lg shadow-sm">
                     <h4
-                        class="text-sm sm:text-base text-gray-900 dark:text-white mb-2 sm:mb-3 font-medium">
+                        class="text-sm sm:text-base text-gray-900 dark:text-white mb-2 sm:mb-3 font-medium flex items-center">
+                        <mat-icon
+                            class="text-orange-600 dark:text-orange-400 mr-2 text-lg">people</mat-icon>
                         Responsables
                     </h4>
                     <div class="space-y-1 sm:space-y-2 text-xs sm:text-sm">
@@ -306,12 +341,12 @@
                             </span>
                         </div>
                     </div>
-                </div>
-
-                <div
-                    class="bg-white dark:bg-gray-900 p-3 sm:p-4 rounded-lg shadow-sm sm:col-span-2 lg:col-span-1">
+                </div> <div
+                    class="bg-white dark:bg-gray-900 p-3 sm:p-4 rounded-lg shadow-sm md:col-span-2 lg:col-span-1">
                     <h4
-                        class="text-sm sm:text-base text-gray-900 dark:text-white mb-2 sm:mb-3 font-medium">
+                        class="text-sm sm:text-base text-gray-900 dark:text-white mb-2 sm:mb-3 font-medium flex items-center">
+                        <mat-icon
+                            class="text-gray-600 dark:text-gray-400 mr-2 text-lg">schedule</mat-icon>
                         Fechas y Referencias
                     </h4>
                     <div
@@ -334,7 +369,7 @@
                         </div>
                     </div>
                 </div>
-            </div> <!-- Historial de modificaciones -->
+            </div><!-- Historial de modificaciones -->
             <div *ngIf="datasheet().datasheetMods?.length" class="mt-4 sm:mt-6">
                 <div
                     class="flex items-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
