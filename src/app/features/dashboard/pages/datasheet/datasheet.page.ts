@@ -1,28 +1,12 @@
-import { Component, OnInit, computed, inject } from '@angular/core';
-import { DatasheetService } from '../../services/fta/datasheet.service';
-import { CommonModule } from '@angular/common';
-import { DatasheetCardComponent } from './components';
+import { Component } from "@angular/core";
+import { DatasheetListComponent } from "./components/datasheet-list/datasheet-list.component";
 
 @Component({
     selector: 'app-datasheet-page',
     standalone: true,
-    imports: [
-        CommonModule,
-        DatasheetCardComponent
-    ],
+    imports: [DatasheetListComponent],
     templateUrl: './datasheet.page.html'
 })
-export class DatasheetPageComponent implements OnInit {
-    private datasheetService = inject(DatasheetService);
-
-    datasheets = computed(() => this.datasheetService.datasheets());
-    loading = computed(() => this.datasheetService.loading());
-
-    ngOnInit() {
-        this.loadDatasheets();
-    }
-
-    private loadDatasheets(): void {
-        this.datasheetService.getDatasheets().subscribe();
-    }
+export class DatasheetPageComponent {
+    
 }
