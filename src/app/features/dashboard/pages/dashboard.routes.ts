@@ -18,12 +18,16 @@ export const DASHBOARD_ROUTES: Routes = [
     children: [
       {
         path: '',
-        redirectTo: DASHBOARD_ROUTE_BRANCHES.OVERVIEW.path,
+        redirectTo: DASHBOARD_ROUTE_BRANCHES.DATASHEETS.path,
         pathMatch: 'full',
       },
       {
+        path: DASHBOARD_ROUTE_BRANCHES.DATASHEETS.path,
+        loadComponent: () => import('./datasheet/datasheet.page').then(m => m.DatasheetPageComponent),
+      },
+      {
         path: '**',
-        redirectTo: DASHBOARD_ROUTE_BRANCHES.OVERVIEW.path,
+        redirectTo: DASHBOARD_ROUTE_BRANCHES.DATASHEETS.path,
       }
     ],
   },

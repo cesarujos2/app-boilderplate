@@ -1,0 +1,403 @@
+<div
+    class="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors duration-200 relative"
+    style="isolation: isolate; contain: layout;">
+    <div class="w-full py-4 sm:py-4 px-2 sm:px-4 cursor-pointer" (click)="toggle()">        <!-- Contenido principal - Desktop -->
+        <div class="hidden lg:grid grid-cols-24 gap-3 items-center">
+            <!-- Botón expandir (1 col) -->
+            <div class="col-span-1 flex justify-center">                <button mat-icon-button
+                    class="relative"
+                    (click)="toggle(); $event.stopPropagation()"
+                    [attr.aria-expanded]="isExpanded()">
+                    <mat-icon [class.rotate-90]="isExpanded()"
+                        class="transition-transform duration-200">
+                        chevron_right
+                    </mat-icon>
+                    <!-- Badge de modificaciones -->
+                    <div *ngIf="datasheet().datasheetMods?.length"
+                        class="absolute -top-1 -right-1 bg-emerald-500 text-white text-xs rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
+                        {{ datasheet().datasheetMods.length }}
+                    </div>
+                </button>
+            </div>
+
+            <!-- ID (1 col) -->
+            <div class="col-span-1 text-center">
+                <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">N°</p>
+                <p class="text-sm text-gray-900 dark:text-white font-medium whitespace-nowrap">
+                    {{ datasheet().id }}
+                </p>
+            </div>
+
+            <!-- Proyecto y empresa (8 cols - más espacio) -->
+            <div class="col-span-7 min-w-0">
+                <h3 class="text-base font-medium text-gray-900 dark:text-white truncate">
+                    {{ datasheet().projectName }}
+                </h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 truncate">
+                    {{ datasheet().companyName }}
+                </p>
+            </div>
+
+            <!-- Solicitud (2 cols) -->
+            <div class="col-span-3 text-center">
+                <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">Solicitud</p>
+                <p class="text-sm text-gray-900 dark:text-white font-medium whitespace-nowrap">
+                    {{ datasheet().requestNumber }}
+                </p>
+            </div>
+
+            <!-- Expediente (2 cols) -->
+            <div class="col-span-3 text-center">
+                <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">Expediente</p>
+                <p class="text-sm text-gray-900 dark:text-white font-medium whitespace-nowrap">
+                    {{ datasheet().expedientNumber }}
+                </p>
+            </div>
+
+            <!-- Consultor (4 cols) -->
+            <div class="col-span-3 min-w-0">
+                <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1 text-center">Consultor</p>
+                <p class="text-sm text-gray-900 dark:text-white truncate text-center">
+                    {{ datasheet().consultantName }}
+                </p>
+            </div>
+
+            <!-- Fecha modificación (2 cols) -->
+            <div class="col-span-2 text-center">
+                <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">Modificado</p>
+                <p class="text-sm text-gray-900 dark:text-white whitespace-nowrap">
+                    {{ datasheet().modificationDate | date: 'dd/MM/yy' }}
+                </p>
+            </div>            
+            <!-- Estado (2 cols) -->
+            <div class="col-span-3 flex justify-center">
+                <app-custom-chip [variant]="datasheet().fitacStatus" (click)="$event.stopPropagation()">
+                    {{ getStatusName(datasheet().fitacStatus) }}
+                </app-custom-chip>
+            </div>
+            <!-- Botón menú (1 col) -->
+            <div class="col-span-1 flex justify-center">
+                <button mat-icon-button
+                    class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                    (click)="$event.stopPropagation()">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+            </div>
+        </div>        <!-- Contenido principal - Mobile/Tablet -->
+        <div class="lg:hidden">            <!-- Vista simplificada para móviles (< md) -->
+            <div class="md:hidden">
+                <div class="flex items-start space-x-3">
+                    <!-- Botón expandir -->
+                    <button mat-icon-button
+                        class="relative flex-shrink-0 mt-1"
+                        (click)="toggle(); $event.stopPropagation()"
+                        [attr.aria-expanded]="isExpanded()">
+                        <mat-icon [class.rotate-90]="isExpanded()"
+                            class="transition-transform duration-200">
+                            chevron_right
+                        </mat-icon>
+                        <!-- Badge de modificaciones -->
+                        <div *ngIf="datasheet().datasheetMods?.length"
+                            class="absolute -top-1 -right-1 bg-emerald-500 text-white text-xs rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
+                            {{ datasheet().datasheetMods.length }}
+                        </div>
+                    </button>
+
+                    <!-- Contenido esencial: solo proyecto, empresa y estado -->
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1 min-w-0 pr-3">
+                                <h3 class="text-base font-medium text-gray-900 dark:text-white truncate mb-1">
+                                    {{ datasheet().projectName }}
+                                </h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 truncate">
+                                    {{ datasheet().companyName }}
+                                </p>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <app-custom-chip [variant]="datasheet().fitacStatus" (click)="$event.stopPropagation()">
+                                    {{ getStatusName(datasheet().fitacStatus) }}
+                                </app-custom-chip>
+                                <button mat-icon-button
+                                    class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 flex-shrink-0"
+                                    (click)="$event.stopPropagation()">
+                                    <mat-icon>more_vert</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            <!-- Vista expandida para tabletas (md) -->
+            <div class="hidden md:block">
+                <div class="flex items-start space-x-3">
+                    <!-- Botón expandir -->
+                    <button mat-icon-button
+                        class="relative flex-shrink-0 mt-1"
+                        (click)="toggle(); $event.stopPropagation()"
+                        [attr.aria-expanded]="isExpanded()">
+                        <mat-icon [class.rotate-90]="isExpanded()"
+                            class="transition-transform duration-200">
+                            chevron_right
+                        </mat-icon>
+                        <!-- Badge de modificaciones -->
+                        <div *ngIf="datasheet().datasheetMods?.length"
+                            class="absolute -top-1 -right-1 bg-emerald-500 text-white text-xs rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
+                            {{ datasheet().datasheetMods.length }}
+                        </div>
+                    </button>
+
+                    <!-- Contenido completo para tabletas -->
+                    <div class="flex-1 min-w-0">
+                        <!-- Fila 1: Título y Estado -->
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex-1 min-w-0 pr-3">
+                                <h3 class="text-base font-medium text-gray-900 dark:text-white truncate mb-1">
+                                    {{ datasheet().projectName }}
+                                </h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 truncate">
+                                    {{ datasheet().companyName }}
+                                </p>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <app-custom-chip [variant]="datasheet().fitacStatus" (click)="$event.stopPropagation()">
+                                    {{ getStatusName(datasheet().fitacStatus) }}
+                                </app-custom-chip>
+                                <button mat-icon-button
+                                    class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 flex-shrink-0"
+                                    (click)="$event.stopPropagation()">
+                                    <mat-icon>more_vert</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Fila 2: Información en grid optimizado -->
+                        <div class="grid grid-cols-2 gap-x-6 gap-y-1 text-sm">
+                            <!-- Primera columna -->
+                            <div class="space-y-1">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-gray-500 dark:text-gray-400 text-xs uppercase">Sol:</span>
+                                    <span class="text-gray-900 dark:text-white font-medium">
+                                        {{ datasheet().requestNumber }}
+                                    </span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-gray-500 dark:text-gray-400 text-xs uppercase">Consultor:</span>
+                                    <span class="text-gray-900 dark:text-white truncate">
+                                        {{ datasheet().consultantName }}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <!-- Segunda columna -->
+                            <div class="space-y-1">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-gray-500 dark:text-gray-400 text-xs uppercase">Exp:</span>
+                                    <span class="text-gray-900 dark:text-white font-medium">
+                                        {{ datasheet().expedientNumber }}
+                                    </span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-gray-500 dark:text-gray-400 text-xs uppercase">Modificado:</span>
+                                    <span class="text-gray-900 dark:text-white">
+                                        {{ datasheet().modificationDate | date: 'dd/MM/yy HH:mm' }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    <!-- Sección expandible con transiciones -->
+    <div 
+        class="bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-700 relative transition-all duration-300 ease-in-out"
+        style="isolation: isolate;"
+        [style.max-height]="isExpanded() ? '2000px' : '0px'"
+        [style.opacity]="isExpanded() ? '1' : '0'"
+        [style.overflow]="'hidden'">
+        <div 
+            class="px-4 sm:px-6 transition-all duration-300 ease-in-out transform"
+            [class.py-0]="!isExpanded()"
+            [class.py-4]="isExpanded()"
+            [class.sm:py-6]="isExpanded()"
+            [style.transform]="isExpanded() ? 'translateY(0)' : 'translateY(-8px)'">
+            <!-- Información detallada -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
+                <div class="bg-white dark:bg-gray-900 p-3 sm:p-4 rounded-lg shadow-sm">
+                    <h4 class="text-sm sm:text-base text-gray-900 dark:text-white mb-2 sm:mb-3 font-medium">
+                        Información del Proyecto
+                    </h4>
+                    <div class="space-y-1 sm:space-y-2 text-xs sm:text-sm">
+                        <div class="flex justify-between items-start">
+                            <span class="text-gray-600 dark:text-gray-400 flex-shrink-0">Proyecto:</span>
+                            <span class="text-gray-900 dark:text-white text-right ml-2 break-words">
+                                {{ datasheet().projectName }}
+                            </span>
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <span class="text-gray-600 dark:text-gray-400 flex-shrink-0">Empresa:</span>
+                            <span class="text-gray-900 dark:text-white text-right ml-2 break-words">
+                                {{ datasheet().companyName }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-900 p-3 sm:p-4 rounded-lg shadow-sm">
+                    <h4 class="text-sm sm:text-base text-gray-900 dark:text-white mb-2 sm:mb-3 font-medium">
+                        Responsables
+                    </h4>
+                    <div class="space-y-1 sm:space-y-2 text-xs sm:text-sm">
+                        <div class="flex justify-between items-start">
+                            <span class="text-gray-600 dark:text-gray-400 flex-shrink-0">Consultor:</span>
+                            <span class="text-gray-900 dark:text-white text-right ml-2 break-words">
+                                {{ datasheet().consultantName }}
+                            </span>
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <span class="text-gray-600 dark:text-gray-400 flex-shrink-0">Rep. Legal:</span>
+                            <span class="text-gray-900 dark:text-white text-right ml-2 break-words">
+                                {{ datasheet().legalRepresentativeName }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-900 p-3 sm:p-4 rounded-lg shadow-sm sm:col-span-2 lg:col-span-1">
+                    <h4 class="text-sm sm:text-base text-gray-900 dark:text-white mb-2 sm:mb-3 font-medium">
+                        Fechas y Referencias
+                    </h4>
+                    <div class="grid grid-cols-2 sm:grid-cols-1 gap-2 sm:gap-0 sm:space-y-1 lg:space-y-2 text-xs sm:text-sm">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600 dark:text-gray-400">Creación:</span>
+                            <span class="text-gray-900 dark:text-white">
+                                {{ datasheet().creationDate | date: 'dd/MM/yy HH:mm' }}
+                            </span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600 dark:text-gray-400">Modificación:</span>
+                            <span class="text-gray-900 dark:text-white">
+                                {{ datasheet().modificationDate | date: 'dd/MM/yy HH:mm' }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>            <!-- Historial de modificaciones -->
+            <div *ngIf="datasheet().datasheetMods?.length" class="mt-4 sm:mt-6">
+                <div class="flex items-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
+                    <mat-icon class="text-gray-600 dark:text-gray-400 text-lg sm:text-xl">history</mat-icon>
+                    <h4 class="text-base sm:text-lg text-gray-900 dark:text-white font-medium">
+                        Historial de Modificaciones
+                    </h4>
+                    <app-custom-chip [variant]="datasheet().fitacStatus">
+                        {{ datasheet().datasheetMods.length }}
+                    </app-custom-chip>
+                </div>
+
+                <!-- Tabla responsive -->
+                <div class="overflow-x-auto">
+                    <!-- Vista de tabla para pantallas medianas y grandes -->
+                    <div class="hidden sm:block min-w-full">
+                        <!-- Header -->
+                        <div class="grid grid-cols-6 gap-4 px-4 py-3 bg-gray-100 dark:bg-gray-800 text-sm text-gray-700 dark:text-gray-300 uppercase tracking-wide rounded-t-lg">
+                            <div>Solicitud</div>
+                            <div>Expediente</div>
+                            <div>Estado</div>
+                            <div>Fecha Creacion</div>
+                            <div>Fecha Modificación</div>
+                            <div>Acciones</div>
+                        </div>
+
+                        <!-- Filas -->
+                        <div *ngFor="let mod of datasheet().datasheetMods; trackBy: trackById"
+                            class="grid grid-cols-6 gap-4 px-4 py-3 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
+                            <div class="text-sm text-gray-900 dark:text-white">
+                                {{ mod.requestNumber }}
+                            </div>
+                            <div class="text-sm text-gray-900 dark:text-white">
+                                {{ mod.expedientNumber }}
+                            </div>
+                            <div>
+                                <app-custom-chip [variant]="mod.fitacStatus">
+                                    {{ getStatusName(mod.fitacStatus) }}
+                                </app-custom-chip>
+                            </div>
+                            <div class="text-sm text-gray-900 dark:text-white">
+                                {{ mod.creationDate | date: 'dd/MM/yy HH:mm' }}
+                            </div>
+                            <div class="text-sm text-gray-900 dark:text-white">
+                                {{ mod.modificationDate | date: 'dd/MM/yy HH:mm' }}
+                            </div>
+                            <div>
+                                <button mat-icon-button
+                                    class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                                    (click)="$event.stopPropagation()">
+                                    <mat-icon>more_vert</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>                    <!-- Vista de tarjetas para móviles -->
+                    <div class="sm:hidden space-y-2">
+                        <div *ngFor="let mod of datasheet().datasheetMods; trackBy: trackById"
+                            class="bg-white dark:bg-gray-900 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                            
+                            <!-- Header: Estado y Botón de acción -->
+                            <div class="flex items-center justify-between mb-3">
+                                <app-custom-chip [variant]="mod.fitacStatus">
+                                    {{ getStatusName(mod.fitacStatus) }}
+                                </app-custom-chip>                                <button mat-icon-button
+                                    class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                                    (click)="$event.stopPropagation()">
+                                    <mat-icon>more_vert</mat-icon>
+                                </button>
+                            </div>
+                            
+                            <!-- Contenido principal -->
+                            <div class="space-y-2">
+                                <!-- Fila 1: Números principales -->
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="bg-gray-50 dark:bg-gray-800 p-2 rounded-md">
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">
+                                            Solicitud
+                                        </p>
+                                        <p class="text-sm font-medium text-gray-900 dark:text-white">
+                                            {{ mod.requestNumber }}
+                                        </p>
+                                    </div>
+                                    <div class="bg-gray-50 dark:bg-gray-800 p-2 rounded-md">
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">
+                                            Expediente
+                                        </p>
+                                        <p class="text-sm font-medium text-gray-900 dark:text-white">
+                                            {{ mod.expedientNumber }}
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Fila 2: Fecha -->
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="bg-gray-50 dark:bg-gray-800 p-2 rounded-md">
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">
+                                        Fecha de Modificación
+                                    </p>
+                                    <p class="text-sm font-medium text-gray-900 dark:text-white">
+                                        {{ mod.modificationDate | date: 'dd/MM/yyyy HH:mm' }}
+                                    </p>
+                                </div>
+                                <div class="bg-gray-50 dark:bg-gray-800 p-2 rounded-md">
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">
+                                        Fecha de creación
+                                    </p>
+                                    <p class="text-sm font-medium text-gray-900 dark:text-white">
+                                        {{ mod.creationDate | date: 'dd/MM/yyyy HH:mm' }}
+                                    </p>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

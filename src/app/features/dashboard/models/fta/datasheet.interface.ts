@@ -1,6 +1,6 @@
-export type FitacStatus = 'UNDER_REVIEW' | 'RESOLVED' | 'REJECTED' | 'PENDING' | 'APPROVED';
+export type FitacStatus = 'VALIDATED' | 'FOR_SIGNATURE' | 'PRESENTED' | 'UNDER_REVIEW' | 'RESOLVED';
 
-export interface StatusRequest {
+export interface RequestStatus {
   id: number;
   key: FitacStatus;
   name: string;
@@ -44,7 +44,7 @@ export interface Datasheet {
   consultantName: string;
   legalRepresentativeName: string;
   companyName: string;
-  fitacStatus: string;
+  fitacStatus: FitacStatus;
   fitacFileId: string;
   officeFileId: string;
   datasheetMods: DatasheetMod[];
@@ -54,7 +54,7 @@ interface DatasheetMod {
   id: number;
   requestNumber: string;
   expedientNumber: string;
-  fitacStatus: string;
+  fitacStatus: FitacStatus;
   fitacFileId: string;
   creationDate: string;
   modificationDate: string;
