@@ -3,7 +3,7 @@
     <div class="max-w-4xl mx-auto">
         
         <!-- Filtros básicos -->
-        <div class="space-y-4">
+        <div class="space-y-2">
 
             <!-- Fila 1: Buscador y botón filtros avanzados -->
             <div
@@ -40,7 +40,7 @@
                 </div><!-- Botón filtros avanzados -->
                 <div class="flex gap-2 justify-center">
                     <button
-                        mat-flat-button
+                        mat-button
                         [color]="filterService.advancedFiltersVisible() ? 'primary' : ''"
                         (click)="toggleAdvancedFilters()"
                         class="relative whitespace-nowrap">
@@ -52,7 +52,7 @@
 
                         <!-- Badge de filtros activos -->
                         @if (filterService.hasActiveAdvancedFilters()) {
-                        <span class="absolute -top-5 -right-8 bg-orange-500 text-white text-xs rounded-full min-w-[20px] h-[20px] flex items-center justify-center px-1 shadow-sm">
+                        <span class="absolute -top-5 -right-5 bg-orange-500 text-white text-xs rounded-full min-w-[20px] h-[20px] flex items-center justify-center px-1 shadow-sm">
                             !
                         </span>
                         }

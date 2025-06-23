@@ -24,22 +24,16 @@
             <div class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
               <mat-icon class="text-gray-600 dark:text-gray-400 text-lg">tune</mat-icon>
             </div>
-            <div>
-              <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
-                Filtros Avanzados
-              </h2>
-            </div>
           </div>
           
           <!-- Botones de acción principales -->
           <div class="flex items-center gap-3">
             <button
-              mat-button
+              mat-icon-button
               (click)="clearAdvancedFilters()"
               [disabled]="!filterService.hasActiveAdvancedFilters()"
               class="text-gray-600 dark:text-gray-400">
               <mat-icon class="mr-1">refresh</mat-icon>
-              Limpiar
             </button>
             
             <button
