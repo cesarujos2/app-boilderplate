@@ -1,7 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { MatToolbar } from '@angular/material/toolbar';
-import { MatIcon } from '@angular/material/icon';
-import { MatIconButton } from '@angular/material/button';
 import { UserAvatarComponent } from '../user-avatar/user-avatar.component';
 import { ThemeSwitchComponent } from '@shared/components/theme-switch/theme-switch.component';
 import { LogoComponent } from '@shared/components/logo/logo.component';
@@ -11,7 +9,7 @@ import { SidebarService } from '@core/services';
   selector: 'app-nav-bar',
   imports: [
     ThemeSwitchComponent,
-    MatToolbar, MatIcon, MatIconButton,
+    MatToolbar,
     UserAvatarComponent,
     LogoComponent
   ],
