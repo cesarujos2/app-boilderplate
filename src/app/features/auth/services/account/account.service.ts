@@ -9,12 +9,13 @@ import { LoginResponse } from "../../models/Account/login-response.interface";
 import { Account } from "../../models/Account/account.interface";
 import { Router } from "@angular/router";
 import { AUTH_ROUTE_BRANCHES } from "../../pages/auth.routes";
+import { AppInfoService } from "@core/services";
 
 @Injectable({
     providedIn: 'root'
 })
 export class AccountService {
-    private API_URL = `https://localhost:7083/api/Account`;
+    private API_URL = `${inject(AppInfoService).getApiUrl()}/Account`;
     private readonly http = inject(HttpClient);
     private readonly userStorage = inject<IUserStorageService>(LocalStorageUserService);
     private readonly router = inject(Router);

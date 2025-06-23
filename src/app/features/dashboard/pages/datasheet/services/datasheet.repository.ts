@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../../../../../core/models/api/apiResponse';
 import { DatasheetRequest, DatasheetResponse } from '../models/datasheet.interface';
+import { AppInfoService } from '@core/services';
 
 /**
  * Repository Service - SRP: Solo responsable del acceso a datos
@@ -12,11 +13,13 @@ import { DatasheetRequest, DatasheetResponse } from '../models/datasheet.interfa
 })
 export class DatasheetRepository {
   private http = inject(HttpClient);
-  private readonly baseUrl = 'https://localhost:7083/api/Fta';
+  
+  // URL de la API del servicio de fichas técnicas
+  private baseUrl = `${inject(AppInfoService).getApiUrl()}/Datasheet`;
 
   getDatasheets(filters: DatasheetRequest): Observable<ApiResponse<DatasheetResponse>> {
     const params = this.buildHttpParams(filters);
-    return this.http.get<ApiResponse<DatasheetResponse>>(`${this.baseUrl}/datasheets`, { params });
+    return this.http.get<ApiResponse<DatasheetResponse>>(`${this.baseUrl}`, { params });
   }
 
   private buildHttpParams(filters: DatasheetRequest): HttpParams {

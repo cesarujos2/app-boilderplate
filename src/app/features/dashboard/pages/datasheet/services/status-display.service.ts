@@ -4,6 +4,7 @@ import { ApiResponse } from '../../../../../core/models/api/apiResponse';
 import { HttpClient } from '@angular/common/http';
 import { catchError, of, map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { AppInfoService } from '@core/services';
 
 /**
  * Service for status lookup and display - SRP: Solo responsable del manejo de estados
@@ -13,7 +14,10 @@ import { toSignal } from '@angular/core/rxjs-interop';
   providedIn: 'root'
 })
 export class StatusDisplayService {
-  private readonly baseUrl = 'https://localhost:7083/api/Fta';
+  // URL de la API del servicio de fichas técnicas
+    private baseUrl = `${inject(AppInfoService).getApiUrl()}/Datasheet`;
+
+  // Inyección del HttpClient para realizar solicitudes HTTP
   private readonly http = inject(HttpClient);
 
   // Estado reactivo para los estados de la solicitud

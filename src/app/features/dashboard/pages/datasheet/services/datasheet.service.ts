@@ -5,6 +5,7 @@ import { DatasheetRepository } from './datasheet.repository';
 import { DatasheetStore } from './datasheet.store';
 import { ApiResponse } from '@core/models/api/apiResponse';
 import { DatasheetRequest, DatasheetResponse } from '../models/datasheet.interface';
+import { AppInfoService } from '@core/services';
 /**
  * Main Service - SRP: Solo responsable de coordinar repository y store
  * DIP: Depende de abstracciones (repository y store inyectados)
