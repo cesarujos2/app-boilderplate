@@ -2,8 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../../../../../core/models/api/apiResponse';
-import { DatasheetResponse } from '../../../models/fta/datasheet.interface';
-import { DatasheetRequest } from '../../../models/fta';
+import { DatasheetRequest, DatasheetResponse } from '../models/datasheet.interface';
 
 /**
  * Repository Service - SRP: Solo responsable del acceso a datos

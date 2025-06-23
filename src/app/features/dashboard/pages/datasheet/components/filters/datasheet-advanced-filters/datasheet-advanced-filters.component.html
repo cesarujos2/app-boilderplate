@@ -1,0 +1,258 @@
+<!-- Panel de filtros avanzados moderno -->
+<div
+  class="fixed inset-0 z-50 overflow-hidden transition-all duration-300 ease-in-out"
+  [class.pointer-events-none]="!filterService.advancedFiltersVisible()"
+  [class.opacity-0]="!filterService.advancedFiltersVisible()"
+  [class.opacity-100]="filterService.advancedFiltersVisible()">
+  
+  <!-- Backdrop -->
+  <div 
+    class="absolute inset-0 bg-black/50 transition-opacity duration-300"
+    (click)="closeAdvancedFilters()"></div>
+  
+  <!-- Panel deslizable desde la derecha -->
+  <div class="absolute right-0 top-0 h-full w-full max-w-4xl transform transition-transform duration-300 ease-in-out"
+       [class.translate-x-full]="!filterService.advancedFiltersVisible()"
+       [class.translate-x-0]="filterService.advancedFiltersVisible()">
+    
+    <!-- Container del panel -->
+    <div class="h-full bg-white dark:bg-gray-900 shadow-2xl flex flex-col">
+        <!-- Header fijo con acciones principales -->
+      <div class="flex-shrink-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+              <mat-icon class="text-gray-600 dark:text-gray-400 text-lg">tune</mat-icon>
+            </div>
+            <div>
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+                Filtros Avanzados
+              </h2>
+            </div>
+          </div>
+          
+          <!-- Botones de acción principales -->
+          <div class="flex items-center gap-3">
+            <button
+              mat-button
+              (click)="clearAdvancedFilters()"
+              [disabled]="!filterService.hasActiveAdvancedFilters()"
+              class="text-gray-600 dark:text-gray-400">
+              <mat-icon class="mr-1">refresh</mat-icon>
+              Limpiar
+            </button>
+            
+            <button
+              mat-flat-button
+              color="primary"
+              (click)="applyFilters()"
+              class="px-6">
+              <mat-icon class="mr-1">search</mat-icon>
+              Aplicar
+            </button>
+            
+            <button
+              mat-icon-button
+              (click)="closeAdvancedFilters()"
+              matTooltip="Cerrar"
+              class="ml-1">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>      <!-- Contenido scrolleable -->
+      <div class="flex-1 overflow-y-auto px-6 py-6">
+        
+        <!-- Layout en filas responsivo -->
+        <div class="max-w-5xl mx-auto space-y-8">
+          
+          <!-- Fila 1: Referencias -->
+          <div class="space-y-4">
+            <div class="space-y-1">
+              <h3 class="text-sm font-medium text-gray-900 dark:text-white uppercase tracking-wide">
+                Referencias
+              </h3>
+              <p class="text-xs text-gray-500 dark:text-gray-400">
+                Números de identificación
+              </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">              <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Número de Solicitud</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="requestNumber"
+                  (ngModelChange)="updateFilter('requestNumber', $event)"
+                  placeholder="S-453453-2025">
+                <mat-icon matSuffix class="text-gray-400">tag</mat-icon>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Número de Expediente</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="expedientNumber"
+                  (ngModelChange)="updateFilter('expedientNumber', $event)"
+                  placeholder="E-232024-2025">
+                <mat-icon matSuffix class="text-gray-400">folder_open</mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- Fila 2: Personas -->
+          <div class="space-y-4">
+            <div class="space-y-1">
+              <h3 class="text-sm font-medium text-gray-900 dark:text-white uppercase tracking-wide">
+                Personas
+              </h3>
+              <p class="text-xs text-gray-500 dark:text-gray-400">
+                Responsables del proceso
+              </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">              <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Consultor</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="consultantName"
+                  (ngModelChange)="updateFilter('consultantName', $event)"
+                  placeholder="Nombre del consultor">
+                <mat-icon matSuffix class="text-gray-400">person</mat-icon>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Representante Legal</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="legalRepresentativeName"
+                  (ngModelChange)="updateFilter('legalRepresentativeName', $event)"
+                  placeholder="Nombre del representante">
+                <mat-icon matSuffix class="text-gray-400">account_balance</mat-icon>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Empresa</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="companyName"
+                  (ngModelChange)="updateFilter('companyName', $event)"
+                  placeholder="Nombre de la empresa">
+                <mat-icon matSuffix class="text-gray-400">business</mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- Fila 3: Fechas -->
+          <div class="space-y-4">
+            <div class="space-y-1">
+              <h3 class="text-sm font-medium text-gray-900 dark:text-white uppercase tracking-wide">
+                Fechas
+              </h3>
+              <p class="text-xs text-gray-500 dark:text-gray-400">
+                Rangos de tiempo
+              </p>
+            </div>
+            
+            <!-- Grid de fechas mejorado -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <!-- Fechas de creación -->
+              <div class="space-y-3">
+                <h4 class="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                  Fecha de Creación
+                </h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">                  <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Desde</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="creationFromPicker"
+                      [(ngModel)]="creationDateFrom"
+                      (ngModelChange)="updateFilter('creationDateFrom', $event)"
+                      readonly>
+                    <mat-datepicker-toggle matSuffix [for]="creationFromPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #creationFromPicker></mat-datepicker>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Hasta</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="creationToPicker"
+                      [(ngModel)]="creationDateTo"
+                      (ngModelChange)="updateFilter('creationDateTo', $event)"
+                      readonly>
+                    <mat-datepicker-toggle matSuffix [for]="creationToPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #creationToPicker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!-- Fechas de modificación -->
+              <div class="space-y-3">
+                <h4 class="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                  Fecha de Modificación
+                </h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">                  <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Desde</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="modificationFromPicker"
+                      [(ngModel)]="modificationDateFrom"
+                      (ngModelChange)="updateFilter('modificationDateFrom', $event)"
+                      readonly>
+                    <mat-datepicker-toggle matSuffix [for]="modificationFromPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #modificationFromPicker></mat-datepicker>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Hasta</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="modificationToPicker"
+                      [(ngModel)]="modificationDateTo"
+                      (ngModelChange)="updateFilter('modificationDateTo', $event)"
+                      readonly>
+                    <mat-datepicker-toggle matSuffix [for]="modificationToPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #modificationToPicker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Información de ayuda -->
+          <div class="mt-8 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700">
+            <div class="flex items-center gap-3">
+              <mat-icon class="text-gray-500 dark:text-gray-400 text-lg">info_outline</mat-icon>
+              <div>
+                <p class="text-sm text-gray-600 dark:text-gray-300">
+                  Configura los filtros y haz clic en <strong>"Aplicar"</strong> para buscar resultados.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- Footer minimalista -->
+      <div class="flex-shrink-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 px-6 py-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            @if (filterService.hasActiveAdvancedFilters()) {
+            <div class="w-2 h-2 rounded-full bg-blue-500"></div>
+            <span class="text-sm text-gray-600 dark:text-gray-400">
+              Filtro(s) activo(s)
+            </span>
+            } @else {
+            <div class="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-600"></div>
+            <span class="text-sm text-gray-500 dark:text-gray-500">
+              Sin filtros activos
+            </span>
+            }
+          </div>
+          
+          <span class="text-xs text-gray-400 dark:text-gray-500">
+            ESC para cerrar
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

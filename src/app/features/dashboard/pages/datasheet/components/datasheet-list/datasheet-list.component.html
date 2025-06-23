@@ -1,32 +1,46 @@
-<div class="w-full min-h-full px-6 py-6">
-    <!-- Loading State -->
-    @if (loading()) {
-    <div class="flex items-center justify-center py-12">
-        <div
-            class="animate-spin rounded-full h-6 w-6 border-2 border-emerald-500 border-t-transparent"></div>
-        <span class="ml-2 text-base text-gray-600 dark:text-gray-300">Cargando
-            fichas técnicas...</span>
+<div class="w-full min-h-full">
+
+    <div class="px-6">
+        <!-- Filtros básicos -->
+        <app-datasheet-basic-filters (filtersChanged)="onFiltersChanged()" />
+
+        <!-- Filtros avanzados -->
+        <app-datasheet-advanced-filters (filtersChanged)="onFiltersChanged()" />
     </div>
-    } @else {<!-- Cards Container -->
-    <div class="space-y-1">
-        @for(ficha of datasheets(); track ficha.id) {
-        <app-datasheet-card [datasheet]="ficha" />
-        } @empty {
-        <div class="text-center py-16">
+
+    <!-- Contenido principal -->
+    <div class="px-6 py-6">
+        <!-- Loading State -->
+        @if (loading()) {
+        <div class="flex items-center justify-center py-12">
             <div
-                class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 mb-4">
-                <svg class="w-6 h-6 text-gray-400" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="1.5"
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-            </div> <h3 class="text-lg text-gray-900 dark:text-white mb-1">No hay
-                fichas técnicas</h3>
-            <p class="text-base text-gray-500 dark:text-gray-400">No se
-                encontraron fichas técnicas disponibles en este momento.</p>
+                class="animate-spin rounded-full h-6 w-6 border-2 border-emerald-500 border-t-transparent"></div>
+            <span
+                class="ml-2 text-base text-gray-600 dark:text-gray-300">Cargando
+                fichas técnicas...</span>
+        </div>
+        } @else {<!-- Cards Container -->
+        <div class="space-y-1">
+            @for(ficha of datasheets(); track ficha.id) {
+            <app-datasheet-card [datasheet]="ficha" />
+            } @empty {
+            <div class="text-center py-16">
+                <div
+                    class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 mb-4">
+                    <svg class="w-6 h-6 text-gray-400" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="1.5"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </div> <h3 class="text-lg text-gray-900 dark:text-white mb-1">No
+                    hay
+                    fichas técnicas</h3>
+                <p class="text-base text-gray-500 dark:text-gray-400">No se
+                    encontraron fichas técnicas disponibles en este momento.</p>
+            </div>
+            }
         </div>
         }
     </div>
-    }
 </div>

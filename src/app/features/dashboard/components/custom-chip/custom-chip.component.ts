@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FitacStatus } from '../../models/fta';
+import { FitacStatus } from '../../pages/datasheet/models/datasheet.interface';
 
 /**
  * Componente genérico para mostrar chips/badges
@@ -25,12 +25,12 @@ export class CustomChipComponent {
 
     get chipClass(): string {
         const variants: { [key in FitacStatus | 'DEFAULT']: string } = {
-            'VALIDATED': 'bg-[#10b981] text-white hover:brightness-110',       // Verde esmeralda (primary)
-            'FOR_SIGNATURE': 'bg-[#0ea5e9] text-white hover:brightness-110',   // Azul brillante (secondary)
-            'PRESENTED': 'bg-[#6b7280] text-white hover:brightness-110',       // Gris medio (neutral variant)
-            'UNDER_REVIEW': 'bg-[#4b5563] text-white hover:brightness-110',    // Gris oscuro (neutral)
-            'RESOLVED': 'bg-[#047857] text-white hover:brightness-110',        // Verde profundo (tono oscuro de primary)
-            'DEFAULT': 'bg-[#9ca3af] text-white hover:brightness-110'          // Gris claro (opcional extra para neutro)
+            'VALIDATED': 'bg-[#10b981] text-white hover:brightness-110',       // Verde esmeralda vibrante: éxito
+            'FOR_SIGNATURE': 'bg-[#6366f1] text-white hover:brightness-110',   // Azul violeta moderno: acción pendiente
+            'PRESENTED': 'bg-[#f59e0b] text-white hover:brightness-110',       // Ámbar: entregado, en espera
+            'UNDER_REVIEW': 'bg-[#f97316] text-white hover:brightness-110',    // Naranja fuerte: en revisión
+            'RESOLVED': 'bg-[#059669] text-white hover:brightness-110',        // Verde más profundo: completado
+            'DEFAULT': 'bg-[#e5e7eb] text-gray-800 hover:brightness-105'       // Gris muy claro: estado por defecto / desconocido
         };
 
         return variants[this.variant()];

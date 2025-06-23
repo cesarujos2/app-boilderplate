@@ -4,6 +4,7 @@ import { provideHttpClient, withJsonpSupport, withInterceptors } from '@angular/
 
 import { routes } from './app.routes';
 import { authInterceptor, errorInterceptor, loadingInterceptor } from './core/interceptors';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,5 +14,6 @@ export const appConfig: ApplicationConfig = {
       withJsonpSupport(),
       withInterceptors([authInterceptor, errorInterceptor, loadingInterceptor])
     ),
+    provideNativeDateAdapter(),
   ]
 };

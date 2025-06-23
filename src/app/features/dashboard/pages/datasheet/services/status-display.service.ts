@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
-import { RequestStatus } from '../../models/fta';
-import { FitacStatus } from '../../models/fta/datasheet.interface';
-import { ApiResponse } from '../../../../core/models/api/apiResponse';
+import { FitacStatus, RequestStatus } from '../models/datasheet.interface';
+import { ApiResponse } from '../../../../../core/models/api/apiResponse';
 import { HttpClient } from '@angular/common/http';
 import { catchError, of, map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';

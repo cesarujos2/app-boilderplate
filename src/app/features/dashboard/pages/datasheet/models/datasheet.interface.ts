@@ -14,7 +14,7 @@ export interface DatasheetRequest {
   page?: number;
   pageSize?: number;
   order?: number;
-  OrderToModificationDate?: boolean,
+  orderToModificationDate?: boolean,
   seeker?: string;
   requestNumber?: string;
   expedientNumber?: string;

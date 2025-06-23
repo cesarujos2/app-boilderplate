@@ -1,0 +1,128 @@
+ <!-- Contenedor principal Material Design -->
+<div class="px-4 sm:px-6 py-4">
+    <div class="max-w-4xl mx-auto">
+        
+        <!-- Filtros básicos -->
+        <div class="space-y-4">
+
+            <!-- Fila 1: Buscador y botón filtros avanzados -->
+            <div
+                class="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center">                <!-- Buscador -->
+                <div class="flex-1 relative">
+                    <div class="relative group">
+                        <!-- Contenedor del input sin borde -->
+                        <div class="relative rounded-2xl px-5 py-4 transition-all duration-300 ease-out bg-neutral-100 dark:bg-gray-800/60 hover:bg-neutral-150 dark:hover:bg-gray-700/70 focus-within:bg-white dark:focus-within:bg-neutral-800 focus-within:shadow-lg focus-within:shadow-neutral-300/60 dark:focus-within:shadow-neutral-900/50">
+                            
+                            <!-- Icono de búsqueda -->
+                            <mat-icon class="absolute left-4 top-1/2 transform -translate-y-1/2 text-neutral-500 dark:text-neutral-500 text-[20px]">search</mat-icon>
+                            
+                            <!-- Input limpio -->
+                            <input
+                                type="text"
+                                [(ngModel)]="searchTerm"
+                                (ngModelChange)="onSearchChange($event)"
+                                (keyup.enter)="onSearchSubmit()"
+                                placeholder="Buscar fichas técnicas..."
+                                class="w-full pl-8 pr-8 bg-transparent border-none outline-none text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 text-base font-normal tracking-wide">
+                            
+                            <!-- Botón limpiar -->
+                            @if (searchTerm()) {
+                            <button
+                                type="button"
+                                (click)="clearSearch()"
+                                class="absolute right-3 top-1/2 transform -translate-y-1/2 w-6 h-6 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-all duration-200 flex items-center justify-center"
+                                matTooltip="Limpiar búsqueda">
+                                <mat-icon class="text-neutral-500 dark:text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 text-[16px]">close</mat-icon>
+                            </button>
+                            }
+                        </div>
+                    </div>
+                </div><!-- Botón filtros avanzados -->
+                <div class="flex gap-2 justify-center">
+                    <button
+                        mat-flat-button
+                        [color]="filterService.advancedFiltersVisible() ? 'primary' : ''"
+                        (click)="toggleAdvancedFilters()"
+                        class="relative whitespace-nowrap">
+                        
+                        <mat-icon class="mr-2">
+                            {{ filterService.advancedFiltersVisible() ? 'expand_less' : 'tune' }}
+                        </mat-icon>
+                        <span>Filtros</span>
+
+                        <!-- Badge de filtros activos -->
+                        @if (filterService.hasActiveAdvancedFilters()) {
+                        <span class="absolute -top-5 -right-8 bg-orange-500 text-white text-xs rounded-full min-w-[20px] h-[20px] flex items-center justify-center px-1 shadow-sm">
+                            !
+                        </span>
+                        }
+                    </button>
+
+                    <!-- Botón limpiar -->
+                    @if (filterService.hasActiveFilters()) {
+                    <button
+                        mat-icon-button
+                        (click)="clearAllFilters()"
+                        matTooltip="Limpiar todos los filtros"
+                        color="warn">
+                        <mat-icon>clear_all</mat-icon>
+                    </button>
+                    }
+                </div>
+            </div>            <!-- Fila 2: Chips de estado -->
+            @if (statusList()?.length) {
+            <div class="flex flex-wrap gap-2 items-center min-h-12 transition-all duration-200">
+                <div class="flex items-center gap-2 mr-4">
+                    <mat-icon class="text-gray-600 dark:text-gray-400 text-lg">label</mat-icon>
+                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Estados:</span>
+                </div>
+
+                <!-- Chips de estado -->
+                @for (status of statusList(); track status.key) {
+                <app-custom-chip
+                    [variant]="isStatusSelected(status.key) ? status.key : 'DEFAULT'"
+                    (click)="toggleStatus(status.key)"
+                    size="SMALL"
+                    class="cursor-pointer flex items-center transition-all duration-200"
+                    [matTooltip]="status.description">
+
+                    @if (isStatusSelected(status.key)) {
+                    <mat-icon class="text-xs mr-1">check</mat-icon>
+                    }
+                    {{ status.name }}
+                </app-custom-chip>
+                }
+
+                <!-- Contador de estados seleccionados -->
+                @if (filterService.currentFilters().fitacStatus.length > 0) {
+                <button
+                    mat-button
+                    (click)="clearStatusFilters()"
+                    class="ml-2 text-xs">
+                    <mat-icon class="text-sm mr-1">clear</mat-icon>
+                    Quitar estado
+                </button>
+                }
+            </div>
+            }            <!-- Indicador de filtros activos -->
+            @if (filterService.hasActiveFilters()) {
+            <div class="flex items-center gap-3 px-4 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800 rounded-lg">
+                <mat-icon class="text-emerald-600 dark:text-emerald-400">filter_list</mat-icon>
+                
+                <div class="flex-1">
+                    <div class="text-sm font-medium text-emerald-700 dark:text-emerald-300">
+                        {{ getActiveFiltersCount() }} filtro{{ getActiveFiltersCount() > 1 ? 's' : '' }} activo{{ getActiveFiltersCount() > 1 ? 's' : '' }}
+                    </div> 
+                </div>
+                
+                <button
+                    mat-icon-button
+                    (click)="clearAllFilters()"
+                    matTooltip="Limpiar filtros">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+            }
+        </div>
+    </div>
+</div>

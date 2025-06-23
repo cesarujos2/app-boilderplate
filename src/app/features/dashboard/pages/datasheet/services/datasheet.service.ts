@@ -1,12 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, tap, finalize } from 'rxjs/operators';
-import { ApiResponse } from '../../../../core/models/api/apiResponse';
-import { DatasheetResponse } from '../../models/fta/datasheet.interface';
-import { DatasheetRequest } from '../../models/fta';
-import { DatasheetRepository } from './repository/datasheet.repository';
-import { DatasheetStore } from './store/datasheet.store';
-
+import { DatasheetRepository } from './datasheet.repository';
+import { DatasheetStore } from './datasheet.store';
+import { ApiResponse } from '@core/models/api/apiResponse';
+import { DatasheetRequest, DatasheetResponse } from '../models/datasheet.interface';
 /**
  * Main Service - SRP: Solo responsable de coordinar repository y store
  * DIP: Depende de abstracciones (repository y store inyectados)

@@ -4,9 +4,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { Datasheet, FitacStatus } from '../../../../models/fta/datasheet.interface';
+import { Datasheet, FitacStatus } from '../../models/datasheet.interface';
 import { IExpandableContent } from '../../../../models/common';
-import { StatusDisplayService } from '../../../../services/common/status-display.service';
+import { StatusDisplayService } from '../../services/status-display.service';
 import { CustomChipComponent } from '../../../../components/custom-chip';
 import { ClipboardService } from '../../../../../../shared/services/utilities';
 

@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Datasheet } from '../../../models/fta/datasheet.interface';
+import { Datasheet } from '../models/datasheet.interface';
 
 /**
  * Store Service - SRP: Solo responsable del estado
