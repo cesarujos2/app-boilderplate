@@ -109,7 +109,8 @@ export class NotificationService {
       width: '400px',
       maxWidth: '90vw',
       data: data,
-      disableClose: false,
+      disableClose: true,
+      closeOnNavigation: false,
       autoFocus: true,
       restoreFocus: true
     });

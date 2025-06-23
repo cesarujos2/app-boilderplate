@@ -8,5 +8,9 @@ export * from './state/side-bar.service';
 // UI - Interfaz de usuario
 export * from './ui/media-query.service';
 
+// Error handling - Manejo de errores
+export * from './error-handling/error-modal.service';
+export * from './error-handling/api-error-handler.service';
+
 // Aplicación - Configuración y funcionalidad central
 // (Para futuros servicios de configuración, autenticación, etc.)

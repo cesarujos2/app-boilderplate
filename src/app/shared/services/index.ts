@@ -8,5 +8,4 @@ export * from './ui/notification.service';
 export * from './ui/notification-config.service';
 
 // Utilidades - Servicios de apoyo y herramientas
-export * from './utilities/api-error-handler.service';
 export * from './utilities/html-sanitizer.service';

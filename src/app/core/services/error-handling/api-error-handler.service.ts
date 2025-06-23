@@ -1,6 +1,10 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { NotificationService } from '../ui/notification.service';
+import { NotificationService } from '../../../shared/services/ui/notification.service';
+import { Router } from '@angular/router';
+import { DASHBOARD_ROUTE_BRANCHES } from 'app/features/dashboard/pages/dashboard.routes';
+import { AccountService } from 'app/features/auth/services/account/account.service';
+import { ErrorModalService } from '@core/services';
 
 export interface ApiErrorDetails {
     statusCode: number;
@@ -14,15 +18,24 @@ export interface ApiErrorDetails {
     providedIn: 'root'
 })
 export class ApiErrorHandlerService {
-
-    constructor(private notificationService: NotificationService) { }
+    private readonly router = inject(Router); 
+    private readonly notificationService = inject(NotificationService);
+    private readonly accountService = inject(AccountService);    
+    private readonly errorModalService = inject(ErrorModalService);
 
     /**
      * Maneja errores de API y muestra notificaciones apropiadas
      */
     handleApiError(error: HttpErrorResponse): ApiErrorDetails {
         const errorDetails = this.createErrorDetails(error);
-        this.showErrorNotification(errorDetails);
+        
+        // Verificar si se puede mostrar modal para este status de error
+        if (this.errorModalService.canShowModal(error.status)) {
+            this.showErrorNotification(errorDetails);
+        } else {
+            console.debug(`Modal for error ${error.status} already active, skipping notification`);
+        }
+        
         return errorDetails;
     }
 
@@ -76,13 +89,14 @@ export class ApiErrorHandlerService {
             default:
                 return 'Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo.';
         }
-    }
-
-    /**
+    }    /**
      * Muestra la notificación de error al usuario
      */
     private showErrorNotification(errorDetails: ApiErrorDetails): void {
         const title = this.getErrorTitle(errorDetails.statusCode);
+
+        // Marcar modal como activo
+        this.errorModalService.showModal(errorDetails.statusCode);
 
         // Para errores críticos (500+), incluir información adicional
         const includeDetails = errorDetails.statusCode >= 500;
@@ -92,11 +106,16 @@ export class ApiErrorHandlerService {
 
         this.notificationService.showError(title, message).subscribe({
             next: (result) => {
+                // Marcar modal como cerrado cuando el usuario lo cierre
+                this.errorModalService.closeModal(errorDetails.statusCode);
+                
                 if (result?.confirmed) {
                     this.handleErrorAction(errorDetails);
                 }
             },
             error: (notificationError) => {
+                // También cerrar en caso de error
+                this.errorModalService.closeModal(errorDetails.statusCode);
                 console.error('Error showing notification:', notificationError);
             }
         });
@@ -139,15 +158,16 @@ export class ApiErrorHandlerService {
                 this.logErrorForAnalysis(errorDetails);
                 break;
         }
-    }
-
-    /**
+    }    /**
      * Maneja errores de autenticación (401)
      */
     private handleUnauthorizedError(): void {
-        // Aquí puedes implementar la lógica para redirigir al login
-        // Por ejemplo: this.router.navigate(['/auth/login']);
-        console.warn('Unauthorized access detected, user should be redirected to login');
+        console.warn('Unauthorized access detected, executing logout...');
+        
+        // Limpiar todos los modales activos antes del logout
+        this.errorModalService.clearAllModals();
+          // Ejecutar logout
+        this.accountService.forceLogout();
     }
 
     /**
@@ -155,6 +175,7 @@ export class ApiErrorHandlerService {
      */
     private handleForbiddenError(): void {
         // Lógica para manejar permisos insuficientes
+        this.router.navigate(DASHBOARD_ROUTE_BRANCHES.BASE.fullPath());
         console.warn('Insufficient permissions detected');
     }
 
