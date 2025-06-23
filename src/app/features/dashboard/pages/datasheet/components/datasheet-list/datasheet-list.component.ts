@@ -1,8 +1,9 @@
-import { Component, OnInit, computed, inject } from '@angular/core';
+import { Component, OnInit, OnChanges, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DatasheetCardComponent } from '../datasheet-card/datasheet-card.component';
 import { DatasheetBasicFiltersComponent } from '../filters/datasheet-basic-filters/datasheet-basic-filters.component';
 import { DatasheetAdvancedFiltersComponent } from '../filters/datasheet-advanced-filters/datasheet-advanced-filters.component';
+import { PaginatorComponent, PaginatorEvent } from 'app/shared/components/paginator/paginator.component';
 import { DatasheetFilterService } from 'app/features/dashboard/pages/datasheet/services/datasheet-filter.service';
 import { DatasheetService } from '../../services/datasheet.service';
 
@@ -12,7 +13,8 @@ import { DatasheetService } from '../../services/datasheet.service';
         CommonModule,
         DatasheetCardComponent,
         DatasheetBasicFiltersComponent,
-        DatasheetAdvancedFiltersComponent
+        DatasheetAdvancedFiltersComponent,
+        PaginatorComponent
     ],
     templateUrl: './datasheet-list.component.html'
 })
@@ -22,6 +24,12 @@ export class DatasheetListComponent implements OnInit {
 
     datasheets = computed(() => this.datasheetService.datasheets());
     loading = computed(() => this.datasheetService.loading());
+    total = computed(() => this.datasheetService.total());
+    
+    // Computed para obtener parámetros de paginación
+    currentFilters = computed(() => this.filterService.currentFilters());
+    currentPage = computed(() => this.currentFilters().page);
+    currentPageSize = computed(() => this.currentFilters().pageSize);
 
     ngOnInit() {
         this.loadDatasheets();
@@ -39,6 +47,16 @@ export class DatasheetListComponent implements OnInit {
      * Maneja cambios en los filtros
      */
     onFiltersChanged(): void {
+        // Resetear a la primera página cuando cambian los filtros
+        this.filterService.resetToFirstPage();
+        this.loadDatasheets();
+    }
+
+    /**
+     * Maneja cambios en la paginación
+     */
+    onPageChange(event: PaginatorEvent): void {
+        this.filterService.updatePagination(event.page, event.pageSize);
         this.loadDatasheets();
     }
 }

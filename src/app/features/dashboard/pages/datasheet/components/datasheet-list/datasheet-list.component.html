@@ -21,6 +21,17 @@
         </div>
         } @else {<!-- Cards Container -->
         <div class="space-y-1">
+            <div class="px-10">
+                <app-paginator
+                    [total]="total()"
+                    [page]="currentPage()"
+                    [pageSize]="currentPageSize()"
+                    [pageSizeOptions]="[5, 10, 25, 50, 100]"
+                    [disabled]="loading()"
+                    (pageChanged)="onPageChange($event)"
+                    class="block">
+                </app-paginator>
+            </div>
             @for(ficha of datasheets(); track ficha.id) {
             <app-datasheet-card [datasheet]="ficha" />
             } @empty {
@@ -40,6 +51,17 @@
                     encontraron fichas técnicas disponibles en este momento.</p>
             </div>
             }
+            <div class="px-10">
+                <app-paginator
+                    [total]="total()"
+                    [page]="currentPage()"
+                    [pageSize]="currentPageSize()"
+                    [pageSizeOptions]="[5, 10, 25, 50, 100]"
+                    [disabled]="loading()"
+                    (pageChanged)="onPageChange($event)"
+                    class="block">
+                </app-paginator>
+            </div>
         </div>
         }
     </div>

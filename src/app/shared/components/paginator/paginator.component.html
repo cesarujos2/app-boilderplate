@@ -1,0 +1,84 @@
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4 py-1"
+    [class.opacity-50]="disabled()"
+    [class.pointer-events-none]="disabled()">
+
+    <!-- Información de elementos -->
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-medium">
+        {{ startItem() }}-{{ endItem() }} de {{ total() }} elementos
+    </div>
+
+    <!-- Controles centrales -->
+    <div class="flex items-center gap-3">
+
+        <!-- Selector de tamaño de página -->
+        <div class="flex items-center gap-2" *ngIf="showPageSizeSelector()">
+            <span
+                class="hidden sm:block text-sm text-gray-600 dark:text-gray-400">Mostrar:</span>
+            <mat-select
+                [value]="pageSize()"
+                (selectionChange)="onPageSizeChange($event.value)"
+                [disabled]="disabled()"
+                class="min-w-[80px] text-sm! text-center!">
+                <mat-option *ngFor="let size of pageSizeOptions()" 
+                    [value]="size">
+                    {{ size }}
+                </mat-option>
+            </mat-select>
+        </div>
+
+        <!-- Navegación -->
+        <div class="flex items-center gap-1">
+
+            <!-- Primera página -->
+            <button
+                mat-icon-button
+                *ngIf="showFirstLastButtons()"
+                [disabled]="!canGoPrevious()"
+                (click)="goToFirstPage()"
+                matTooltip="Primera página"
+                class="w-8 h-8 text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-200 disabled:text-gray-300 disabled:hover:bg-transparent">
+                <mat-icon class="text-base">first_page</mat-icon>
+            </button>
+
+            <!-- Página anterior -->
+            <button
+                mat-icon-button
+                [disabled]="!canGoPrevious()"
+                (click)="goToPreviousPage()"
+                matTooltip="Página anterior"
+                class="w-8 h-8 text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-200 disabled:text-gray-300 disabled:hover:bg-transparent">
+                <mat-icon class="text-base">chevron_left</mat-icon>
+            </button>
+
+            <!-- Páginas -->
+            <div class="flex items-center gap-1 mx-2">
+                <button
+                    mat-button
+                    [disabled]="disabled()">
+                    {{ page() }}
+                </button>
+            </div>
+
+            <!-- Página siguiente -->
+            <button
+                mat-icon-button
+                [disabled]="!canGoNext()"
+                (click)="goToNextPage()"
+                matTooltip="Página siguiente"
+                class="w-8 h-8 text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-200 disabled:text-gray-300 disabled:hover:bg-transparent">
+                <mat-icon class="text-base">chevron_right</mat-icon>
+            </button>
+
+            <!-- Última página -->
+            <button
+                mat-icon-button
+                *ngIf="showFirstLastButtons()"
+                [disabled]="!canGoNext()"
+                (click)="goToLastPage()"
+                matTooltip="Última página"
+                class="w-8 h-8 text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-200 disabled:text-gray-300 disabled:hover:bg-transparent">
+                <mat-icon class="text-base">last_page</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

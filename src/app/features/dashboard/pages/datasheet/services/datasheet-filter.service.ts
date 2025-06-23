@@ -13,6 +13,11 @@ export interface DatasheetFilters {
   creationDateTo: string;
   modificationDateFrom: string;
   modificationDateTo: string;
+  // Parámetros de paginación
+  page: number;
+  pageSize: number;
+  order: number;
+  orderToModificationDate: boolean;
 }
 
 /**
@@ -23,8 +28,7 @@ export interface DatasheetFilters {
   providedIn: 'root'
 })
 export class DatasheetFilterService {
-  
-  // Estado de filtros
+    // Estado de filtros
   private filters = signal<DatasheetFilters>({
     seeker: '',
     fitacStatus: '',
@@ -36,7 +40,11 @@ export class DatasheetFilterService {
     creationDateFrom: '',
     creationDateTo: '',
     modificationDateFrom: '',
-    modificationDateTo: ''
+    modificationDateTo: '',
+    page: 1,
+    pageSize: 10,
+    order: 0,
+    orderToModificationDate: false
   });
 
   // Estado de visibilidad de filtros avanzados
@@ -122,11 +130,15 @@ export class DatasheetFilterService {
 
     if (current.modificationDateFrom) {
       request.modificationDateFrom = current.modificationDateFrom;
-    }
-
-    if (current.modificationDateTo) {
+    }    if (current.modificationDateTo) {
       request.modificationDateTo = current.modificationDateTo;
     }
+
+    // Siempre incluir parámetros de paginación
+    request.page = current.page;
+    request.pageSize = current.pageSize;
+    request.order = current.order;
+    request.orderToModificationDate = current.orderToModificationDate;
 
     return request;
   }
@@ -151,7 +163,6 @@ export class DatasheetFilterService {
     }));
   }
 
-
   /**
    * Actualiza un filtro específico
    */
@@ -159,6 +170,59 @@ export class DatasheetFilterService {
     this.filters.update(current => ({
       ...current,
       [key]: value
+    }));
+  }
+
+  /**
+   * Actualiza los parámetros de paginación
+   */
+  updatePagination(page: number, pageSize: number): void {
+    this.filters.update(current => ({
+      ...current,
+      page,
+      pageSize
+    }));
+  }
+
+  /**
+   * Actualiza solo la página actual
+   */
+  updatePage(page: number): void {
+    this.filters.update(current => ({
+      ...current,
+      page
+    }));
+  }
+
+  /**
+   * Actualiza solo el tamaño de página y resetea a la página 1
+   */
+  updatePageSize(pageSize: number): void {
+    this.filters.update(current => ({
+      ...current,
+      page: 1,
+      pageSize
+    }));
+  }
+
+  /**
+   * Actualiza el orden de los resultados
+   */
+  updateOrder(order: number, orderToModificationDate: boolean = false): void {
+    this.filters.update(current => ({
+      ...current,
+      order,
+      orderToModificationDate
+    }));
+  }
+
+  /**
+   * Resetea la paginación a la primera página
+   */
+  resetToFirstPage(): void {
+    this.filters.update(current => ({
+      ...current,
+      page: 1
     }));
   }
 
@@ -182,7 +246,6 @@ export class DatasheetFilterService {
   hideAdvanced(): void {
     this.showAdvancedFilters.set(false);
   }
-
   /**
    * Limpia todos los filtros
    */
@@ -198,7 +261,11 @@ export class DatasheetFilterService {
       creationDateFrom: '',
       creationDateTo: '',
       modificationDateFrom: '',
-      modificationDateTo: ''
+      modificationDateTo: '',
+      page: 1,
+      pageSize: 10,
+      order: 0,
+      orderToModificationDate: false
     });
   }
 
