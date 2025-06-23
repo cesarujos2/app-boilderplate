@@ -25,12 +25,12 @@ export class CustomChipComponent {
 
     get chipClass(): string {
         const variants: { [key in FitacStatus | 'DEFAULT']: string } = {
-            'VALIDATED': 'bg-[#10b981] text-white hover:brightness-110',       // Verde esmeralda vibrante: éxito
+            'VALIDATED': 'bg-[#b0b981] text-white hover:brightness-110',       // Verde esmeralda vibrante: éxito
             'FOR_SIGNATURE': 'bg-[#6366f1] text-white hover:brightness-110',   // Azul violeta moderno: acción pendiente
             'PRESENTED': 'bg-[#f59e0b] text-white hover:brightness-110',       // Ámbar: entregado, en espera
             'UNDER_REVIEW': 'bg-[#f97316] text-white hover:brightness-110',    // Naranja fuerte: en revisión
             'RESOLVED': 'bg-[#059669] text-white hover:brightness-110',        // Verde más profundo: completado
-            'DEFAULT': 'bg-[#e5e7eb] text-gray-800 hover:brightness-105'       // Gris muy claro: estado por defecto / desconocido
+            'DEFAULT': 'bg-[#e5e7eb] text-gray-800 dark:bg-gray-800 dark:text-gray-300 hover:brightness-105'       // Gris muy claro: estado por defecto / desconocido
         };
 
         return variants[this.variant()];
