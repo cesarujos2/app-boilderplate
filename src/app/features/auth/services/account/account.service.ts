@@ -34,7 +34,7 @@ export class AccountService {
         return this.http.post<ApiResponse<LoginResponse>>(`${this.API_URL}/login`, request).pipe(
             tap(response => {
                 if (response.success && response.data) {
-                    const account = response.data as Account;
+                    const account = response.data;
                     this.userStorage.setUser(account);
                     this.user.set(account);
                 }

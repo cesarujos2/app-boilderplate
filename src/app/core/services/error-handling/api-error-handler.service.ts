@@ -10,8 +10,14 @@ export interface ApiErrorDetails {
     statusCode: number;
     message: string;
     userMessage: string;
+    errors?: errorItem[];
     timestamp: Date;
     endpoint?: string;
+}
+
+interface errorItem {
+  Key: string;
+  Value: string[];
 }
 
 @Injectable({
@@ -47,6 +53,7 @@ export class ApiErrorHandlerService {
             statusCode: error.status,
             message: error.message,
             userMessage: this.getUserFriendlyMessage(error),
+            errors: error.error?.MessageList,
             timestamp: new Date(),
             endpoint: error.url || undefined
         };
@@ -104,7 +111,9 @@ export class ApiErrorHandlerService {
             ? `${errorDetails.userMessage}\n\nCódigo: ${errorDetails.statusCode}`
             : errorDetails.userMessage;
 
-        this.notificationService.showError(title, message).subscribe({
+        const errorList = this.formatErrorList(errorDetails.errors);
+
+        this.notificationService.showError(title, message, errorList).subscribe({
             next: (result) => {
                 // Marcar modal como cerrado cuando el usuario lo cierre
                 this.errorModalService.closeModal(errorDetails.statusCode);
@@ -209,5 +218,39 @@ export class ApiErrorHandlerService {
         ];
 
         return !ignoredStatuses.includes(error.status);
+    }    /**
+     * Formatea la lista de errores para mostrar al usuario con Tailwind CSS
+     */
+    private formatErrorList(errors?: errorItem[]): string | undefined {
+        if (!errors || !Array.isArray(errors) || errors.length === 0) {
+            return undefined;
+        }
+
+        const errorItems = errors
+            .filter(err => err && err.Key && err.Value)
+            .map((err) => {
+                const values = Array.isArray(err.Value) ? err.Value : [err.Value];
+                const errorMessages = values
+                    .filter(value => value && typeof value === 'string')
+                    .map(value => value.trim())
+                    .filter(value => value.length > 0);
+
+                if (errorMessages.length === 0) return null;
+                  return `
+                    <div class="mb-2">
+                        <div class="space-y-1">
+                            ${errorMessages.map(msg => `
+                                <div class="flex items-start gap-2 text-sm text-neutral-700 dark:text-white">
+                                    <span class="text-emerald-500 mt-0.5">•</span>
+                                    <span>${msg}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            })
+            .filter(item => item !== null);
+
+        return errorItems.length > 0 ? `<div class="space-y-1">${errorItems.join('')}</div>` : undefined;
     }
 }
