@@ -15,7 +15,7 @@ export const sessionValidGuard: CanActivateFn = (route, state) => {
     // Validar sesión con el servidor
     return accountService.validateSession().pipe(
         map(response => {
-            if (response.success) {
+            if (response.success && response.data.roles.length > 0) {
                 return true;
             } else {
                 accountService.forceLogout();

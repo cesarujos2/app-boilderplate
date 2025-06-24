@@ -1,0 +1,180 @@
+<div class="profile-completion-modal">
+    <div mat-dialog-title class="flex items-center gap-3 pb-4">
+        <div
+            class="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+            <mat-icon
+                class="text-emerald-600 dark:text-emerald-400 text-2xl">person_add</mat-icon>
+        </div>
+        <div>
+            <h2
+                class="text-xl font-semibold text-gray-900 dark:text-white mb-1">
+                Completar Perfil
+            </h2>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+                Selecciona tu rol para continuar
+            </p>
+        </div>
+    </div>
+
+    <div mat-dialog-content class="py-6">
+        <div class="space-y-6">
+            <div
+                class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                <div class="flex items-start gap-3">
+                    <div>
+                        <mat-icon class="text-blue-600 dark:text-blue-400 mt-1">info</mat-icon>
+                    </div>
+                    <div>
+                        <h4
+                            class="text-sm font-medium text-blue-900 dark:text-blue-100 mb-1">
+                            ¿Por qué necesitamos esta información?
+                        </h4>
+                        <p class="text-xs text-blue-700 dark:text-blue-200">
+                            Tu rol determina las funcionalidades y permisos
+                            disponibles en la plataforma.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">                <mat-form-field appearance="outline"
+                    class="w-full">
+                    <mat-label>Selecciona tu rol</mat-label>
+                    <mat-select [formControl]="roleControl"
+                        placeholder="Elige una opción">
+                        <mat-select-trigger>
+                            @if (roleControl.value) {
+                            <div class="flex items-end gap-3">
+                                <mat-icon
+                                    class="text-gray-600 dark:text-gray-400 flex-shrink-0">
+                                    {{ getRoleIcon(roleControl.value) }}
+                                </mat-icon>
+                                <span class="font-medium">
+                                    {{ getRoleDisplayName(roleControl.value) }}
+                                </span>
+                            </div>
+                            }
+                        </mat-select-trigger>
+                        @for (role of data.availableRoles; track role) {
+                        <mat-option [value]="role">
+                            <div class="flex items-center gap-3 py-2">
+                                <mat-icon
+                                    class="text-gray-600 dark:text-gray-400 flex-shrink-0">
+                                    {{ getRoleIcon(role) }}
+                                </mat-icon>
+                                <div class="min-w-0 flex-1">
+                                    <div class="font-medium">
+                                        {{ getRoleDisplayName(role) }}
+                                    </div>
+                                    <div
+                                        class="text-sm text-gray-500 dark:text-gray-400 break-words">
+                                        {{ getRoleDescription(role) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-option>
+                        }
+                    </mat-select>
+                    @if (roleControl.hasError('required') &&
+                    roleControl.touched) {
+                    <mat-error>Debes seleccionar un rol</mat-error>
+                    }
+                </mat-form-field>
+
+                @if (roleControl.value === 'legal') {
+                <div class="space-y-4">
+                    <div
+                        class="bg-amber-50 dark:bg-amber-900/20 border border-none shadow rounded-lg p-4">
+                        <div class="flex items-start gap-3">
+                            <mat-icon
+                                class="text-amber-600 dark:text-amber-400 mt-1">description</mat-icon>
+                            <div>
+                                <h4
+                                    class="text-sm font-medium text-amber-900 dark:text-amber-100 mb-1">
+                                    Documento de inscripción requerido
+                                </h4>
+                                <p
+                                    class="text-sm text-amber-700 dark:text-amber-200">
+                                    Para el rol legal, debes subir tu vigencia de poder donde indique tu cargo y facultades.
+                                    Este documento es necesario para validar tu rol y acceso a funcionalidades específicas.
+                                    Asegúrate de que el documento del usuario que está ingresando sea el mismo que el del documento de inscripción.
+                                </p>
+                            </div>
+                        </div>
+                    </div> <div class="space-y-2">
+                        <input
+                            type="file"
+                            id="documentFile"
+                            accept=".pdf"
+                            (change)="onFileSelected($event)"
+                            class="hidden"
+                            #fileInput />
+
+                        <button
+                            type="button"
+                            mat-flat-button
+                            (click)="fileInput.click()"
+                            class="w-full">
+                            <div class="flex items-center justify-center gap-2">
+                                <mat-icon>
+                                    {{ fileInputDisplayName ? 'description' : 'cloud_upload' }}
+                                </mat-icon>
+                                <span >
+                                    {{ fileInputDisplayName || 'Seleccionar documento (PDF)' }}
+                                </span>
+                            </div>
+                        </button>
+
+                        @if (documentInscription.hasError('required') &&
+                        documentInscription.touched) {
+                        <div
+                            class="text-red-600 dark:text-red-400 text-xs mt-1">
+                            Debes subir el documento de inscripción
+                        </div>
+                        }
+                    </div>
+                </div>
+                }
+
+                @if (roleControl.value) {
+                <div
+                    class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-start gap-3">
+                        <mat-icon
+                            class="text-emerald-600 dark:text-emerald-400 mt-1">
+                            {{ getRoleIcon(roleControl.value) }}
+                        </mat-icon>
+                        <div>
+                            <h4
+                                class="font-medium text-gray-900 dark:text-white mb-1">
+                                {{ getRoleDisplayName(roleControl.value) }}
+                            </h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                {{ getRoleDescription(roleControl.value) }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div mat-dialog-actions class="flex justify-end gap-3 pt-4">
+        <button
+            mat-button
+            (click)="onCancel()"
+            class="text-gray-600 dark:text-gray-400">
+            Cancelar
+        </button>
+        <button
+            mat-raised-button
+            color="primary"
+            [disabled]="!roleControl.valid || !documentInscription.valid"
+            (click)="onConfirm()"
+            class="bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 min-w-[120px]">
+            <mat-icon class="mr-2">check</mat-icon>
+            Confirmar
+        </button>
+    </div>
+</div>

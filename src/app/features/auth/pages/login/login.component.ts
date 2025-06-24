@@ -13,7 +13,7 @@ import { LoginStorageService } from '../../services/session/login-storage.servic
 import { rucValidator } from '@shared/validators/peruvian/ruc.validator';
 import { peruvianDocumentValidator } from '@shared/validators/peruvian/peruvian-doc.validator';
 import { DASHBOARD_ROUTE_BRANCHES } from 'app/features/dashboard/pages/dashboard.routes';
-import { AccountService } from '../../services/account/account.service';
+import { LoginCoordinatorService } from '../../services/login-coordinator/login-coordinator.service';
 import { LookupService } from '@shared/services';
 
 @Component({
@@ -38,7 +38,7 @@ export default class LoginComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly loginStorage = inject(LoginStorageService);
-  private readonly accountService = inject(AccountService);
+  private readonly loginCoordinator = inject(LoginCoordinatorService);
 
   documentTypes = this.lookupService.documentTypes;
 
@@ -53,12 +53,11 @@ export default class LoginComponent implements OnInit {
   ngOnInit() {
     this.getLoginData();
   }
-
   onSubmit() {
     if (this.form.valid) {
-      this.accountService.login(this.form.value).subscribe({
-        next: (response) => {
-          if (response.success) {
+      this.loginCoordinator.executeLogin(this.form.value).subscribe({
+        next: (success: boolean) => {
+          if (success) {
             this.router.navigate(DASHBOARD_ROUTE_BRANCHES.BASE.fullPath());
           }
         }

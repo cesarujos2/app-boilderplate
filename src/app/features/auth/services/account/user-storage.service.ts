@@ -1,4 +1,4 @@
-import { Account } from "../../models/Account/account.interface";
+import { Account } from "../../models/account/account.interface";
 import { Injectable } from "@angular/core";
 
 export interface IUserStorageService {

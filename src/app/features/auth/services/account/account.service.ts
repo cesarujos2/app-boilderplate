@@ -1,15 +1,17 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable, signal } from "@angular/core";
 import { ApiResponse } from "app/core/models/api/apiResponse";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { IUserStorageService, LocalStorageUserService } from './user-storage.service';
-import { tap } from 'rxjs/operators';
-import { LoginRequest } from "../../models/Account/login-request.interface";
-import { LoginResponse } from "../../models/Account/login-response.interface";
-import { Account } from "../../models/Account/account.interface";
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { LoginRequest } from "../../models/account/login-request.interface";
+import { LoginResponse } from "../../models/account/login-response.interface";
+import { Account } from "../../models/account/account.interface";
+import { UpdateRoleRequest } from "../../models/account/update-account-request.interface";
 import { Router } from "@angular/router";
 import { AUTH_ROUTE_BRANCHES } from "../../pages/auth.routes";
 import { AppInfoService } from "@core/services";
+import { serialize } from 'object-to-formdata';
 
 @Injectable({
     providedIn: 'root'
@@ -43,10 +45,18 @@ export class AccountService {
     }
 
     /**
+     * Verifica si el login response requiere completar el perfil
+     */
+    requiredRole(loginResponse: LoginResponse): boolean {
+        return !!loginResponse.requiredRole;
+    }
+
+    /**
      * Verifica si el usuario está actualmente autenticado
      */
     isAuthenticated(): boolean {
-        return this.user() !== null;
+        const user = this.user();
+        return user !== null && user.roles.length > 0;
     }
 
     /**
@@ -88,6 +98,9 @@ export class AccountService {
      * Verifica si el usuario tiene alguno de los roles especificados
      */
     hasAnyRole(roles: string[]): boolean {
+        if (!roles || roles.length === 0) {
+            return false;
+        }
         return roles.some(role => this.hasRole(role));
     }
 
@@ -101,8 +114,8 @@ export class AccountService {
     /**
      * Verifica la sesión con el servidor (para validar cookies)
      */
-    validateSession(): Observable<ApiResponse<Account>> {
-        return this.http.post<ApiResponse<Account>>(`${this.API_URL}/validate-session`, {}).pipe(
+    validateSession(): Observable<ApiResponse<LoginResponse>> {
+        return this.http.post<ApiResponse<LoginResponse>>(`${this.API_URL}/validate-session`, {}).pipe(
             tap(response => {
                 if (response.success && response.data) {
                     const account = response.data;
@@ -113,6 +126,36 @@ export class AccountService {
                     this.forceLogout();
                 }
             })
+        );
+    }
+
+    /**
+     * Actualiza parcialmente los datos del usuario
+     */
+    updateRole(request: UpdateRoleRequest): Observable<boolean> {
+        const formData = serialize(request, {
+            indices: true,
+            dotsForObjectNotation: true
+        })
+        return this.http.put<boolean>(`${this.API_URL}/role`, formData).pipe(
+            map(response => true),
+            catchError(error => {
+                return of(false);
+            })
+        );
+    }
+
+    /**
+     * Refresca la sesión del usuario (equivalente a login automático)
+     */
+    refreshUserSession(): Observable<boolean> {
+        return this.validateSession().pipe(
+            tap(response => {
+                if (!response.success) {
+                    throw new Error('No se pudo refrescar la sesión');
+                }
+            }),
+            switchMap(() => of(true))
         );
     }
 }
