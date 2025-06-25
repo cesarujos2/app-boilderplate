@@ -4,6 +4,7 @@
 @use './app/styles/utils/transition-theme.scss';
 @use './app//styles/themes/vars.scss' as vars;
 @use './app/styles/material-fixes/form-field';
+@use './app/styles/components';
 @use 'sass:map';
 @import "./app//styles/base/tailwind.css";
 

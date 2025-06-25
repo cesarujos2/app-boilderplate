@@ -1,6 +1,30 @@
 <div class="w-full min-h-full">
 
-    <div class="px-6">
+    <div class="px-6 mt-6">
+
+        <!-- Barra de acciones superior -->
+        <div class="flex items-center justify-between mb-2 px-4 sm:px-6">
+            <div class="flex items-center gap-3">
+                <div class="h-8 w-1 bg-emerald-500 rounded-full"></div>
+                <div>
+                    <h2
+                        class="text-lg font-semibold text-gray-900 dark:text-white">
+                        Fichas técnicas ambientales</h2>
+                </div>
+            </div>
+            @if(projectTypes().length > 0) {
+                <button
+                mat-flat-button
+                color="primary"
+                (click)="onAddDatasheet()"
+                class="bg-gradient-to-r! from-emerald-500! to-emerald-600! dark:from-emerald-400! text-white! dark:text-neutral-950! shadow-lg font-medium"
+                aria-label="Agregar nueva ficha técnica">
+                <mat-icon class="mr-2">add_circle</mat-icon>
+                <span>Agregar</span>
+            </button>
+            }
+        </div>
+
         <!-- Filtros básicos -->
         <app-datasheet-basic-filters (filtersChanged)="onFiltersChanged()" />
 
