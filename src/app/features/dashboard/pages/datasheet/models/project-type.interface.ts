@@ -1,6 +1,8 @@
+export type ProjectTypeAcronym = 'FTA' | 'IAE';
+
 export interface ProjectType {
   id: number;
-  acronym: string;
+  acronym: ProjectTypeAcronym;
   name: string;
   description: string;
 }

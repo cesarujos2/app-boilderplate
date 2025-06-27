@@ -1,0 +1,48 @@
+<div class="flex flex-col h-full w-full">
+    <!-- Header con mat-dialog-title -->
+    <div mat-dialog-title class="p-0! m-0! flex! items-center!">
+        <div class="w-full flex items-center justify-between px-5 py-8">
+            <div class="flex items-center space-x-3">
+                <div
+                    class="w-10 h-10 bg-emerald-50 dark:bg-gray-700 rounded-xl flex items-center justify-center">
+                    <mat-icon class="text-emerald-500! dark:text-emerald-100!">description</mat-icon>
+                </div>
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white m-0">
+                        {{ getTitle() }}
+                    </h2>
+                    <p class="text-sm text-gray-500 dark:text-white mt-1 mb-0">
+                        Formulario para proyectos FTA</p>
+                </div>
+            </div>
+            <button
+                mat-icon-button
+                (click)="onCancel()"
+                aria-label="Cerrar modal">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <!-- Content con mat-dialog-content -->
+    <mat-dialog-content class="px-0 py-6 max-h-none! flex-1 " style="scrollbar-width: thin;">
+        <div class="py-8">
+            <!-- Aquí se puede incluir el formulario o contenido del modal -->
+        </div>
+    </mat-dialog-content>
+
+    <!-- Actions con mat-dialog-actions -->
+    <mat-dialog-actions align="end" class="px-0 py-4">
+        <button
+            mat-button
+            (click)="onCancel()">
+            Cancelar
+        </button>
+        <button
+            mat-button
+            (click)="onSave()"
+            class="px-6">
+            {{ getSaveButtonText() }}
+        </button>
+    </mat-dialog-actions>
+</div>

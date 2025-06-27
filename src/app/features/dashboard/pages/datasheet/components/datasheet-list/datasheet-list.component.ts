@@ -10,10 +10,12 @@ import { DatasheetFilterService } from 'app/features/dashboard/pages/datasheet/s
 import { DatasheetService } from '../../services/datasheet.service';
 import { ProjectTypeService } from '../../services/project-type.service';
 import { ProjectTypeModalService } from '../../services/project-type-modal.service';
+import { DatasheetFormModalService } from '../../services/datasheet-form-modal.service';
 
 @Component({
     selector: 'app-datasheet-list',
-    standalone: true,    imports: [
+    standalone: true, 
+    imports: [
         CommonModule,
         MatButtonModule,
         MatIconModule,
@@ -29,6 +31,7 @@ export class DatasheetListComponent implements OnInit {
     private filterService = inject(DatasheetFilterService);
     private projectTypeService = inject(ProjectTypeService);
     private projectTypeModalService = inject(ProjectTypeModalService);
+    private datasheetFormModalService = inject(DatasheetFormModalService);
 
     datasheets = computed(() => this.datasheetService.datasheets());
     loading = computed(() => this.datasheetService.loading());
@@ -84,9 +87,15 @@ export class DatasheetListComponent implements OnInit {
     onAddDatasheet(): void {
         this.projectTypeModalService.openProjectTypeSelectionModal(this.projectTypes())
             .subscribe(result => {
-                if (result) {
-                    console.log('Tipo de proyecto seleccionado:', result.selectedProjectType);
-                    // Aquí se puede continuar con la lógica para crear la ficha técnica
+                const projectType = result?.selectedProjectType;
+                if (projectType) {
+                    this.datasheetFormModalService.openFormModal(projectType.acronym)
+                        .subscribe(formResult => {
+                            if (formResult?.success) {
+                                // Aquí se puede agregar lógica para refrescar la lista
+                                this.loadDatasheets();
+                            } 
+                        });
                 }
             });
     }
