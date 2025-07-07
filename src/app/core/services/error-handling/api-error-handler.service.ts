@@ -1,3 +1,4 @@
+import { MatDialog } from '@angular/material/dialog';
 import { inject, Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from '../../../shared/services/ui/notification.service';
@@ -28,6 +29,7 @@ export class ApiErrorHandlerService {
     private readonly notificationService = inject(NotificationService);
     private readonly accountService = inject(AccountService);    
     private readonly errorModalService = inject(ErrorModalService);
+    private readonly matDialog = inject(MatDialog);
 
     /**
      * Maneja errores de API y muestra notificaciones apropiadas
@@ -173,6 +175,8 @@ export class ApiErrorHandlerService {
     private handleUnauthorizedError(): void {
         console.warn('Unauthorized access detected, executing logout...');
         
+        // Cerrar todos los modales abiertos
+        this.matDialog.closeAll();
         // Limpiar todos los modales activos antes del logout
         this.errorModalService.clearAllModals();
           // Ejecutar logout
