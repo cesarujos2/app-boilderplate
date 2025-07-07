@@ -1,0 +1,92 @@
+@use '../../styles/custom.scss' as colors;
+@use 'sass:color';
+
+.stepper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.step {
+  width: 2rem;
+  height: 2rem;
+  font-size: 0.875rem;
+  border-radius: 50%;
+  background-color: colors.$gray-alt;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: colors.$dark-gray;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  // Estado inválido/error
+  &.invalid{
+    background-color: colors.$invalid;
+    color: colors.$light;
+    &.active {
+      background-color: color.adjust(colors.$invalid, $alpha: -0.2);
+      color: colors.$light;
+    } 
+  }
+  &.valid{
+    background-color: colors.$valid;
+    color: colors.$light;
+    &.active {
+      background-color: color.adjust(colors.$valid, $alpha: -0.2);
+      color: colors.$light;
+    }  
+  }
+
+  // Estado en carga/procesando
+  &.loading {
+    background-color: color.adjust(colors.$gray-alt, $lightness: 10%);
+    color: colors.$dark-gray;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 2px solid transparent;
+      border-top: 2px solid colors.$dark-gray;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    &.active {
+      background-color: color.adjust(colors.$gray-alt, $lightness: 5%);
+      box-shadow: 0 0 0 2px color.adjust(colors.$gray-alt, $alpha: -0.7);
+    }
+  }
+
+  // Estado deshabilitado
+  &.disabled {
+    background-color: color.adjust(colors.$gray-alt, $lightness: 20%);
+    color: color.adjust(colors.$dark-gray, $lightness: 30%);
+    cursor: not-allowed;
+    
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+  }
+}
+
+// Animación para estado de carga
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+  

@@ -1,0 +1,94 @@
+<form [formGroup]="form()" class="w-full flex flex-col sm:px-12">
+    <div class="grid grid-cols-12 py-1">
+        <mat-form-field class="col-span-12" appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="projectName" autocomplete="off"  
+            [readonly]="disableFields()" [class.isDisabled]="disableFields()"/>
+            <mat-error
+                *ngIf="this.form().get('projectName')?.hasError('required')">
+                Este campo es requerido
+            </mat-error>
+            <mat-error
+                *ngIf="this.form().get('projectName')?.hasError('maxlength')">
+                Máximo 150 caracteres
+            </mat-error>
+            <mat-error
+                *ngIf="this.form().get('projectName')?.hasError('exists')">
+                El proyecto ya existe
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-span-12" appearance="outline">
+            <mat-label>Objetivo</mat-label>
+            <input matInput formControlName="objetive"
+                autocomplete="project-objetive" />
+            <mat-error
+                *ngIf="this.form().get('objetive')?.hasError('required')">
+                Este campo es requerido
+            </mat-error>
+            <mat-error
+                *ngIf="this.form().get('objetive')?.hasError('maxlength')">
+                Máximo 255 caracteres
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="py-3">
+        <app-locations [form]="getFormArray('locations')" [formData]="formData()?.locations" />
+    </div>
+    <div class="py-3">
+        <app-localization [form]="getFormGroup('localization')" [formData]="formData()?.localization" />
+    </div>
+    <div class="py-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Zonificación</mat-label>
+            <mat-select formControlName="zoning">
+                @for(item of generalService.initialData().zoningTypes; track
+                item){
+                <mat-option [value]="item.code">{{item.name}}</mat-option>
+                }
+            </mat-select>
+            <mat-error
+                *ngIf="this.form().get('zoning')?.hasError('required')">
+                Este campo es requerido
+            </mat-error>
+            <mat-error
+                *ngIf="this.form().get('zoning')?.hasError('maxlength')">
+                Máximo 500 caracteres
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Área (metros cuadrados)</mat-label>
+            <input matInput formControlName="area" />
+        </mat-form-field>
+        <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Perímetro (metros)</mat-label>
+            <input matInput formControlName="perimeter" />
+        </mat-form-field>
+        <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Vida útil (años)</mat-label>
+            <input matInput formControlName="lifetime"/>
+            <mat-error
+                *ngIf="this.form().get('lifetime')?.hasError('required')">
+                Este campo es requerido
+            </mat-error>
+            @let lifetimeControl = this.form().get('lifetime');
+            <mat-error
+                *ngIf="lifetimeControl?.hasError('min') || lifetimeControl?.hasError('pattern')">
+                Valor inválido
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-full md:col-span-2" appearance="outline">
+            <mat-label>Presupuesto de medidas</mat-label>
+            <span matTextPrefix>S/. &nbsp;</span>
+            <input matInput formControlName="budget"/>
+            <mat-error
+                *ngIf="this.form().get('budget')?.hasError('required')">
+                Este campo es requerido
+            </mat-error>
+            @let budgetControl = this.form().get('budget');
+            <mat-error
+                *ngIf="budgetControl?.hasError('min') || budgetControl?.hasError('pattern')">
+                Valor inválido 00.00
+            </mat-error>
+        </mat-form-field>
+    </div>
+</form>

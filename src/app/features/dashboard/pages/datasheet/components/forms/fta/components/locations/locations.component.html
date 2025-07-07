@@ -1,0 +1,71 @@
+<div class="w-full flex flex-col gap-1" form>
+    <div class="w-full flex justify-between items-center">
+        <h2 style="font-size: 16px;" class="p-0 m-0">Ubicación geopolítica</h2>
+        <button mat-mini-fab aria-label="Añadir ubicación geopolítica"
+            class="bg-emerald-600! text-white!"
+            (click)="$event.preventDefault() ;addLocationForm($event)"
+            matTooltip="Añadir ubicación geopolítica">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+    <div *ngFor="let location of locationForms; let i = index"
+        class="w-full flex justify-between items-center px-3 py-1">
+        <form class="flex flex-wrap w-full" [formGroup]="location">
+            <div class="w-full md:w-1/3 px-1">
+                <mat-form-field class="w-full" appearance="outline">
+                    <mat-label>Departamento</mat-label>
+                    <mat-select matInput formControlName="department"
+                        (selectionChange)="changeDepartment($event, location, i)">
+                        @let departmentList =
+                        generalService.initialData().deparments;
+                        <mat-option *ngFor="let department of departmentList"
+                            [value]="department.id">{{department.name}}</mat-option>
+                    </mat-select>
+                    <mat-error
+                        *ngIf="location.get('department')?.hasError('required')">
+                        Este campo es requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="w-full md:w-1/3 px-1">
+                <mat-form-field class="w-full" appearance="outline">
+                    <mat-label>Provincia</mat-label>
+                    <mat-select matInput formControlName="province"
+                        (selectionChange)="changeProvince($event, location, i)">
+                        @if (location.get('department')?.value != "") {
+                        <mat-option
+                            *ngFor="let province of ubigeoList()[i].provinceList"
+                            [value]="province.id">{{province.name}}</mat-option>
+                        }
+                    </mat-select>
+                    <mat-error
+                        *ngIf="location.get('province')?.hasError('required')">
+                        Este campo es requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="w-full md:w-1/3 px-1">
+                <mat-form-field class="w-full" appearance="outline">
+                    <mat-label>Distrito</mat-label>
+                    <mat-select matInput formControlName="district">
+                        @if (location.get('province')?.value != "") {
+                        <mat-option
+                            *ngFor="let district of ubigeoList()[i].districtList"
+                            [value]="district.id">{{district.name}}</mat-option>
+                        }
+                    </mat-select>
+                    <mat-error
+                        *ngIf="location.get('district')?.hasError('required')">
+                        Este campo es requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </form>
+        <button mat-icon-button aria-label="Eliminar ubicación geopolítica"
+            class="mini-fab--button-delete__custom w-auto ml-2 dark:text-white!"
+            *ngIf="locationForms.length > 1"
+            (click)="removeLocationForm(i)" matTooltip="Eliminar">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+</div>

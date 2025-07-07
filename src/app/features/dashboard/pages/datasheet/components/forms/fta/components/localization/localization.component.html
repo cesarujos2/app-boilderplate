@@ -1,0 +1,43 @@
+<div>
+    <div>
+        <h2 style="font-size: 16px;">Localización</h2>
+    </div>
+    <form [formGroup]="form()" style="transition: height 300ms ease-in-out">
+        <mat-radio-group formControlName="registerType"
+            class="flex flex-col md:flex-row md:justify-around py-1">
+            <mat-radio-button value="FILE">Cargar de KMZ</mat-radio-button>
+            <mat-radio-button value="UTM">Coordenadas UTM</mat-radio-button>
+            <mat-radio-button value="GEO">Coordenadas
+                Geográficas</mat-radio-button>
+        </mat-radio-group>
+        @let registerType = form().get('registerType')?.value;
+        @if(registerType == 'FILE'){
+        <div class="flex justify-center">
+            <button mat-fab extended class="button-fab--extended__custom m-2"
+                (click)="KmzFile.click()" [ngClass]="getResultClass().value">
+                <mat-icon>upload</mat-icon>
+                {{getResultClass().label}}
+            </button>
+            <input type="file" class="hidden" #KmzFile accept=".kmz"
+                (change)="kmzFileChange($event)">
+        </div>
+        }
+        @if(registerType == 'UTM'){
+            <app-utm [form]="getFormArray('coordinatesUTM')" [formData]="formData()?.coordinatesUTM"/>
+        }
+
+        @if(registerType == 'GEO'){
+            <app-geo [form]="getFormArray('coordinatesGeo')" [formData]="formData()?.coordinatesGeo"/>
+        }
+
+        @if(generalService.hasGoogleScript()){
+        <div #gmapContainer class="rounded overflow-hidden shadow mt-2 map--visible">
+            <google-map #map style="width: 100%;" width="100%" height="300" [mapTypeId]="mapType"
+                [center]="{lat: -9.4481521, lng: -77.3990204}" [zoom]="5">
+                <map-marker *ngFor="let point of features().points" [position]="point"/>
+                <map-polyline *ngFor="let line of features().polylines" [path]="line" [options]="lineOptions" />
+            </google-map>
+        </div>
+        }
+    </form>
+</div>

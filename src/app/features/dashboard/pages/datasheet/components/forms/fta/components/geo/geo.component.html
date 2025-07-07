@@ -1,0 +1,58 @@
+<div class="flex flex-wrap items-center p-2">
+    <div class="w-11/12 flex flex-col gap-1">
+        <div *ngFor="let geo of geoForms; let i = index"
+            class="w-full flex justify-between items-center">
+            <form class="flex flex-wrap flex-1" [formGroup]="geo">
+                <div class="w-full sm:w-1/2 pr-0 sm:pr-2">
+                    <mat-form-field class="w-full" appearance="outline">
+                        <mat-label>Latitud</mat-label>
+                        <input matInput formControlName="lat" autocomplete="off" 
+                               class="dark:text-white dark:bg-gray-700" />
+                        <mat-error
+                            *ngIf="geo.get('lat')?.hasError('required')">
+                            Este campo es requerido
+                        </mat-error>
+                        <mat-error
+                            *ngIf="geo.get('lat')?.hasError('pattern')">
+                            Valor incorrecto
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="w-full sm:w-1/2 pl-0 sm:pl-2">
+                    <mat-form-field class="w-full" appearance="outline">
+                        <mat-label>Longitud</mat-label>
+                        <input matInput formControlName="lng" autocomplete="off"
+                               class="dark:text-white dark:bg-gray-700"/>
+                        <mat-error
+                            *ngIf="geo.get('lng')?.hasError('required')">
+                            Este campo es requerido
+                        </mat-error>
+                        <mat-error
+                            *ngIf="geo.get('lng')?.hasError('pattern')">
+                            Valor incorrecto
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </form>
+            <button mat-icon-button aria-label="Eliminar coordenadas Geográficas"
+                *ngIf="geoForms.length > 1"
+                (click)="removeGeoForm(i)" matTooltip="Eliminar">
+                <mat-icon class="text-red-600 dark:text-red-400">close</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="w-1/12 flex justify-center">
+        <button mat-mini-fab aria-label="Añadir coordenadas Geográficas"
+            (click)="$event.preventDefault(); addGeoForm($event)"
+            class="bg-emerald-600! text-white!"
+            matTooltip="Añadir coordenadas Geográficas">
+            <mat-icon class="text-white">add</mat-icon>
+        </button>
+    </div>
+</div>
+<div class="w-full flex justify-center mt-3 p-2 ">
+    <mat-error *ngIf="form().hasError('invalidUGEO')" 
+               class="text-red-600 dark:text-red-400">
+        Coordenadas en zona no permitida
+    </mat-error>
+</div>

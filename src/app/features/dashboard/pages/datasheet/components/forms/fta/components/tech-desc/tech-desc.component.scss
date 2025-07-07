@@ -1,0 +1,23 @@
+@use '../../styles/custom.scss' as colors;
+
+.button-fab--extended__custom
+{
+    background-color: colors.$primary;
+    color: colors.$light;
+    transition: all 0.5s ease;
+
+    &.valid
+    {
+        background-color: colors.$valid;
+        color: colors.$light;
+    }
+    &.invalid{
+        background-color: colors.$invalid;
+        color: colors.$light;
+    }
+}
+
+.isDisabled{
+    pointer-events: none;
+    opacity: 0.5;
+  }

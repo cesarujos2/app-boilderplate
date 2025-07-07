@@ -1,0 +1,40 @@
+// Estilos para la funcionalidad del desplegable
+.--invisible {
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  transform: translateY(-10px);
+}
+
+// Cuando no está invisible (expandido)
+div:not(.--invisible) {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+// Animación suave para el botón de expandir
+button mat-icon {
+  transition: transform 0.2s ease-in-out;
+}
+
+
+.space-y-4 > :not([hidden]) ~ :not([hidden]) {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+// Responsive design mejorado
+@media (max-width: 768px) {
+  .grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+  
+  .p-4 {
+    padding: 0.75rem;
+  }
+  
+  .space-x-4 > :not([hidden]) ~ :not([hidden]) {
+    margin-left: 0.75rem;
+  }
+}

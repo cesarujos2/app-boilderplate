@@ -1,0 +1,24 @@
+<div
+    style="overflow-x: hidden; overflow-y: visible;"
+    class="flex items-center flex-col justify-center gap-4 text-gray-900 dark:text-gray-100 px-4 sm:px-8">
+    <div class="w-full">
+        <app-env-measures-section [form]="getFormGroup('planinng')"
+            [stage]="stages.planinng"
+            [infraestrutureTypeCode]="infraestrutureTypeCode()" />
+    </div>
+    <div class="w-full">
+        <app-env-measures-section [form]="getFormGroup('construction')"
+            [stage]="stages.construction"
+            [infraestrutureTypeCode]="infraestrutureTypeCode()" />
+    </div>
+    <div class="w-full">
+        <app-env-measures-section [form]="getFormGroup('operation')"
+            [stage]="stages.operation"
+            [infraestrutureTypeCode]="infraestrutureTypeCode()" />
+    </div>
+    <div class="w-full">
+        <app-env-measures-section [form]="getFormGroup('closing')"
+            [stage]="stages.closing"
+            [infraestrutureTypeCode]="infraestrutureTypeCode()" />
+    </div>
+</div>

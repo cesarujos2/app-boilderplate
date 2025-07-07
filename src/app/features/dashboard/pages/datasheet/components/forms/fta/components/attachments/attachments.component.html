@@ -1,0 +1,232 @@
+<div class="min-h-screen py-8 px-6">
+    <form [formGroup]="form" class="max-w-6xl mx-auto space-y-12">
+        <!-- Declaraciones Juradas Section -->
+        <section class="space-y-8">
+            <div class="space-y-2">
+                <h2 class="text-3xl font-light tracking-tight text-gray-900 dark:text-gray-100">
+                    Declaraciones Juradas
+                </h2>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Declaración de Estándares -->
+                <div class="group relative p-8 rounded-2xl bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm transition-all duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-br from-emerald-50/30 to-transparent dark:from-emerald-900/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative text-center space-y-5">
+                        <div class="w-14 h-14 bg-gradient-to-br from-emerald-100 to-emerald-50 dark:from-emerald-900/40 dark:to-emerald-800/40 rounded-2xl flex items-center justify-center mx-auto shadow-sm">
+                            <mat-icon class="text-emerald-600 dark:text-emerald-400 text-xl">verified</mat-icon>
+                        </div>
+                        <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100 leading-relaxed">
+                            Declaración jurada de cumplimiento de estándares de calidad ambiental y límites máximos permisibles
+                        </h3>
+                    </div>
+                    
+                    <div class="relative flex flex-col sm:flex-row gap-3 items-center justify-center mt-6">
+                        <button mat-flat-button 
+                            (click)="standars.click()"
+                            [ngClass]="getClass(this.form.get('standars'))">
+                            <mat-icon class="text-base mr-2">upload</mat-icon>
+                            <span class="text-sm font-medium">{{getText(this.form.get('standars'), 'PDF')}}</span>
+                        </button>
+                        <input type="file" class="hidden" #standars accept=".pdf" (change)="documentInputChange($event, 'standars')">
+                        
+                        <a mat-button [href]="urlStandards" download
+                            matTooltip="Descargar plantilla de DJ">
+                            <mat-icon class="text-base mr-2">download</mat-icon>
+                            <span class="text-sm">Plantilla</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Declaración SEIA -->
+                <div class="group relative p-8 rounded-2xl bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm transition-all duration-500 flex flex-col">
+                    <div class="absolute inset-0 bg-gradient-to-br from-emerald-50/30 to-transparent dark:from-emerald-900/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative text-center space-y-5 flex-1">
+                        <div class="w-14 h-14 bg-gradient-to-br from-emerald-100 to-emerald-50 dark:from-emerald-900/40 dark:to-emerald-800/40 rounded-2xl flex items-center justify-center mx-auto shadow-sm">
+                            <mat-icon class="text-emerald-600 dark:text-emerald-400 text-xl">eco</mat-icon>
+                        </div>
+                        <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100 leading-relaxed">
+                            Declaración jurada de que el proyecto no está sujeto al Sistema Nacional de Evaluación Ambiental
+                        </h3>
+                    </div>
+                    
+                    <div class="relative flex flex-col sm:flex-row gap-3 items-center justify-center mt-6">
+                        <button mat-flat-button 
+                            (click)="seia.click()"
+                            [ngClass]="getClass(this.form.get('seia'))">
+                            <mat-icon class="text-base mr-2">upload</mat-icon>
+                            <span class="text-sm font-medium">{{getText(this.form.get('seia'), 'PDF')}}</span>
+                        </button>
+                        <input type="file" class="hidden" #seia accept=".pdf" (change)="documentInputChange($event, 'seia')">
+                        
+                        <a mat-button [href]="urlSeia" download
+                            matTooltip="Descargar plantilla de DJ">
+                            <mat-icon class="text-base mr-2">download</mat-icon>
+                            <span class="text-sm">Plantilla</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Adjuntos Section -->
+        <section class="space-y-8">
+            <div class="flex items-center justify-between">
+                <div class="space-y-2">
+                    <h2 class="text-3xl font-light tracking-tight text-gray-900 dark:text-gray-100">
+                        Adjuntos
+                    </h2>
+                </div>
+                <button mat-button 
+                    matTooltip="Adjuntos de ejemplo"
+                    (click)="seeAtachmentExample()">
+                    <mat-icon class="text-base">info</mat-icon>
+                    <span class="text-sm font-medium">Ejemplos</span>
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+                <!-- Plano de ubicación -->
+                <div class="group relative p-8 flex flex-col rounded-2xl bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm transition-all duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-50/20 to-transparent dark:from-blue-900/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative text-center space-y-5 flex-1">
+                        <div class="w-14 h-14 mx-auto bg-gradient-to-br from-blue-100 to-blue-50 dark:from-blue-900/40 dark:to-blue-800/40 rounded-2xl flex items-center justify-center shadow-sm">
+                            <mat-icon class="text-blue-600 dark:text-blue-400 text-2xl">map</mat-icon>
+                        </div>
+                        <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100 leading-relaxed">
+                            Plano de ubicación del proyecto
+                        </h3>
+                    </div>
+                    
+                    <div class="relative flex justify-center mt-8">
+                        <button mat-flat-button 
+                            (click)="locationPlan.click()"
+                            [ngClass]="getClass(this.form.get('locationPlan'))">
+                            <mat-icon class="text-base mr-2">upload</mat-icon>
+                            <span class="text-sm truncate">{{getText(this.form.get('locationPlan'), 'PDF')}}</span>
+                        </button>
+                        <input type="file" class="hidden" #locationPlan accept=".pdf" (change)="documentInputChange($event, 'locationPlan')">
+                    </div>
+                </div>
+
+                <!-- Diseño de ingeniería -->
+                <div class="group relative p-8 flex flex-col rounded-2xl bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm transition-all duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-50/20 to-transparent dark:from-indigo-900/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative text-center space-y-5 flex-1">
+                        <div class="w-14 h-14 mx-auto bg-gradient-to-br from-indigo-100 to-indigo-50 dark:from-indigo-900/40 dark:to-indigo-800/40 rounded-2xl flex items-center justify-center shadow-sm">
+                            <mat-icon class="text-indigo-600 dark:text-indigo-400 text-2xl">engineering</mat-icon>
+                        </div>
+                        <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100 leading-relaxed">
+                            Diseño de ingeniería de la infraestructura
+                        </h3>
+                    </div>
+                    
+                    <div class="relative flex justify-center mt-8">
+                        <button mat-flat-button 
+                            (click)="engineeringPlans.click()"
+                            [ngClass]="getClass(this.form.get('engineeringPlans'))">
+                            <mat-icon class="text-base mr-2">upload</mat-icon>
+                            <span class="text-sm truncate">{{getText(this.form.get('engineeringPlans'), 'PDF')}}</span>
+                        </button>
+                        <input type="file" class="hidden" #engineeringPlans accept=".pdf" (change)="documentInputChange($event, 'engineeringPlans')">
+                    </div>
+                </div>
+
+                <!-- KMZ de cableado -->
+                <div class="group relative p-8 flex flex-col rounded-2xl bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm transition-all duration-500"
+                    *ngIf="infrastructureTypeCode() && !isFileLocalizationType() && infrastructureTypeCode() == infraestrutureTypesCode.wiring">
+                    <div class="absolute inset-0 bg-gradient-to-br from-orange-50/20 to-transparent dark:from-orange-900/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative text-center space-y-5 flex-1">
+                        <div class="w-14 h-14 mx-auto bg-gradient-to-br from-orange-100 to-orange-50 dark:from-orange-900/40 dark:to-orange-800/40 rounded-2xl flex items-center justify-center shadow-sm">
+                            <mat-icon class="text-orange-600 dark:text-orange-400 text-2xl">cable</mat-icon>
+                        </div>
+                        <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100 leading-relaxed">
+                            KMZ de despliegue de cableado
+                        </h3>
+                    </div>
+                    
+                    <div class="relative flex justify-center mt-8">
+                        <button mat-flat-button 
+                            (click)="kmzFile.click()"
+                            [ngClass]="getClass(this.form.get('kmzFile'))">
+                            <mat-icon class="text-base mr-2">upload</mat-icon>
+                            <span class="text-sm truncate">{{getText(this.form.get('kmzFile'), 'KMZ')}}</span>
+                        </button>
+                        <input type="file" class="hidden" #kmzFile accept=".kmz" (change)="documentInputChange($event, 'kmzFile')">
+                    </div>
+                </div>
+
+                <!-- Fotomontaje -->
+                <div class="group relative p-8 flex flex-col rounded-2xl bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm transition-all duration-500"
+                    *ngIf="infrastructureTypeCode() && infrastructureTypeCode() !== infraestrutureTypesCode.wiring">
+                    <div class="absolute inset-0 bg-gradient-to-br from-purple-50/20 to-transparent dark:from-purple-900/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative text-center space-y-5 flex-1">
+                        <div class="w-14 h-14 mx-auto bg-gradient-to-br from-purple-100 to-purple-50 dark:from-purple-900/40 dark:to-purple-800/40 rounded-2xl flex items-center justify-center shadow-sm">
+                            <mat-icon class="text-purple-600 dark:text-purple-400 text-2xl">photo_library</mat-icon>
+                        </div>
+                        <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100 leading-relaxed">
+                            Fotomontaje de la infraestructura
+                        </h3>
+                    </div>
+                    
+                    <div class="relative flex justify-center mt-8">
+                        <button mat-flat-button 
+                            (click)="photomontage.click()"
+                            [ngClass]="getClass(this.form.get('photomontage'))">
+                            <mat-icon class="text-base mr-2">upload</mat-icon>
+                            <span class="text-sm truncate">{{getText(this.form.get('photomontage'), 'PDF')}}</span>
+                        </button>
+                        <input type="file" class="hidden" #photomontage accept=".pdf" (change)="documentInputChange($event, 'photomontage')">
+                    </div>
+                </div>
+
+                <!-- Panel fotográfico -->
+                <div class="group relative p-8 flex flex-col rounded-2xl bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm transition-all duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-br from-teal-50/20 to-transparent dark:from-teal-900/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative text-center space-y-5 flex-1">
+                        <div class="w-14 h-14 mx-auto bg-gradient-to-br from-teal-100 to-teal-50 dark:from-teal-900/40 dark:to-teal-800/40 rounded-2xl flex items-center justify-center shadow-sm">
+                            <mat-icon class="text-teal-600 dark:text-teal-400 text-2xl">photo_camera</mat-icon>
+                        </div>
+                        <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100 leading-relaxed">
+                            Panel fotográfico de la infraestructura preexistente
+                        </h3>
+                    </div>
+                    
+                    <div class="relative flex justify-center mt-8">
+                        <button mat-flat-button 
+                            (click)="preExistingInfrastructure.click()"
+                            [ngClass]="getClass(this.form.get('preExistingInfrastructure'))">
+                            <mat-icon class="text-base mr-2">upload</mat-icon>
+                            <span class="text-sm truncate">{{getText(this.form.get('preExistingInfrastructure'), 'PDF')}}</span>
+                        </button>
+                        <input type="file" class="hidden" #preExistingInfrastructure accept=".pdf" (change)="documentInputChange($event, 'preExistingInfrastructure')">
+                    </div>
+                </div>
+
+                <!-- Documento adicional -->
+                <div class="group relative p-8 flex flex-col rounded-2xl bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm transition-all duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-br from-slate-50/20 to-transparent dark:from-slate-900/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative text-center space-y-5 flex-1">
+                        <div class="w-14 h-14 mx-auto bg-gradient-to-br from-slate-100 to-slate-50 dark:from-slate-800/40 dark:to-slate-700/40 rounded-2xl flex items-center justify-center shadow-sm">
+                            <mat-icon class="text-slate-500 dark:text-slate-400 text-2xl">add_circle_outline</mat-icon>
+                        </div>
+                        <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100 leading-relaxed">
+                            Documento adicional 
+                            <span class="text-xs text-gray-500 dark:text-gray-400 block mt-2 font-normal">(Opcional)</span>
+                        </h3>
+                    </div>
+                    
+                    <div class="relative flex justify-center mt-8">
+                        <button mat-flat-button 
+                            [ngClass]="getClass(this.form.get('additionalFile'), true)"
+                            (click)="additionalFile.click()">
+                            <mat-icon class="text-base mr-2">upload</mat-icon>
+                            <span class="text-sm truncate">{{getText(this.form.get('additionalFile'), 'PDF')}}</span>
+                        </button>
+                        <input type="file" class="hidden" #additionalFile accept=".pdf" (change)="documentInputChange($event, 'additionalFile')">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </form>
+</div>

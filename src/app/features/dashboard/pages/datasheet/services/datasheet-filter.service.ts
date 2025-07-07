@@ -43,8 +43,8 @@ export class DatasheetFilterService {
     modificationDateTo: '',
     page: 1,
     pageSize: 10,
-    order: 0,
-    orderToModificationDate: false
+    order: 1,
+    orderToModificationDate: true
   });
 
   // Estado de visibilidad de filtros avanzados

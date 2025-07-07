@@ -1,0 +1,49 @@
+@use '../../styles/custom.scss' as colors;
+
+// Timeline Minimalist Design
+.timeline-container {
+    position: relative;
+    
+    // Form Field Improvements
+    .date-field, .budget-field {
+        ::ng-deep {
+            .mat-mdc-form-field {
+                .mat-mdc-form-field-outline {
+                    transition: all 0.2s ease;
+                    border-color: rgba(229, 231, 235, 0.6);
+                }
+                
+                &.mat-focused .mat-mdc-form-field-outline {
+                    border-width: 1px;
+                    border-color: rgb(16 185 129);
+                }
+                
+                .mat-mdc-form-field-label {
+                    font-weight: 400;
+                    color: rgb(107 114 128);
+                }
+            }
+        }
+    }
+    
+    // Responsive adjustments
+    @media (max-width: 640px) {
+        .timeline-step {
+            gap: 1rem;
+        }
+        
+        .date-card, .stage-card, .summary-card {
+            padding: 1rem;
+        }
+        
+        .stage-header h2 {
+            font-size: 1.125rem;
+        }
+    }
+    
+    @media (min-width: 641px) and (max-width: 1023px) {
+        .timeline-step {
+            gap: 1.5rem;
+        }
+    }
+}

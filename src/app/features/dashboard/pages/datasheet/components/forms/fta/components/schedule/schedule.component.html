@@ -1,0 +1,155 @@
+<!-- Timeline Container -->
+<div class="timeline-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    
+    <!-- Timeline Items -->
+    <div class="timeline-wrapper relative">
+        
+        <form *ngFor="let cronoForm of cronoBudgetControls; let i = index"
+            [formGroup]="cronoForm" class="timeline-item mb-8 lg:mb-12 relative">
+            
+            <!-- Timeline Step -->
+            <div class="timeline-step flex flex-col lg:flex-row gap-6 lg:gap-8">
+                
+                <!-- Date Section -->
+                <div class="date-section flex-shrink-0 lg:w-80">
+                    <div class="date-card p-4 lg:p-6 relative">
+                        
+                        <div class="flex items-center gap-3 mb-4">
+                            @if(cronoForm.get('stage')?.value == stages.closing.code){
+                            <mat-icon class="text-amber-500 text-base" 
+                                matTooltip="Se calcula automáticamente desde el inicio de operación hasta el fin de la vida útil.">
+                                info_outline
+                            </mat-icon>
+                            }
+                            <h3 class="text-sm font-medium text-gray-600 dark:text-gray-300">
+                                Inicio de Etapa {{ cronoForm.get('stage')?.value | stageName }}
+                            </h3>
+                        </div>
+                        
+                        <mat-form-field class="w-full date-field" appearance="outline">
+                            <mat-label>
+                                @if(i === 0) {
+                                    Inicio del proyecto
+                                } @else {
+                                    Inicio de la etapa
+                                }
+                            </mat-label>
+                            <input matInput
+                                [matDatepicker]="startDatePicker"
+                                [matDatepickerFilter]="startDateFilter"
+                                formControlName='startDate'
+                                [readonly]="cronoForm.get('stage')?.value == stages.closing.code"
+                                (dateChange)="onDateChange(i, $event)">
+                            <mat-datepicker-toggle matIconSuffix
+                                [disabled]="cronoForm.get('stage')?.value == stages.closing.code"
+                                [for]="startDatePicker" />
+                            <mat-datepicker #startDatePicker />
+                            @if(cronoForm.get('startDate')?.hasError('required')){
+                            <mat-error>Este campo es requerido</mat-error>
+                            }
+                            @if(cronoForm.get('startDate')?.hasError('dateBeforeRange')){
+                            <mat-error>Fecha inconsistente</mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+                </div>
+                
+                <!-- Stage Content Section -->
+                <div class="stage-content flex-1">
+                    <div class="stage-card p-6 lg:p-8 relative">
+                        
+                        <!-- Stage Header -->
+                        <div class="stage-header mb-6">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="stage-icon w-5 h-5 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-md flex items-center justify-center">
+                                    <mat-icon class="text-white! flex items-center justify-center ml-0.5! w-4! h-4! text-xs!" style="line-height: 1;">timeline</mat-icon>
+                                </div>
+                                <h2 class="text-base lg:text-lg font-medium text-gray-800 dark:text-gray-100">
+                                    Etapa: {{cronoForm.get('stage')?.value | stageName}}
+                                </h2>
+                            </div>
+                        </div>
+                        
+                        <!-- Budget Field -->
+                        <div class="budget-section">
+                            <div class="budget-label mb-3">
+                                <span class="text-xs font-normal text-gray-500 dark:text-gray-400">Presupuesto Asignado para esta Etapa</span>
+                            </div>
+                            <mat-form-field class="w-full budget-field" appearance="outline">
+                                <mat-label>Monto</mat-label>
+                                <span matTextPrefix>S/. &nbsp;</span>
+                                <input matInput formControlName='budget' type="number" class="text-sm font-normal">
+                                @if(cronoForm.get('budget')?.hasError('required')){
+                                <mat-error>Este campo es requerido</mat-error>
+                                }
+                                @if(cronoForm.get('budget')?.hasError('min')){
+                                <mat-error>Mínimo 0.01</mat-error>
+                                }
+                                @if(cronoForm.get('budget')?.hasError('pattern')){
+                                <mat-error>Formato inválido</mat-error>
+                                }
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- End Date Section (Only for last item) -->
+            @if(i === cronoBudgetControls.length -1){
+            <div class="end-date-section mt-8 lg:mt-12">
+                <div class="timeline-step flex flex-col lg:flex-row gap-6 lg:gap-8">
+                    
+                    <!-- End Date Card -->
+                    <div class="date-section flex-shrink-0 lg:w-80">
+                        <div class="date-card p-4 lg:p-6 relative">
+                            
+                            <div class="flex items-center gap-3 mb-4">
+                                <mat-icon class="text-red-500 text-base">event_available</mat-icon>
+                                <h3 class="text-sm font-medium text-gray-600 dark:text-gray-300">
+                                    Fin del Proyecto
+                                </h3>
+                            </div>
+                                
+                            <mat-form-field class="w-full date-field" appearance="outline">
+                                <mat-label>Fin del proyecto</mat-label>
+                                <input matInput
+                                    [matDatepicker]="endDatePicker"
+                                    [matDatepickerFilter]="startDateFilter"
+                                    formControlName='endDate'>
+                                <mat-datepicker-toggle matIconSuffix [for]="endDatePicker" />
+                                <mat-datepicker #endDatePicker />
+                                @if(cronoForm.get('endDate')?.hasError('required')){
+                                <mat-error>Este campo es requerido</mat-error>
+                                }
+                                @if(cronoForm.get('endDate')?.hasError('dateBeforeRange')){
+                                <mat-error>Fecha inválida</mat-error>
+                                }
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    
+                    <!-- End Summary Card -->
+                    <div class="stage-content flex-1">
+                        <div class="summary-card p-6 lg:p-8 relative">
+                            
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="summary-icon w-5 h-5 bg-gradient-to-r from-red-500 to-orange-500 rounded-md flex items-center justify-center">
+                                    <mat-icon class="text-white! flex items-center justify-center ml-0.5! w-4! h-4! text-xs!">flag</mat-icon>
+                                </div>
+                                <h2 class="text-base lg:text-lg font-medium text-gray-800 dark:text-gray-100">
+                                    Cierre
+                                </h2>
+                            </div>
+                            
+                            <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-xs">
+                                Esta fecha marca el final del cronograma del proyecto, la entrega de todos los entregables y el cierre formal de todas las etapas planificadas.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+            
+        </form>
+    </div>
+</div>

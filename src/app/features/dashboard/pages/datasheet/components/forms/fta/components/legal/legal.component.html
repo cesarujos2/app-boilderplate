@@ -1,0 +1,135 @@
+<form [formGroup]="form()"
+    class="min-h-full max-w-4xl mx-auto space-y-4 p-6 flex flex-col justify-center">
+    
+    <!-- Sección de datos de la empresa -->
+    <div class="space-y-4">
+        <div class="space-y-2">
+            <h2 class="text-xl font-semibold text-gray-600 dark:text-white tracking-wide">
+                Datos de la empresa
+            </h2>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Tipo de Documento Empresa -->
+            <div class="space-y-3">
+                <mat-form-field class="w-full" appearance="outline">
+                    <mat-label class="text-gray-600 dark:text-gray-400 font-light">Tipo de Documento</mat-label>
+                    <input matInput placeholder="RUC" *ngIf="disabled()"
+                        [value]="getDocumentTypeValue('documentType', 'J')"
+                        [readonly]="disabled()" 
+                        class="text-gray-900 dark:text-gray-100 font-light"
+                        [class.opacity-50]="disabled()">
+                    <mat-select formControlName="documentType" *ngIf="!disabled()"
+                        class="text-gray-900 dark:text-gray-100 font-light">
+                        <mat-option *ngFor="let item of documentTypesLegal"
+                            [value]="item.code" 
+                            class="text-gray-900 dark:text-gray-100">
+                            {{item.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error class="text-red-400 font-light text-sm">
+                        Este campo es requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <!-- RUC -->
+            <div class="space-y-3">
+                <mat-form-field class="w-full" appearance="outline">
+                    <mat-label class="text-gray-600 dark:text-gray-400 font-light">Número de RUC</mat-label>
+                    <input matInput formControlName="documentNumber" placeholder="Ingrese el RUC"
+                        [readonly]="disabled()" 
+                        class="text-gray-900 dark:text-gray-100 font-light"
+                        [class.opacity-50]="disabled()">
+                    <mat-error *ngIf="this.form().get('documentNumber')?.hasError('required')"
+                        class="text-red-400 font-light text-sm">
+                        Este campo es requerido
+                    </mat-error>
+                    <mat-error *ngIf="this.form().get('documentNumber')?.hasError('invalidRuc')"
+                        class="text-red-400 font-light text-sm">
+                        RUC inválido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de representante legal -->
+    <div class="space-y-4">
+        <div class="space-y-2">
+            <h2 class="text-xl font-semibold text-gray-600 dark:text-white tracking-wide">
+                Representante legal
+            </h2>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Tipo de Documento Representante -->
+            <div class="space-y-3">
+                <mat-form-field class="w-full" appearance="outline">
+                    <mat-label class="text-gray-600 dark:text-gray-400 font-light">Tipo de Documento</mat-label>
+                    <input matInput placeholder="DNI" *ngIf="disabled()"
+                        [value]="getDocumentTypeValue('contactDocumentType', 'N')"
+                        [readonly]="disabled()" 
+                        class="text-gray-900 dark:text-gray-100 font-light"
+                        [class.opacity-50]="disabled()">
+                    <mat-select formControlName="contactDocumentType" *ngIf="!disabled()"
+                        class="text-gray-900 dark:text-gray-100 font-light">
+                        <mat-option *ngFor="let item of documentTypesContact"
+                            [value]="item.code" 
+                            class="text-gray-900 dark:text-gray-100">
+                            {{item.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error class="text-red-400 font-light text-sm">
+                        Este campo es requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <!-- Número de documento -->
+            <div class="space-y-3">
+                <mat-form-field class="w-full" appearance="outline">
+                    <mat-label class="text-gray-600 dark:text-gray-400 font-light">Número de documento</mat-label>
+                    <input matInput formControlName="contactDocumentNumber"
+                        placeholder="Ingrese el número de documento" [readonly]="disabled()"
+                        class="text-gray-900 dark:text-gray-100 font-light"
+                        [class.opacity-50]="disabled()">
+                    <mat-error class="text-red-400 font-light text-sm">
+                        Este campo es requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de resultados -->
+    <div class="space-y-8 mt-4" *ngIf="legalResult()">
+        <div class="space-y-2">
+            <h2 class="text-2xl font-semibold text-emerald-600 dark:text-emerald-400 tracking-wide">
+                Resultado
+            </h2>
+        </div>
+        
+        <div class="space-y-6">
+            <!-- Información de la persona -->
+            <div class="group">
+                <div class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">
+                    Representante
+                </div>
+                <div class="text-xl font-light text-gray-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-200">
+                    {{ legalResult()?.name }}
+                </div>
+            </div>
+
+            <!-- Información de la organización -->
+            <div class="group">
+                <div class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">
+                    Razón social
+                </div>
+                <div class="text-xl font-light text-gray-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-200">
+                    {{ legalResult()?.organizationName }}
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

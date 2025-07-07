@@ -1,0 +1,11 @@
+@use '../../styles/custom.scss' as colors;
+.mini-fab--button__custom{
+    background-color: colors.$primary;
+    color: colors.$light;
+}
+
+.mini-fab--button-delete__custom{
+    background-color: colors.$light;
+    color: colors.$dark;
+    border-radius: 50%;
+}

@@ -1,0 +1,87 @@
+<!-- Loading Overlay Spinner -->
+@if(isLoading()) {
+<div class="absolute w-full h-full">
+    <div
+        class="absolute inset-0 bg-white/10 dark:bg-gray-900/95 backdrop-blur-xs flex items-center justify-center gap-2 z-50 animate-in fade-in duration-300">
+        <!-- Spinner Ring -->
+        <div
+            class="w-12 h-12 border-4 border-gray-200 dark:border-gray-600 border-t-emerald-500 rounded-full animate-spin"></div>
+        <!-- Loading Text -->
+        <p
+            class="text-sm font-medium text-gray-700 dark:text-gray-200 text-center">Cargando...</p>
+    </div>
+</div>
+}
+
+<h1 mat-dialog-title
+    class="text-center dark:text-white text-gray-900 text-2xl mb-4"
+    style="font-weight: 500; opacity: 0.9;">{{ftaProjectType()}}: {{stepName()}}
+</h1>
+<button mat-icon-button class="absolute! top-0 right-0 m-3"
+    (click)="close()">
+    <mat-icon class="mat-18">close</mat-icon>
+</button>
+<mat-dialog-content
+    style="scrollbar-width: thin; max-height: 100%; overflow: hidden;"
+    class="flex! flex-wrap!">
+    <div class="hidden sm:block stepper__bar">
+        <app-vertical-stepper [totalSteps]="sections().length"
+            [(currentStep)]="sectionsVisible" [formGroups]="[
+                getFormGroup('legalRepresentative'),
+                getFormGroup('projectInformation'),
+                getFormGroup('technicalDescriptions'),
+                getFormFormForm(getFormGroup('measures'), 'enviromentMeasures'),
+                getFormFormForm(getFormGroup('measures'), 'contingencyMeasures'),
+                getFormGroup('schedule'),
+                getFormGroup('attachments'),
+            ]" />
+    </div>
+    <div class="section__content">
+        <section #section>
+            <app-legal [form]="getFormGroup('legalRepresentative')"
+                [disableFields]="modeEdit()" />
+        </section>
+        <section #section class="section--inactive">
+            <app-project-data [form]="getFormGroup('projectInformation')"
+                [formData]="ftaData()?.projectInformation"
+                [disableFields]="modeEdit()" />
+        </section>
+        <section #section class="section--inactive">
+            <app-tech-desc [ftaForm]="ftaForm" [disableFields]="modeEdit()" />
+        </section>
+        <section #section class="section--inactive">
+            <app-env-measures [ftaForm]="ftaForm" />
+        </section>
+        <section #section class="section--inactive">
+            <app-contingency [ftaForm]="ftaForm" />
+        </section>
+        <section #section class="section--inactive">
+            <app-schedule [ftaForm]="ftaForm"></app-schedule>
+        </section>
+        <section #section class="section--inactive">
+            <app-attachments [ftaForm]="ftaForm" />
+        </section>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions class="flex justify-between">
+    <div>
+        @if(sectionsVisible() != 0){
+        <button mat-button (click)="prevStep()">Anterior</button>
+        }
+    </div>
+    <div class="flex items-center">
+        @if(ftaForm.valid){
+        <button mat-icon-button (click)="showPreview()" class="hidden lg:block"
+            matTooltip="Generar vista previa en PDF" matTooltipPosition="above">
+            <mat-icon class="mat-16">preview</mat-icon>
+        </button>
+        }
+        @if(sectionsVisible() < sections().length - 1){
+        <button mat-button (click)="nextStep()">Siguiente</button>
+        }
+        @if(sectionsVisible() == sections().length - 1){
+        <button mat-button (click)="finalize()"
+            [disabled]="ftaForm.invalid">Finalizar</button>
+        }
+    </div>
+</mat-dialog-actions>

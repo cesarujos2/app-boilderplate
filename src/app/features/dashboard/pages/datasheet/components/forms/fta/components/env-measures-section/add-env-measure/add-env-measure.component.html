@@ -1,0 +1,98 @@
+<h1 mat-dialog-title class="text-xl font-medium text-gray-900 dark:text-gray-100">Añadir medida a la
+    etapa de
+    {{data.stage.label}}</h1>
+<mat-dialog-content class="max-h-full flex items-center py-8! px-6!">
+    <form [formGroup]="form" 
+        class="w-full flex flex-col gap-2">
+        <div class="w-full flex flex-col sm:flex-row gap-2">
+            <mat-form-field class="flex-1" appearance="outline">
+                <mat-label>Actividad</mat-label>
+                <input matInput formControlName="activities"
+                    autocomplete="off" />
+                <mat-error
+                    *ngIf="form.get('activities')?.hasError('required')">
+                    Este campo es requerido
+                </mat-error>
+                <mat-error
+                    *ngIf="form.get('activities')?.hasError('maxlength')">
+                    Máximo 250 caracteres
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="flex-1" appearance="outline">
+                <mat-label>Componente Ambiental</mat-label>
+                <mat-select formControlName="component">
+                    @for(item of
+                    generalService.initialData().impactComponents;
+                    track
+                    item){
+                    <mat-option [value]="item.code" class="text-sm text-gray-800 dark:text-gray-200">{{item.name}}</mat-option>
+                    }
+                </mat-select>
+                <mat-error
+                    *ngIf="form.get('component')?.hasError('required')">
+                    Este campo es requerido
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="w-full flex flex-col sm:flex-row gap-2">
+            <mat-form-field class="flex-1" appearance="outline">
+                <mat-label>Impacto Ambiental</mat-label>
+                <textarea matInput formControlName="description" class="max-h-24"
+                    autocomplete="off"></textarea>
+                <mat-error
+                    *ngIf="form.get('description')?.hasError('required')">
+                    Este campo es requerido
+                </mat-error>
+                <mat-error
+                    *ngIf="form.get('description')?.hasError('maxlength')">
+                    Máximo 250 caracteres
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="flex-1" appearance="outline">
+                <mat-label>Medidas socioambientales</mat-label>
+                <textarea matInput formControlName="preventiveMeasures" class="max-h-24"
+                    autocomplete="off"></textarea>
+                <mat-error
+                    *ngIf="form.get('preventiveMeasures')?.hasError('required')">
+                    Este campo es requerido
+                </mat-error>
+                <mat-error
+                    *ngIf="form.get('preventiveMeasures')?.hasError('maxlength')">
+                    Máximo 250 caracteres
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="w-full flex flex-col sm:flex-row gap-2">
+            <mat-form-field class="flex-1" appearance="outline">
+                <mat-label>Frecuencia de la medida</mat-label>
+                <input matInput formControlName="frecuency"
+                    autocomplete="off" />
+                <mat-error
+                    *ngIf="form.get('frecuency')?.hasError('required')">
+                    Este campo es requerido
+                </mat-error>
+                <mat-error
+                    *ngIf="form.get('frecuency')?.hasError('maxlength')">
+                    Máximo 250 caracteres
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="flex-1" appearance="outline">
+                <mat-label>Medios de verificación</mat-label>
+                <input matInput formControlName="verification"
+                    autocomplete="off" />
+                <mat-error
+                    *ngIf="form.get('verification')?.hasError('required')">
+                    Este campo es requerido
+                </mat-error>
+                <mat-error
+                    *ngIf="form.get('verification')?.hasError('maxlength')">
+                    Máximo 250 caracteres
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions class="border-t border-gray-200 dark:border-gray-700">
+    <button mat-button [mat-dialog-close]="false" class="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">Cancelar</button>
+    <button mat-flat-button (click)="addNewEnvMeasure()" class="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white">Añadir</button>
+</mat-dialog-actions>

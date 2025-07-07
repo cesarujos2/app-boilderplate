@@ -1,0 +1,267 @@
+<div class="w-full flex items-center p-6 overflow-x-hidden sm:px-12"
+    style="min-height: 100%;">
+
+    @let infraestrutureTypeCode = getValue('infraestrutureType');
+    @let wiringCode = infraestrutureTypesCode.wiring;
+    <form [formGroup]="form" class="w-full flex flex-col gap-8">
+        <div class="w-full space-y-6">
+            <mat-form-field class="w-full" appearance="outline">
+                <mat-label>Tipo de Infraestructura</mat-label>
+                <input matInput type="text"  *ngIf="disableFields()" [value]="getInfraestructureTypeValue()"
+                [readonly]="disableFields()" [class.isDisabled]="disableFields()">
+                <mat-select formControlName="infraestrutureType"  *ngIf="!disableFields()"
+                [class.isDisabled]="disableFields()">
+                    @for(item of
+                    generalService.initialData().infraestructureTypes;
+                    track
+                    item){
+                    <mat-option [value]="item.code">{{item.name}}</mat-option>
+                    }
+                </mat-select>
+                <mat-error
+                    *ngIf="form.get('infraestrutureType')?.hasError('required')">
+                    Este campo es requerido
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-full" appearance="outline">
+                <mat-label>Servicio a brindar</mat-label>
+                <input matInput formControlName="service"
+                    autocomplete="off" />
+                <mat-error
+                    *ngIf="form.get('service')?.hasError('required')">
+                    Este campo es requerido
+                </mat-error>
+                <mat-error
+                    *ngIf="form.get('service')?.hasError('maxlength')">
+                    Máximo 150 caracteres
+                </mat-error>
+            </mat-form-field>
+        </div>
+        
+        <div class="text-amber-600 dark:text-amber-400 font-medium" *ngIf="this.form.hasError('zoningRequired')">
+            <mat-error>Debe ingresar una zonificación en Datos del proyecto para completar la siguiente información</mat-error>
+        </div>
+        
+        <div class="w-full space-y-6"
+            *ngIf="infraestrutureTypeCode == wiringCode">
+            <div class="w-full flex flex-col gap-4 mb-6">
+                <h2 style="font-size: 18px;" class="m-0 font-medium text-gray-800 dark:text-gray-100">Datos de la instalación de cableado*</h2>
+                <div class="flex flex-col gap-2">
+                    <mat-error *ngIf="form.hasError('wiring')" class="text-sm font-medium">Debe ingresar al menos un valor mayor que 0</mat-error>
+                    <mat-error *ngIf="form.hasError('zoning')" class="text-sm font-medium">Debe ingresar una zonificación en Datos del proyecto</mat-error>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <mat-form-field class="w-full" appearance="outline">
+                <mat-label>Longitud aérea (metros)</mat-label>
+                <input matInput formControlName="aerialLength" type="number"
+                    autocomplete="off" />
+                <mat-error
+                    *ngIf="form.get('aerialLength')?.hasError('required')">
+                    Este campo es requerido
+                </mat-error>
+                <mat-error
+                    *ngIf="form.get('aerialLength')?.hasError('max')">
+                    Máximo {{maxAerialLength()}}
+                </mat-error>
+                <mat-error
+                    *ngIf="form.get('aerialLength')?.hasError('min')">
+                    Mínimo 0
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-full" appearance="outline">
+                <mat-label>Longitud subterránea (metros)</mat-label>
+                <input matInput formControlName="undergroundLength"
+                    type="number"
+                    autocomplete="off" />
+                <mat-error
+                    *ngIf="form.get('undergroundLength')?.hasError('required')">
+                    Este campo es requerido
+                </mat-error>
+                <mat-error
+                    *ngIf="form.get('undergroundLength')?.hasError('max')">
+                    Máximo 4000
+                </mat-error>
+                <mat-error
+                    *ngIf="form.get('undergroundLength')?.hasError('min')">
+                    Mínimo 0
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-full" appearance="outline">
+                <mat-label>Postes (unidades)</mat-label>
+                <input matInput formControlName="numberNewPosts" type="number"
+                    autocomplete="off" />
+                <mat-error
+                    *ngIf="form.get('numberNewPosts')?.hasError('required')">
+                    Este campo es requerido
+                </mat-error>
+                <mat-error
+                    *ngIf="form.get('numberNewPosts')?.hasError('max')">
+                    Máximo {{maxNewPosts()}}
+                </mat-error>
+                <mat-error
+                    *ngIf="form.get('numberNewPosts')?.hasError('min')">
+                    Mínimo 0
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-full" appearance="outline">
+                <mat-label>Canalización nueva (metros)</mat-label>
+                <input matInput formControlName="lengthNewChannel" type="number"
+                    autocomplete="off" />
+                <mat-error
+                    *ngIf="form.get('lengthNewChannel')?.hasError('required')">
+                    Este campo es requerido
+                </mat-error>
+                <mat-error
+                    *ngIf="form.get('lengthNewChannel')?.hasError('max')">
+                    Máximo 4000
+                </mat-error>
+                <mat-error
+                    *ngIf="form.get('lengthNewChannel')?.hasError('min')">
+                    Mínimo 0
+                </mat-error>
+            </mat-form-field>
+            </div>
+        </div>
+        
+        <div class="w-full space-y-6"
+            *ngIf="infraestrutureTypeCode !== wiringCode && infraestrutureTypeCode?.length > 0">
+            <h2 style="font-size: 18px;" class="w-full font-medium text-gray-800 dark:text-gray-100 mb-4">Datos de la antena</h2>
+            <div class="w-full flex flex-wrap gap-4">
+                <mat-form-field class="min-w-0 flex-1" style="min-width: 50%" appearance="outline"
+                    *ngIf="rules().showMimicryList">
+                    <mat-label>Tipo de Mimetización</mat-label>
+                    <mat-select formControlName="mimicryType">
+                        <mat-option disabled *ngIf="!zoning()">No ha
+                            seleccionado zonificación en Datos del
+                            Proyecto</mat-option>
+                        <mat-option disabled
+                            *ngIf="getValue('infraestrutureType').length == 0">No
+                            ha seleccionado tipo de infraestructura</mat-option>
+                        @for(item of rules().mimicryTypes;
+                        track
+                        item){
+                        <mat-option style="font-size: 14px;"
+                            [value]="item.code">{{item.name}}</mat-option>
+                        }
+                    </mat-select>
+                    <mat-error
+                        *ngIf="form.get('mimicryType')?.hasError('required')">
+                        Este campo es requerido
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="min-w-0 flex-1" style="min-width: 250px;" appearance="outline">
+                    <mat-label>Valor del RNI (W / m2)</mat-label>
+                    <input matInput formControlName="rniValue" type="number"
+                        autocomplete="off" />
+                    <mat-error
+                        *ngIf="form.get('rniValue')?.hasError('required')">
+                        Este campo es requerido
+                    </mat-error>
+                    <mat-error
+                        *ngIf="form.get('rniValue')?.hasError('max')">
+                        Máximo 5 (50% del LMP)
+                    </mat-error>
+                    <mat-error
+                        *ngIf="form.get('rniValue')?.hasError('min')">
+                        Mínimo 0.000001
+                    </mat-error>
+                    <mat-error
+                        *ngIf="form.get('rniValue')?.hasError('pattern')">
+                        Máximo 5 decimales
+                    </mat-error>
+                </mat-form-field>
+                <mat-error
+                    *ngIf="form.hasError('ratio')" class="w-full font-medium text-red-600 dark:text-red-400 mb-2">
+                    Relación (antena / edificación) supera 0.5
+                </mat-error>
+                <mat-form-field class="min-w-0 flex-1" style="min-width: 250px;" appearance="outline">
+                    <mat-label>Altura de la antena (metros)</mat-label>
+                    <input matInput formControlName="antennaHeight"
+                        autocomplete="off" />
+                    <mat-error
+                        *ngIf="form.get('antennaHeight')?.hasError('required')">
+                        Este campo es requerido
+                    </mat-error>
+                    <mat-error
+                        *ngIf="form.get('antennaHeight')?.hasError('min')">
+                        Mínimo {{minAntennaHeight()}}
+                    </mat-error>
+                    <mat-error
+                        *ngIf="form.get('antennaHeight')?.hasError('max')">
+                        Máximo {{maxAntennaHeight()}}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="min-w-0 flex-1" style="min-width: 250px;" appearance="outline"
+                    *ngIf="rules().showRooftopFields">
+                    <mat-label>Altura de la edificación</mat-label>
+                    <input matInput formControlName="buildingHeight"
+                        type="number"
+                        autocomplete="off" />
+                    <mat-error
+                        *ngIf="form.get('buildingHeight')?.hasError('required')">
+                        Este campo es requerido
+                    </mat-error>
+                    <mat-error
+                        *ngIf="form.get('buildingHeight')?.hasError('min')">
+                        Mínimo {{minBuildingHeight()}}
+                    </mat-error>
+                    <mat-error
+                        *ngIf="form.get('buildingHeight')?.hasError('max')">
+                        Máximo {{maxBuildingHeight()}}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="min-w-0 flex-1" style="min-width: 400px;" appearance="outline"
+                    *ngIf="this.getValue('infraestrutureType') == infraestrutureTypesCode.radiodifusion">
+                    <mat-label>Resolución directoral que otorga la
+                        autorización</mat-label>
+                    <input matInput formControlName="authResolucion"
+                        autocomplete="off" />
+                    <mat-error
+                        *ngIf="form.get('authResolucion')?.hasError('required')">
+                        Este campo es requerido
+                    </mat-error>
+                    <mat-error
+                        *ngIf="form.get('authResolucion')?.hasError('maxlength')">
+                        Máximo 20 caracteres
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div
+                class="w-full flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mt-8 pt-6"
+                *ngIf=" mimicryGeneralTypes.OTHER.includes(getValue('mimicryType')) && this.zoning()?.value1 === zoningValues.URBAN">
+                <div class="flex-1 max-w-lg">
+                    <p class="text-sm leading-relaxed text-gray-700 dark:text-gray-300" style="min-width: 300px;">Ha
+                        seleccionado <span class="font-semibold text-gray-900 dark:text-gray-100">"Otra mimetización"</span>,
+                        opción no contemplada en el <strong class="text-gray-900 dark:text-gray-100">D.S. Nº
+                            004-2019-MTC</strong>. Adjunte en PDF su propuesta
+                        alternativa autorizada por la Municipalidad.
+                    </p>
+                </div>
+                @let errorsFile = this.form.get('authOtherMimicFile')?.errors;
+                <div class="flex-1 flex justify-center sm:justify-end">
+                    <button mat-fab extended type="button" class="min-w-60"
+                        class="button-fab--extended__custom m-2"
+                        [ngClass]="{
+                        'valid': !errorsFile,
+                        'invalid': errorsFile
+                    }"
+                        (click)="otherMimicryFile.click()">
+                        <mat-icon>upload</mat-icon>
+                        <span *ngIf="!errorsFile">Cargado correctamente</span>
+                        <span *ngIf="errorsFile?.['required']">Sin
+                            Adjunto</span>
+                        <span *ngIf="errorsFile?.['invalidFile']">El documento
+                            no es válido</span>
+                        <span *ngIf="errorsFile?.['maxSizeExceeded']">Límite superado:
+                            {{errorsFile?.['maxSizeExceeded']?.size}} MB</span>
+                    </button>
+                </div>
+                <input type="file" class="hidden" #otherMimicryFile
+                    accept=".pdf"
+                    (change)="otherMimycryFileChange($event)">
+            </div>
+        </div>
+    </form>
+</div>

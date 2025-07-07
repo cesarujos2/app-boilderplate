@@ -1,0 +1,65 @@
+<div class="min-h-[100%] w-full flex flex-col justify-center px-4">
+    <div class="w-full flex flex-col gap-1">
+        @if(contMeasureForms.length > 0){
+        <div *ngFor="let contMeasForm of contMeasureForms">
+            <form [formGroup]="contMeasForm"
+                class="flex items-center measure-item py-4 px-2 hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors duration-200 group">
+                <div
+                    class="w-full flex flex-col md:flex-row items-stretch md:items-center gap-4">
+                    <div class="md:w-1/4 flex flex-col justify-center min-h-[60px]">
+                        <h2 class="header-text text-base font-medium text-gray-700 dark:text-gray-300 leading-relaxed"
+                            *ngFor="let item of contMeasForm.get('risk')?.value.trim().split('//')">
+                            {{item}}
+                        </h2>
+                        @if(contMeasForm.get('selected')?.hasError('required')){
+                        <mat-error class="text-xs mt-1">*Requerido</mat-error>
+                        }
+                    </div>
+                    <div class="md:w-2/3 flex-1"> 
+                        <mat-form-field class="w-full" appearance="outline">
+                            <mat-label class="text-gray-600 dark:text-gray-400">Medida de contingencia</mat-label>
+                            <textarea matInput 
+                                class="text-sm! leading-relaxed resize-none focus:ring-0"
+                                style="letter-spacing: -0.2px; max-height: 120px; min-height: 40px;" 
+                                formControlName="contingencyMeasure"
+                                placeholder="Describa la medida de contingencia...">
+                            </textarea>
+                            <mat-error *ngIf="contMeasForm.get('contingencyMeasure')?.hasError('required')" class="text-xs">
+                                Es requerido
+                            </mat-error>
+                            <mat-error *ngIf="contMeasForm.get('contingencyMeasure')?.hasError('maxLength')" class="text-xs">
+                                Máximo 500 caracteres
+                            </mat-error>
+                          </mat-form-field>
+                    </div>
+                    <div class="md:w-auto flex justify-center items-center">
+                        <mat-slide-toggle formControlName="selected"
+                            (change)="onToggleChange()" 
+                            class="scale-90" />
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="w-full flex justify-end py-3" style="scale: 0.95;">
+            <mat-slide-toggle labelPosition="before" [(ngModel)]="allChecked"
+                (change)="allToggleChange($event)"
+                class="text-sm text-gray-600 dark:text-gray-400">
+                Marcar todo
+            </mat-slide-toggle>
+        </div>
+        } @else {
+        <div class="flex justify-center py-12">
+            <div class="measure-item__content--no-data text-center max-w-md">
+                <div class="flex justify-center mb-4">
+                    <mat-icon class="text-gray-400 dark:text-gray-500 text-5xl">assignment_late</mat-icon>
+                </div>
+                <div class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
+                    Debe seleccionar un tipo de infraestructura en la sección
+                    <span class="font-medium text-gray-700 dark:text-gray-300">DESCRIPCIÓN TÉCNICA</span> 
+                    para visualizar las medidas de contingencia predefinidas disponibles en esta sección.
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>

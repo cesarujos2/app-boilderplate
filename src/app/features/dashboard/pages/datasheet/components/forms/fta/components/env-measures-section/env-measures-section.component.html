@@ -1,0 +1,134 @@
+<div class="w-full">
+    <!-- Header Section Mejorado -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 p-4 rounded-lg">
+        <div class="flex items-center space-x-3 mb-3 sm:mb-0">
+            <div class="flex-shrink-0">
+                <div class="w-10 h-10 bg-emerald-100 dark:bg-emerald-900 rounded-lg flex items-center justify-center">
+                    <mat-icon class="text-blue-600 dark:text-blue-400">eco</mat-icon>
+                </div>
+            </div>
+            <div>
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                    Etapa de {{stage().label}}
+                </h2>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Medidas ambientales para esta etapa del proyecto
+                </p>
+            </div>
+        </div>
+        <div class="flex-shrink-0">
+            <button 
+                mat-button 
+                color="primary"
+                (click)="addEnvMeasure()">
+                <mat-icon class="mr-2">add</mat-icon>
+                Añadir Medida
+            </button>
+        </div>
+    </div>
+
+    @if(envMeasureForms.length > 0){
+        <!-- Error Message -->
+        @if(form().hasError('atLeastOneRequired')){
+            <div class="mb-4 p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                <div class="flex items-center">
+                    <mat-icon class="text-red-500 mr-2">warning</mat-icon>
+                    <mat-error class="text-red-700 dark:text-red-400">Al menos una medida debe ser seleccionada</mat-error>
+                </div>
+            </div>
+        }
+    <div class="space-y-4">
+        <ng-container
+            *ngFor="let envMeasForm of envMeasureForms; let i = index">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden transition-all duration-200">
+                <form [formGroup]="envMeasForm">
+                    <!-- Header Section -->
+                    <div class="flex items-center justify-between p-4 dark:from-gray-700 dark:to-gray-800">
+                        <div class="flex items-center space-x-4 flex-1">
+                            <div class="flex-shrink-0">
+                                <mat-slide-toggle 
+                                    formControlName="selected"
+                                    color="primary" style="scale: 0.8;">
+                                </mat-slide-toggle>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="text-sm font-normal text-gray-900 dark:text-gray-100 leading-relaxed"
+                                     *ngFor="let item of envMeasForm.get('preventiveMeasures')?.value.trim().split('//')">
+                                    {{item}}
+                                </div>
+                                <div class="text-xs text-gray-600 dark:text-gray-400 mt-1" 
+                                     *ngIf="envMeasForm.get('description')?.value">
+                                    {{envMeasForm.get('description')?.value | slice:0:100}}{{envMeasForm.get('description')?.value.length > 100 ? '...' : ''}}
+                                </div>
+                            </div>
+                        </div>
+                        <button 
+                            mat-icon-button 
+                            type="button"
+                            class="ml-2 transition-transform duration-200 ease-in-out rounded-full"
+                            [class.rotate-180]="isExpanded(i)"
+                            (click)="showInfoItem(i)"
+                            [attr.aria-expanded]="isExpanded(i)"
+                            [attr.aria-label]="'Expandir detalles de la medida ' + (i + 1)">
+                            <mat-icon class="text-gray-600 dark:text-gray-400">expand_more</mat-icon>
+                        </button>
+                    </div>
+
+                    <!-- Expandable Details Section -->
+                    <div #infoItem class="--invisible overflow-hidden transition-all duration-300 ease-in-out">
+                        <div class="p-4 bg-gray-50 dark:bg-gray-900">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                @for(field of fields; track field){
+                                    <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+                                        <h4 class="text-sm font-semibold text-blue-700 dark:text-blue-400 mb-2 flex items-center">
+                                            <span class="w-2 h-2 rounded-full mr-2"></span>
+                                            {{field.label}}
+                                        </h4>
+                                        <div class="space-y-1">
+                                            @if(envMeasForm.get(field.key)?.value && envMeasForm.get(field.key)?.value.trim()) {
+                                                <div class="text-xs text-gray-700 dark:text-gray-300 leading-relaxed p-1 m-0"
+                                                     *ngFor="let item of envMeasForm.get(field.key)?.value.trim().split('//')">
+                                                    {{item | componentName: field.key == 'component'}}
+                                                </div>
+                                            } @else {
+                                                <span class="text-xs text-gray-500 dark:text-gray-400 italic bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
+                                                    No especificado
+                                                </span>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </ng-container>
+    </div>
+    } @else {
+        <!-- Empty State -->
+        <div class="text-center py-12 px-6">
+            <div class="w-24 h-24 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+                <mat-icon class="text-4xl text-gray-400 dark:text-gray-600">nature</mat-icon>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+                No hay medidas disponibles
+            </h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 max-w-md mx-auto leading-relaxed">
+                Debe seleccionar un tipo de infraestructura en la sección 
+                <span class="font-semibold text-blue-600 dark:text-blue-400">Descripción Técnica</span> 
+                para visualizar las medidas ambientales predefinidas disponibles.
+            </p>
+            <div class="mt-6">
+                <button 
+                    mat-stroked-button 
+                    color="primary"
+                    (click)="addEnvMeasure()"
+                    class="px-6">
+                    <mat-icon class="mr-2">add</mat-icon>
+                    Añadir Medida Manual
+                </button>
+            </div>
+        </div>
+    }
+</div>

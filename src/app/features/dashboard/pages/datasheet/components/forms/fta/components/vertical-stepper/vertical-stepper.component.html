@@ -1,0 +1,24 @@
+<div class="stepper px-4">
+  @for (step of [].constructor(totalSteps()); track $index) {
+    @let status = getStepStatus($index);
+
+    <button mat-mini-fab
+      [ngClass]="{
+        'valid': status.isValid,
+        'invalid': !status.isValid && status.isVisited,
+        'not-visited': !status.isVisited,
+        'active': status.isActive
+      }"
+      class="step"
+      (click)="goToStep($index)">
+      
+      @if (status.isValid && status.isActive) {
+        <mat-icon>done_all</mat-icon>
+      } @else if (status.isActive) {
+        <mat-icon>edit</mat-icon>
+      } @else {
+        {{ $index + 1 }}
+      }
+    </button>
+  }
+</div>

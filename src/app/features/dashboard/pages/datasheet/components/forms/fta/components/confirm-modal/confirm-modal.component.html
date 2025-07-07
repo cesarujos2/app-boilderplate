@@ -1,0 +1,34 @@
+<div mat-dialog-title class="modal-header">
+  <div class="modal-icon" *ngIf="data.icon">
+    <mat-icon [style.color]="data.iconColor" aria-hidden="true">{{ data.icon }}</mat-icon>
+  </div>
+  <div class="text-gray-700 font-medium dark:text-gray-50">
+    <span>{{ data.title }}</span>
+  </div>
+</div>
+
+<div mat-dialog-content>
+  <p *ngIf="data.message">{{ data.message }}</p>
+  <div *ngIf="data.html" [innerHTML]="safeHtml"></div>
+</div>
+
+<div mat-dialog-actions>
+  <button
+    *ngIf="data.showCancelButton"
+    mat-button
+    mat-dialog-close
+    (click)="onDismissClick()"
+    aria-label="Cancel">
+    No
+  </button>
+  <button
+    *ngIf="data.showConfirmButton"
+    mat-flat-button
+    mat-dialog-close
+    cdkFocusInitial
+    (click)="onConfirmClick()"
+    color="primary"
+    aria-label="Confirm">
+    Sí
+  </button>
+</div>
