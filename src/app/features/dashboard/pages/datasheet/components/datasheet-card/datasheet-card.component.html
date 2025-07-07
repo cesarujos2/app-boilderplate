@@ -19,7 +19,7 @@
                         {{ datasheetDetails()?.datasheetMods?.length }}
                     </div>
                 </button>
-            </div>            <!-- ID (1 col) -->
+            </div> <!-- ID (1 col) -->
             <div class="col-span-1 flex flex-col items-center px-1.5">
                 <div
                     class="select-none bg-gradient-to-br from-emerald-500 to-emerald-600 dark:from-emerald-400 dark:to-emerald-500 text-white dark:text-emerald-950 text-sm font-bold px-1.5 py-1 rounded-full shadow-lg min-w-[50px] text-center border border-emerald-400/30 dark:border-emerald-300/30 cursor-pointer hover:shadow-xl hover:scale-105 transition-all duration-200 active:scale-95"
@@ -94,9 +94,18 @@
             <div class="col-span-1 flex justify-center">
                 <button mat-icon-button
                     class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                    [matMenuTriggerFor]="datasheetMenu"
                     (click)="$event.stopPropagation()">
                     <mat-icon>more_vert</mat-icon>
                 </button>
+                <mat-menu #datasheetMenu="matMenu">
+                    @if(datasheetDetails()?.fitacFileId){
+                    <button mat-menu-item (click)="viewFitacFile($event)">
+                        <mat-icon>attach_file</mat-icon>
+                        <span>Ver archivo FITAC</span>
+                    </button>
+                    }
+                </mat-menu>
             </div>
         </div>
         <!-- Contenido principal - Mobile/Tablet -->
@@ -141,9 +150,19 @@
                                 </app-custom-chip>
                                 <button mat-icon-button
                                     class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 flex-shrink-0"
-                                    (click)="$event.stopPropagation()">
+                                    (click)="$event.stopPropagation()"
+                                    [matMenuTriggerFor]="datasheetMenu">
                                     <mat-icon>more_vert</mat-icon>
                                 </button>
+                                <mat-menu #datasheetMenu="matMenu">
+                                    @if(datasheetDetails()?.fitacFileId){
+                                    <button mat-menu-item
+                                        (click)="viewFitacFile($event)">
+                                        <mat-icon>attach_file</mat-icon>
+                                        <span>Ver archivo FITAC</span>
+                                    </button>
+                                    }
+                                </mat-menu>
                             </div>
                         </div>
                     </div>
@@ -189,9 +208,19 @@
                                 </app-custom-chip>
                                 <button mat-icon-button
                                     class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 flex-shrink-0"
-                                    (click)="$event.stopPropagation()">
+                                    (click)="$event.stopPropagation()"
+                                    [matMenuTriggerFor]="datasheetMenu">
                                     <mat-icon>more_vert</mat-icon>
                                 </button>
+                                <mat-menu #datasheetMenu="matMenu">
+                                    @if(datasheetDetails()?.fitacFileId){
+                                    <button mat-menu-item
+                                        (click)="viewFitacFile($event)">
+                                        <mat-icon>attach_file</mat-icon>
+                                        <span>Ver archivo FITAC</span>
+                                    </button>
+                                    }
+                                </mat-menu>
                             </div>
                         </div>
 
@@ -272,7 +301,8 @@
                     <div class="space-y-3 text-sm">
                         <div class="flex justify-between items-start">
                             <span
-                                class="text-gray-600 dark:text-gray-400 flex-shrink-0">N° Registro:</span>
+                                class="text-gray-600 dark:text-gray-400 flex-shrink-0">N°
+                                Registro:</span>
                             <span
                                 class="text-gray-900 dark:text-white text-right ml-2 break-words">
                                 {{ datasheetDetails()?.id }}
@@ -417,7 +447,7 @@
 
                         <!-- Filas -->
                         <div
-                            *ngFor="let mod of datasheetDetails()?.datasheetMods; trackBy: trackById"
+                            *ngFor="let mod of datasheetDetails()?.datasheetMods; let i = index; trackBy: trackById"
                             class="grid grid-cols-6 gap-4 px-4 py-3 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
                             <div class="text-sm text-gray-900 dark:text-white">
                                 {{ mod.requestNumber }}
@@ -440,15 +470,25 @@
                             <div>
                                 <button mat-icon-button
                                     class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                                    (click)="$event.stopPropagation()">
+                                    (click)="$event.stopPropagation()"
+                                    [matMenuTriggerFor]="datasheetModMenu"  >
                                     <mat-icon>more_vert</mat-icon>
                                 </button>
+                                <mat-menu #datasheetModMenu="matMenu">
+                                    @if(mod.fitacFileId){
+                                    <button mat-menu-item
+                                        (click)="viewFitacFileMod($event, i)">
+                                        <mat-icon>attach_file</mat-icon>
+                                        <span>Ver archivo FITAC</span>
+                                    </button>
+                                    }
+                                </mat-menu>
                             </div>
                         </div>
                     </div> <!-- Vista de tarjetas para móviles -->
                     <div class="sm:hidden space-y-2">
                         <div
-                            *ngFor="let mod of datasheetDetails()?.datasheetMods; trackBy: trackById"
+                            *ngFor="let mod of datasheetDetails()?.datasheetMods; let i = index; trackBy: trackById"
                             class="bg-white dark:bg-gray-900 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
 
                             <!-- Header: Estado y Botón de acción -->
@@ -457,9 +497,19 @@
                                     {{ mod.status?.name }}
                                 </app-custom-chip> <button mat-icon-button
                                     class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                                    (click)="$event.stopPropagation()">
+                                    (click)="$event.stopPropagation()"
+                                    [matMenuTriggerFor]="datasheetModMenu">
                                     <mat-icon>more_vert</mat-icon>
                                 </button>
+                                <mat-menu #datasheetModMenu="matMenu">
+                                    @if(mod.fitacFileId){
+                                    <button mat-menu-item
+                                        (click)="viewFitacFileMod($event, i)">
+                                        <mat-icon>attach_file</mat-icon>
+                                        <span>Ver archivo FITAC</span>
+                                    </button>
+                                    }
+                                </mat-menu>
                             </div>
 
                             <!-- Contenido principal -->

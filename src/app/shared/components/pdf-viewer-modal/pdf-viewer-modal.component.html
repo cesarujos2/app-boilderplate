@@ -1,0 +1,77 @@
+<div class="pdf-viewer-modal">
+    <!-- Header del modal -->
+    <div
+        class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+        <div class="flex items-center space-x-3">
+            <mat-icon
+                class="text-emerald-500! dark:text-emerald-400!">picture_as_pdf</mat-icon>
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+                {{ data.title || 'Archivo FITAC' }}
+            </h2>
+        </div>
+        <div class="flex space-x-2">
+            <button
+                mat-icon-button
+                (click)="downloadPdf()"
+                matTooltip="Descargar PDF">
+                <mat-icon>download</mat-icon>
+            </button>
+            <button
+                mat-icon-button
+                (click)="openInNewTab()"
+                matTooltip="Abrir en nueva pestaña">
+                <mat-icon>open_in_new</mat-icon>
+            </button>
+            <button
+                mat-icon-button
+                (click)="closeModal()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <!-- Contenido del modal -->
+    <div class="pdf-content relative">
+        @if (isLoading()) {
+        <!-- Estado de carga -->
+        <div class="flex flex-col items-center justify-center py-16 space-y-4">
+            <mat-spinner diameter="48" class="!text-emerald-500"></mat-spinner>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Cargando
+                documento...</p>
+        </div>
+        } @else if (errorMessage()) {
+        <!-- Estado de error -->
+        <div class="flex flex-col items-center justify-center py-16 space-y-4">
+            <div
+                class="flex items-center justify-center w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full">
+                <mat-icon
+                    class="text-red-500 dark:text-red-400 text-3xl">error_outline</mat-icon>
+            </div>
+            <div class="text-center space-y-2">
+                <h3
+                    class="text-lg font-medium text-gray-900 dark:text-white">Error
+                    al cargar documento</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 max-w-sm">
+                    {{ errorMessage() }}
+                </p>
+            </div>
+            <button
+                mat-button
+                (click)="retryLoad()"
+                class="!text-emerald-600 dark:!text-emerald-400 hover:!bg-emerald-50 dark:hover:!bg-emerald-900/20">
+                <mat-icon>refresh</mat-icon>
+                Intentar de nuevo
+            </button>
+        </div>
+        } @else if (pdfUrl()) {
+        <!-- PDF embebido -->
+        <div class="pdf-container relative">
+            <iframe
+                [src]="pdfUrl()"
+                class="w-full h-full border-0"
+                style="min-height: 70vh;">
+            </iframe>
+        </div>
+        }
+    </div>
+</div>

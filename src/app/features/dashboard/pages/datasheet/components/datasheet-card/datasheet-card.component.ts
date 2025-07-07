@@ -9,11 +9,13 @@ import { IExpandableContent } from '../../../../models/common';
 import { StatusDisplayService } from '../../services/status-display.service';
 import { CustomChipComponent } from '../../../../components/custom-chip';
 import { ClipboardService } from '../../../../../../shared/services/utilities';
+import { MatMenuModule } from '@angular/material/menu';
+import { PdfModalService } from '../../../../../../shared/services/ui/pdf-modal.service';
 
 @Component({
   selector: 'app-datasheet-card',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatRippleModule, CustomChipComponent, MatTooltipModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatRippleModule, CustomChipComponent, MatTooltipModule, MatMenuModule],
   templateUrl: './datasheet-card.component.html',
 })
 export class DatasheetCardComponent implements IExpandableContent {
@@ -23,6 +25,7 @@ export class DatasheetCardComponent implements IExpandableContent {
 
   statusDisplay = inject(StatusDisplayService);
   private clipboardService = inject(ClipboardService);
+  private pdfModalService = inject(PdfModalService);
 
   // Computed property to get the status of the datasheet
   datasheetDetails = computed(() => {
@@ -64,5 +67,36 @@ export class DatasheetCardComponent implements IExpandableContent {
     if (!id) return;
 
     await this.clipboardService.copyId(id);
+  }
+
+  /**
+   * Abre el modal para ver el archivo FITAC PDF
+   * Delega la responsabilidad al PdfModalService siguiendo SRP
+   */
+  viewFitacFile(event: Event): void {
+    event.stopPropagation(); // Evita que se active el toggle
+    
+    const fitacFileId = this.datasheetDetails()?.fitacFileId;
+    if (!fitacFileId) {
+      console.warn('No hay archivo FITAC disponible');
+      return;
+    }
+
+    const projectName = this.datasheetDetails()?.projectName;
+    const title = projectName ? `Archivo FITAC - ${projectName}` : 'Archivo FITAC';
+    
+    this.pdfModalService.openFitacPdf(fitacFileId, title);
+  }
+
+  viewFitacFileMod(event: Event, index: number): void {
+    event.stopPropagation(); // Evita que se active el toggle
+
+    const fitacMod = this.datasheetDetails()?.datasheetMods[index];
+    if (!fitacMod?.fitacFileId) {
+      console.warn('No hay archivo FITAC disponible');
+      return;
+    }
+
+    this.pdfModalService.openFitacPdf(fitacMod.fitacFileId, "Levantamiento de observaciones FITAC");
   }
 }
