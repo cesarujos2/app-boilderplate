@@ -105,6 +105,12 @@
                         <span>Ver archivo FITAC</span>
                     </button>
                     }
+                    @if(canDelete()){
+                    <button mat-menu-item (click)="deleteDatasheet($event)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Eliminar</span>
+                    </button>
+                    }
                 </mat-menu>
             </div>
         </div>
@@ -160,6 +166,12 @@
                                         (click)="viewFitacFile($event)">
                                         <mat-icon>attach_file</mat-icon>
                                         <span>Ver archivo FITAC</span>
+                                    </button>
+                                    }
+                                    @if(canDelete()){
+                                    <button mat-menu-item (click)="deleteDatasheet($event)">
+                                        <mat-icon>delete</mat-icon>
+                                        <span>Eliminar</span>
                                     </button>
                                     }
                                 </mat-menu>
@@ -218,6 +230,12 @@
                                         (click)="viewFitacFile($event)">
                                         <mat-icon>attach_file</mat-icon>
                                         <span>Ver archivo FITAC</span>
+                                    </button>
+                                    }
+                                    @if(canDelete()){
+                                    <button mat-menu-item (click)="deleteDatasheet($event)">
+                                        <mat-icon>delete</mat-icon>
+                                        <span>Eliminar</span>
                                     </button>
                                     }
                                 </mat-menu>

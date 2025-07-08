@@ -22,6 +22,10 @@ export class DatasheetRepository {
     return this.http.get<ApiResponse<DatasheetResponse>>(`${this.baseUrl}`, { params });
   }
 
+  deleteDatasheet(id: number): Observable<ApiResponse<null>> {
+    return this.http.post<ApiResponse<null>>(`${this.baseUrl}/${id}/delete`, {});
+  }
+
   private buildHttpParams(filters: DatasheetRequest): HttpParams {
     let params = new HttpParams();
     Object.keys(filters).forEach(key => {

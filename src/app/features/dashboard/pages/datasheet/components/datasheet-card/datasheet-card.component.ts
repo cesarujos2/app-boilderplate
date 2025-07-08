@@ -11,6 +11,7 @@ import { CustomChipComponent } from '../../../../components/custom-chip';
 import { ClipboardService } from '../../../../../../shared/services/utilities';
 import { MatMenuModule } from '@angular/material/menu';
 import { PdfModalService } from '../../../../../../shared/services/ui/pdf-modal.service';
+import { DatasheetService } from '../../services/datasheet.service';
 
 @Component({
   selector: 'app-datasheet-card',
@@ -26,6 +27,7 @@ export class DatasheetCardComponent implements IExpandableContent {
   statusDisplay = inject(StatusDisplayService);
   private clipboardService = inject(ClipboardService);
   private pdfModalService = inject(PdfModalService);
+  private datasheetService = inject(DatasheetService);
 
   // Computed property to get the status of the datasheet
   datasheetDetails = computed(() => {
@@ -98,5 +100,25 @@ export class DatasheetCardComponent implements IExpandableContent {
     }
 
     this.pdfModalService.openFitacPdf(fitacMod.fitacFileId, "Levantamiento de observaciones FITAC");
+  }
+
+  /**
+   * Verifica si el datasheet puede ser eliminado (solo si está en estado VALIDATED)
+   */
+  canDelete(): boolean {
+    const datasheet = this.datasheet();
+    return datasheet ? this.datasheetService.canDeleteDatasheet(datasheet) : false;
+  }
+
+  /**
+   * Elimina el datasheet con confirmación
+   */
+  deleteDatasheet(event: Event): void {
+    event.stopPropagation();
+    
+    const datasheet = this.datasheet();
+    if (!datasheet) return;
+
+    this.datasheetService.deleteDatasheetWithConfirmation(datasheet).subscribe();
   }
 }

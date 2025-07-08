@@ -34,4 +34,10 @@ export class DatasheetStore {
     this.totalDatasheets.set(0);
     this.isLoading.set(false);
   }
+
+  removeDatasheet(id: number): void {
+    const currentDatasheets = this.datasheetList();
+    const updatedDatasheets = currentDatasheets.filter(ds => ds.id !== id);
+    this.datasheetList.set(updatedDatasheets);
+  }
 }
