@@ -1,3 +1,5 @@
+import { ProjectTypeAcronym } from "./project-type.interface";
+
 export type FitacStatus = 'VALIDATED' | 'FOR_SIGNATURE' | 'PRESENTED' | 'UNDER_REVIEW' | 'RESOLVED';
 
 export interface RequestStatus {
@@ -36,6 +38,7 @@ export interface DatasheetResponse  {
 
 export interface Datasheet {
   id: number;
+  projectType: ProjectTypeAcronym
   idHashed: string;
   projectName: string;
   requestNumber: string;
@@ -51,7 +54,7 @@ export interface Datasheet {
   datasheetMods: DatasheetMod[];
 }
 
-interface DatasheetMod {
+export interface DatasheetMod {
   id: number;
   requestNumber: string;
   expedientNumber: string;
@@ -60,4 +63,20 @@ interface DatasheetMod {
   creationDate: string;
   modificationDate: string;
   officeFileId: string;
+}
+
+export interface  IChangeStatus
+{
+    id: string;
+    idMod?: number;
+    status: string;
+    password?: string;
+}
+
+export interface IChangeStatusResponse
+{
+    success: boolean;
+    status: string;
+    message?: string;
+    requestNumber?: string;
 }

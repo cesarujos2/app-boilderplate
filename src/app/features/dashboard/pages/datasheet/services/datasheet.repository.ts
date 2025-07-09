@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../../../../../core/models/api/apiResponse';
-import { DatasheetRequest, DatasheetResponse } from '../models/datasheet.interface';
+import { DatasheetRequest, DatasheetResponse, IChangeStatus, IChangeStatusResponse } from '../models/datasheet.interface';
 import { AppInfoService } from '@core/services';
 
 /**
@@ -24,6 +24,10 @@ export class DatasheetRepository {
 
   deleteDatasheet(id: number): Observable<ApiResponse<null>> {
     return this.http.post<ApiResponse<null>>(`${this.baseUrl}/${id}/delete`, {});
+  }
+
+  changeStatus(request: IChangeStatus): Observable<IChangeStatusResponse> {
+    return this.http.post<IChangeStatusResponse>(`${this.baseUrl}/apply-transition`, request)
   }
 
   private buildHttpParams(filters: DatasheetRequest): HttpParams {

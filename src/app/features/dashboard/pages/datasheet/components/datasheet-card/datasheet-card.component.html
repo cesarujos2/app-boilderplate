@@ -111,6 +111,12 @@
                         <span>Eliminar</span>
                     </button>
                     }
+                    @if(canTransition()) {
+                    <button mat-menu-item (click)="applyTransition()" [disabled]="isLoading()">
+                        <mat-icon>{{isLoading() ? 'hourglass_empty' : 'arrow_forward'}}</mat-icon>
+                        <span>{{datasheetDetails()?.status?.transitionName}}</span>
+                    </button>
+                    }
                 </mat-menu>
             </div>
         </div>
@@ -169,9 +175,17 @@
                                     </button>
                                     }
                                     @if(canDelete()){
-                                    <button mat-menu-item (click)="deleteDatasheet($event)">
+                                    <button mat-menu-item
+                                        (click)="deleteDatasheet($event)">
                                         <mat-icon>delete</mat-icon>
                                         <span>Eliminar</span>
+                                    </button>
+                                    }
+                                    @if(canTransition()) {
+                                    <button mat-menu-item
+                                        (click)="applyTransition()">
+                                        <mat-icon>arrow_forward</mat-icon>
+                                        <span>{{datasheetDetails()?.status?.transitionName}}</span>
                                     </button>
                                     }
                                 </mat-menu>
@@ -233,9 +247,17 @@
                                     </button>
                                     }
                                     @if(canDelete()){
-                                    <button mat-menu-item (click)="deleteDatasheet($event)">
+                                    <button mat-menu-item
+                                        (click)="deleteDatasheet($event)">
                                         <mat-icon>delete</mat-icon>
                                         <span>Eliminar</span>
+                                    </button>
+                                    }
+                                    @if(canTransition()) {
+                                    <button mat-menu-item
+                                        (click)="applyTransition()">
+                                        <mat-icon>arrow_forward</mat-icon>
+                                        <span>{{datasheetDetails()?.status?.transitionName}}</span>
                                     </button>
                                     }
                                 </mat-menu>
@@ -489,7 +511,7 @@
                                 <button mat-icon-button
                                     class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                                     (click)="$event.stopPropagation()"
-                                    [matMenuTriggerFor]="datasheetModMenu"  >
+                                    [matMenuTriggerFor]="datasheetModMenu">
                                     <mat-icon>more_vert</mat-icon>
                                 </button>
                                 <mat-menu #datasheetModMenu="matMenu">
@@ -498,6 +520,13 @@
                                         (click)="viewFitacFileMod($event, i)">
                                         <mat-icon>attach_file</mat-icon>
                                         <span>Ver archivo FITAC</span>
+                                    </button>
+                                    }
+                                    @if(canModTransition(i)){
+                                    <button mat-menu-item
+                                        (click)="applyModTransition(i)">
+                                        <mat-icon>arrow_forward</mat-icon>
+                                        <span>{{ mod.status?.transitionName }}</span>
                                     </button>
                                     }
                                 </mat-menu>
