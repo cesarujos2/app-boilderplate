@@ -3,6 +3,8 @@ import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { DatePipe, CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { APP_DATE_FORMATS, AppDateAdapter } from '../../../datasheet/components/forms/fta/adapters/dateAdapter';
 import { LogService } from './services/log.service';
 
@@ -10,7 +12,7 @@ import { LogService } from './services/log.service';
   selector: 'app-log',
   standalone: true,
   imports: [
-    MatFormFieldModule, MatInputModule, MatDatepickerModule
+    MatFormFieldModule, MatInputModule, MatDatepickerModule, DatePipe, CommonModule, FormsModule
   ],
   providers: [
     { provide: DateAdapter, useClass: AppDateAdapter },
@@ -18,25 +20,80 @@ import { LogService } from './services/log.service';
   ],
   templateUrl: './log.page.html',
   styleUrl: './log.page.scss',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export default class LogComponent {
   private readonly logService = inject(LogService);
 
   selectedDate = signal<Date>(this.getCurrentDate());
   rowLog = signal<string>('No logs available for today');
+  searchTerm = '';
+  
+  private originalLog = signal<string>('');
 
   constructor(){
-    this.logService.getLogs(this.selectedDate()).subscribe(x => this.rowLog.set(this.highlightLog(x)));
+    this.logService.getLogs(this.selectedDate()).subscribe(x => {
+      this.originalLog.set(x);
+      this.rowLog.set(this.highlightLog(x));
+    });
   }
-
 
   onDateChange(event: MatDatepickerInputEvent<Date>): void {
     const date = event.value;
     if (date) {
       this.selectedDate.set(date);
-      this.logService.getLogs(date).subscribe( x => this.rowLog.set(this.highlightLog(x)));
+      this.logService.getLogs(date).subscribe(x => {
+        this.originalLog.set(x);
+        this.applySearch();
+      });
     }
+  }
+
+  onSearchChange(): void {
+    this.applySearch();
+  }
+
+  clearSearch(): void {
+    this.searchTerm = '';
+    this.applySearch();
+  }
+
+  private applySearch(): void {
+    if (!this.searchTerm || this.searchTerm.trim() === '') {
+      this.rowLog.set(this.highlightLog(this.originalLog()));
+    } else {
+      const filteredLog = this.filterLogsBySearch(this.originalLog(), this.searchTerm);
+      this.rowLog.set(this.highlightLog(filteredLog));
+    }
+  }
+
+  private filterLogsBySearch(log: string, searchTerm: string): string {
+    if (!log || !searchTerm) return log;
+    
+    const lines = log.split('\n');
+    const filteredLines = lines.filter(line => 
+      line.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    
+    return filteredLines.join('\n');
+  }
+
+  getLogCount(level: string): number {
+    const logContent = this.rowLog();
+    if (!logContent) return 0;
+    
+    const regex = new RegExp(`\\[${level.toUpperCase()}\\]`, 'gi');
+    const matches = logContent.match(regex);
+    return matches ? matches.length : 0;
+  }
+
+  datePickerFilter(d: Date | null): boolean {
+    if (!d) return false;
+
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+
+    return currentDate > d;
   }
 
   private getCurrentDate(): Date {
@@ -47,7 +104,7 @@ export default class LogComponent {
     if (!log) return '';
     log = log.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-    return log
+    let highlightedLog = log
       .replace(/\[(?<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})]/g,
                `<span class="log-page_timestamp">[$1]</span>`)
       .replace(/\[(?<level>INF|WRN|ERR|DBG|FTL)]/g,
@@ -55,7 +112,18 @@ export default class LogComponent {
       .replace(/(----- ERROR LOG START -----)/g,
                `<span class="log-page_header">$1</span>`)
       .replace(/(----- ERROR LOG END -----)/g,
-               `<span class="log-page_footer">$1</span>`)
-      .replace(/\n/g, '<br>');
+               `<span class="log-page_footer">$1</span>`);
+
+    // Highlight search terms
+    if (this.searchTerm && this.searchTerm.trim() !== '') {
+      const searchRegex = new RegExp(`(${this.escapeRegExp(this.searchTerm)})`, 'gi');
+      highlightedLog = highlightedLog.replace(searchRegex, '<span class="log-page_search-highlight">$1</span>');
+    }
+
+    return highlightedLog.replace(/\n/g, '<br>');
+  }
+
+  private escapeRegExp(string: string): string {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 }

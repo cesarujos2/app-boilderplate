@@ -1,13 +1,13 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { AppInfoService } from '@core/services';
 import { catchError, map, Observable, of } from 'rxjs';
-import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LogService {
-  private API_URL = `${environment.apiUrl}/Log`;
+  private API_URL = `${inject(AppInfoService).getApiUrl()}/Log`;
   private http = inject(HttpClient);
 
   getLogs(date: Date): Observable<string> {

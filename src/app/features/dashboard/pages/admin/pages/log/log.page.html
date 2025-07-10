@@ -1,18 +1,183 @@
-<div class="p-3" style="width: 100%; height: 100%;">
-    <div class="log-terminal position-relative">
-        <div class="log-header">
-            <mat-form-field appearance="outline">
-                <mat-label>Choose a date</mat-label>
-                <input matInput [matDatepicker]="picker"
-                    (dateChange)="onDateChange($event)"
-                    [value]="selectedDate()" />
-                <mat-datepicker-toggle matIconSuffix
-                    [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
+<div class="size-full">
+    <div class="flex flex-col h-full p-4 gap-6">
+
+        <!-- Header Section -->
+        <div
+            class="p-2 flex-shrink-0">
+            <div
+                class="flex flex-row justify-between items-center space-y-4 md:space-y-0">
+                <div>
+                    <h1
+                        class="text-3xl font-bold mb-2 text-gray-800 dark:text-white">System
+                        Logs</h1>
+                </div>
+                <div class="shrink min-w-0">
+                    <div class="p-3">
+                        <mat-form-field appearance="outline"
+                            class="w-full">
+                            <mat-label>Select Date</mat-label>
+                            <input matInput [matDatepicker]="picker"
+                                [matDatepickerFilter]="datePickerFilter"
+                                (dateChange)="onDateChange($event)"
+                                [value]="selectedDate()" />
+                            <mat-datepicker-toggle matIconSuffix
+                                [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="log-content">
-            <div [innerHTML]="rowLog()"></div>
+
+        <!-- Statistics Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 flex-shrink-0">
+            <div
+                class="rounded-lg px-4 py-2 border-l-4 border-green-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p
+                            class="text-sm text-gray-600 dark:text-gray-300">Info</p>
+                        <p class="text-2xl font-bold text-green-600">{{
+                            getLogCount('inf') }}</p>
+                    </div>
+                    <div
+                        class="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
+                        <svg class="w-4 h-4 text-green-400" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="rounded-lg px-4 py-2 border-l-4 border-yellow-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p
+                            class="text-sm text-gray-600 dark:text-gray-300">Warnings</p>
+                        <p class="text-2xl font-bold text-yellow-600">{{
+                            getLogCount('wrn') }}</p>
+                    </div>
+                    <div
+                        class="w-8 h-8 bg-yellow-100 dark:bg-yellow-900 rounded-full flex items-center justify-center">
+                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="rounded-lg px-4 py-2 border-l-4 border-red-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p
+                            class="text-sm text-gray-600 dark:text-gray-300">Errors</p>
+                        <p class="text-2xl font-bold text-red-600">{{
+                            getLogCount('err') }}</p>
+                    </div>
+                    <div
+                        class="w-8 h-8 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center">
+                        <svg class="w-4 h-4 text-red-400" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="rounded-lg px-4 py-2 border-l-4 border-purple-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p
+                            class="text-sm text-gray-600 dark:text-gray-300">Debug</p>
+                        <p class="text-2xl font-bold text-purple-600">{{
+                            getLogCount('dbg') }}</p>
+                    </div>
+                    <div
+                        class="w-8 h-8 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
+                        <svg class="w-4 h-4 text-purple-400" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- Terminal Section -->
+        <div
+            class="rounded-xl overflow-hidden flex flex-col flex-1 min-h-0">
+            <!-- Terminal Header -->
+            <div
+                class="bg-gradient-to-r from-gray-800 to-gray-700 dark:from-gray-900 dark:to-gray-800 p-4 border-b border-gray-600 flex-shrink-0">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <span class="text-gray-300 text-sm font-medium">
+                            Application Logs
+                        </span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <!-- Search Input -->
+                        <div class="relative">
+                            <input 
+                                type="text" 
+                                placeholder="Search logs..." 
+                                [(ngModel)]="searchTerm"
+                                (input)="onSearchChange()"
+                                class="bg-gray-700 dark:bg-gray-800 text-gray-200 placeholder-gray-400 border border-gray-600 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-48 transition-all duration-200"
+                            />
+                            <div class="absolute right-2 top-1/2 transform -translate-y-1/2">
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <!-- Clear Search Button -->
+                        <button 
+                            *ngIf="searchTerm && searchTerm.trim() !== ''"
+                            (click)="clearSearch()"
+                            class="text-gray-400 hover:text-gray-200 transition-colors duration-200"
+                            title="Clear search">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                        <!-- Status Indicator -->
+                        <div class="flex items-center space-x-2">
+                            <div
+                                class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terminal Content -->
+            <div
+                class="bg-gray-900 dark:bg-gray-950 font-mono text-base leading-relaxed p-6 overflow-y-auto flex-1 min-h-0 terminal-scrollbar">
+                <div class="space-y-1">
+                    <div class="text-gray-500 dark:text-gray-400 text-xs mb-4 flex items-center justify-between">
+                        <span>~ Logs for {{ selectedDate() | date:'fullDate' }}</span>
+                        <span *ngIf="searchTerm && searchTerm.trim() !== ''" class="text-yellow-400">
+                            Searching for: "{{ searchTerm }}"
+                        </span>
+                    </div>
+                    <div [innerHTML]="rowLog()"
+                        class="whitespace-pre-wrap break-words text-white"></div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>

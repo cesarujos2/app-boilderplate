@@ -25,6 +25,10 @@ export const ADMIN_ROUTES: Routes = [
                 loadComponent: () => import('./pages/tasks/tasks.page'),
             },
             {
+                path: ADMIN_ROUTE_BRANCHES.LOGS.path,
+                loadComponent: () => import('./pages/log/log.page'),
+            },
+            {
                 path: '**',
                 redirectTo: ADMIN_ROUTE_BRANCHES.TASKS.path,
             }

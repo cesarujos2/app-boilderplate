@@ -17,7 +17,7 @@
                         <button *ngFor="let item of sections"
                             [routerLink]="item.node.path"
                             [routerLinkActive]="['drawer-item-active']"
-                            class="w-full flex items-center space-x-3 px-3 py-2 text-left rounded-lg transition-all duration-200 
+                            class="w-full flex items-center space-x-3 px-3 py-2 text-left rounded-lg transition-all duration-200 cursor-pointer
                                    text-slate-700 dark:text-slate-300 
                                    hover:bg-slate-50 dark:hover:bg-slate-800/50 
                                    hover:text-slate-900 dark:hover:text-slate-100">
@@ -29,7 +29,7 @@
             </div>
         </mat-drawer>
         <mat-drawer-content class="h-full flex flex-col">
-            <main>
+            <main class="flex-1 h-full min-h-0 overflow-y-auto custom-scrollbar">
                 <router-outlet />
             </main>
         </mat-drawer-content>

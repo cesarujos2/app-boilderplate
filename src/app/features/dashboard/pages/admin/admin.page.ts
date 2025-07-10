@@ -43,6 +43,10 @@ export default class AdminComponent {
     {
       node: ADMIN_ROUTE_BRANCHES.TASKS,
       icon: 'task_alt'
+    },
+    {
+      node: ADMIN_ROUTE_BRANCHES.LOGS,
+      icon: 'history'
     }
   ]
 
