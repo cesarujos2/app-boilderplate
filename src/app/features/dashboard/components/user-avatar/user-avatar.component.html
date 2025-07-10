@@ -55,7 +55,8 @@
         <div class="space-y-2 text-sm">
             <div class="flex justify-between gap-2">
                 <span class="text-gray-600 dark:text-gray-400">Empresa:</span>
-                <span class="text-gray-900 dark:text-gray-100 font-medium text-end">
+                <span
+                    class="text-gray-900 dark:text-gray-100 font-medium text-end">
                     {{ user()?.organizationName | titlecase }}
                 </span>
             </div>
@@ -90,6 +91,13 @@
 
     <!-- Acciones del menú -->
     <div class="py-1">
+        @if(isAdmin()) {
+        <button mat-menu-item (click)="goToAdmin()"
+            class="flex items-center gap-3">
+            <mat-icon class="text-gray-500">admin_panel_settings</mat-icon>
+            <span>Administración</span>
+        </button>
+        }
         <!-- <button mat-menu-item (click)="goToProfile()"
             class="flex items-center gap-3">
             <mat-icon class="text-gray-500">person</mat-icon>

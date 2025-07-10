@@ -1,0 +1,100 @@
+<div
+    class="rounded-xl p-6 transition-all duration-300">
+    <form [formGroup]="taskForm">
+        <!-- Header Section -->
+        <div class="flex items-center justify-between mb-6">
+            @if(taskForm.get('id')?.value) {
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center">
+                    <mat-icon
+                        class="text-emerald-600! dark:text-emerald-400!">schedule</mat-icon>
+                </div>
+                <div>
+                    <h3
+                        class="text-lg font-semibold text-gray-900 dark:text-white">
+                        Tarea {{ (taskForm.get('id')?.value ?? 0) }}
+                    </h3>
+                    <p
+                        class="text-sm text-gray-500 dark:text-gray-400">Programación
+                        automática</p>
+                </div>
+            </div>
+            } @else {
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                    <mat-icon
+                        class="text-blue-600! dark:text-blue-400!">add_circle</mat-icon>
+                </div>
+                <div>
+                    <h3
+                        class="text-lg font-semibold text-gray-900 dark:text-white">
+                        Nueva Tarea
+                    </h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Crear
+                        nueva programación</p>
+                </div>
+            </div>
+            }
+
+            <div class="flex items-center gap-3">
+                <span
+                    class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    {{ taskForm.get('isActive')?.value ? 'Activa' : 'Inactiva'
+                    }}
+                </span>
+                <mat-slide-toggle
+                    formControlName="isActive"
+                    color="primary"
+                    class="scale-90">
+                </mat-slide-toggle>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="w-full space-y-4">
+            <!-- Time Section -->
+            <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+                <div class="flex items-center gap-2 mb-3">
+                    <mat-icon
+                        class="text-emerald-600 dark:text-emerald-400 !text-xl">access_time</mat-icon>
+                    <h4
+                        class="text-sm font-medium text-gray-900 dark:text-white">Horario
+                        de Ejecución</h4>
+                </div>
+
+                <div class="w-full">
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Seleccionar hora</mat-label>
+                        <input matInput
+                            [matTimepicker]="timepicker"
+                            formControlName="time"
+                            class="text-base"
+                            required>
+                        <mat-timepicker #timepicker />
+                        <mat-timepicker-toggle [for]="timepicker" matIconSuffix>
+                            <mat-icon
+                                matTimepickerToggleIcon>schedule</mat-icon>
+                        </mat-timepicker-toggle>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <!-- Days Section -->
+            <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+                <div class="flex items-center gap-2 mb-3">
+                    <mat-icon
+                        class="text-blue-600 dark:text-blue-400 !text-xl">calendar_month</mat-icon>
+                    <h4
+                        class="text-sm font-medium text-gray-900 dark:text-white">Días
+                        de la Semana</h4>
+                </div>
+
+                <div class="space-y-3">
+                    <app-day-week-picker formControlName="days"></app-day-week-picker>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

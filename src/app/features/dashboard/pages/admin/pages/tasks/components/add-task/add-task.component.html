@@ -1,0 +1,10 @@
+<h1 mat-dialog-title style="font-size: 18px;" class="pb-1">Agregar tarea
+  programada</h1>
+<mat-dialog-content class="p-0">
+  <app-task-item (validChange)="isValid.set($event)"
+    [(initalData)]="taskData" />
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close [disabled]="!isValid()"
+    (click)="addTask()">Crear</button>
+</mat-dialog-actions>

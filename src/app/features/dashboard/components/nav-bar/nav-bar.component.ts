@@ -4,6 +4,8 @@ import { UserAvatarComponent } from '../user-avatar/user-avatar.component';
 import { ThemeSwitchComponent } from '@shared/components/theme-switch/theme-switch.component';
 import { LogoComponent } from '@shared/components/logo/logo.component';
 import { SidebarService } from '@core/services';
+import { Router } from '@angular/router';
+import { DASHBOARD_ROUTE_BRANCHES } from '../../pages/dashboard.routes';
 
 @Component({
   selector: 'app-nav-bar',
@@ -18,4 +20,9 @@ import { SidebarService } from '@core/services';
 })
 export class NavBarComponent {
   sideBarService = inject(SidebarService);
+  private readonly router = inject(Router);
+
+  goToDashboard(): void {
+    this.router.navigate(DASHBOARD_ROUTE_BRANCHES.BASE.fullPath());
+  }
 }

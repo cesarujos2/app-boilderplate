@@ -1,0 +1,37 @@
+<div class="w-full h-full">
+    <mat-drawer-container class="w-full h-full bg-transparent!">
+        <mat-drawer [mode]="sideBarMode()" [(opened)]="isSideBarOpen" class="max-w-full sm:max-w-80 bg-white! dark:bg-black!">
+            <div class="drawer h-full flex flex-col">
+                <div class="drawer-header flex items-center justify-between p-6 shrink-0">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-8 bg-emerald-500 dark:bg-emerald-400 rounded-full"></div>
+                        <h1 class="text-lg font-base text-slate-700 dark:text-slate-100">Configuración</h1>
+                    </div>
+                    <button mat-icon-button (click)="toggleSideBar()" *ngIf="!isMd()" 
+                            class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors duration-200">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+                <div class="drawer-content flex-1 px-4 pb-4 overflow-y-auto min-h-0">
+                    <nav class="space-y-1">
+                        <button *ngFor="let item of sections"
+                            [routerLink]="item.node.path"
+                            [routerLinkActive]="['drawer-item-active']"
+                            class="w-full flex items-center space-x-3 px-3 py-2 text-left rounded-lg transition-all duration-200 
+                                   text-slate-700 dark:text-slate-300 
+                                   hover:bg-slate-50 dark:hover:bg-slate-800/50 
+                                   hover:text-slate-900 dark:hover:text-slate-100">
+                            <mat-icon matListItemIcon class="text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors duration-200">{{ item.icon }}</mat-icon>
+                            <div matListItemTitle class="font-base text-sm">{{ item.node.label }}</div>
+                        </button>
+                    </nav>
+                </div>
+            </div>
+        </mat-drawer>
+        <mat-drawer-content class="h-full flex flex-col">
+            <main>
+                <router-outlet />
+            </main>
+        </mat-drawer-content>
+    </mat-drawer-container>
+</div>

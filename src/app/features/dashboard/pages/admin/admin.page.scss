@@ -1,0 +1,18 @@
+
+.drawer-item-active {
+  --bg-light: #a6ffce65;
+  --text-light: #005236;
+  --bg-dark: rgba(0, 133, 93, 0.1);
+  --text-dark: #28d389;
+  
+  background-color: var(--bg-light);
+  color: var(--text-light);
+}
+
+// Estilos para tema oscuro usando múltiples selectores
+:host-context(.dark) .drawer-item-active,
+:host-context(body.dark-mode) .drawer-item-active,
+.dark .drawer-item-active {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+}

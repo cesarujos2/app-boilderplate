@@ -8,6 +8,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { Router } from '@angular/router';
 import { TitleCasePipe } from '@angular/common';
 import { NotificationService } from 'app/shared/services/ui/notification.service';
+import { DASHBOARD_ROUTE_BRANCHES } from '../../pages/dashboard.routes';
 
 @Component({
   selector: 'app-user-avatar',
@@ -25,6 +26,7 @@ import { NotificationService } from 'app/shared/services/ui/notification.service
 export class UserAvatarComponent {
   readonly accountService = inject(AccountService);
   readonly notificationService = inject(NotificationService);
+  private readonly router = inject(Router);
   
   name = computed(() => this.accountService.user()?.name ?? '');
   rolName = computed(() => this.accountService.user()?.roles[0]);
@@ -53,5 +55,13 @@ export class UserAvatarComponent {
         }
       }
     });
+  }
+
+  goToAdmin(): void {
+    this.router.navigate(DASHBOARD_ROUTE_BRANCHES.ADMIN.fullPath());
+  }
+
+  isAdmin(): boolean {
+    return this.accountService.isAdmin();
   }
 }
