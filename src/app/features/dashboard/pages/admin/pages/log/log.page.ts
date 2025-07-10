@@ -3,6 +3,7 @@ import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 import { DatePipe, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { APP_DATE_FORMATS, AppDateAdapter } from '../../../datasheet/components/forms/fta/adapters/dateAdapter';
@@ -12,7 +13,7 @@ import { LogService } from './services/log.service';
   selector: 'app-log',
   standalone: true,
   imports: [
-    MatFormFieldModule, MatInputModule, MatDatepickerModule, DatePipe, CommonModule, FormsModule
+    MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule, DatePipe, CommonModule, FormsModule
   ],
   providers: [
     { provide: DateAdapter, useClass: AppDateAdapter },
