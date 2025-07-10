@@ -9,6 +9,7 @@ import { TasksService } from '../../service/tasks.service';
 import { ScheduledTask } from '../../models/tasks.interface';
 import { DayWeekPickerComponent } from '@shared/components/day-week-picker/day-week-picker.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { skip } from 'rxjs';
 
 @Component({
   selector: 'app-task-item',
@@ -43,12 +44,16 @@ export class TaskComponent implements OnInit {
 
   ngOnInit(): void {
     this.taskForm.patchValue(this.initalData());
-    this.taskForm.valueChanges.subscribe(value => {
+    this.taskForm.valueChanges
+    .pipe(skip(1))
+    .subscribe(value => {
       this.initalData.set(value as ScheduledTask);
       this.onChange.emit(value as ScheduledTask);
     });
 
-    this.taskForm.statusChanges.subscribe(status => {
+    this.taskForm.statusChanges
+    .pipe(skip(1))
+    .subscribe(status => {
       this.validChange.emit(status === 'VALID');
     });
   }
