@@ -116,6 +116,33 @@ export class DatasheetCardComponent implements IExpandableContent {
     this.pdfModalService.openFitacPdf(fitacFileId, title);
   }
 
+  viewOfficeFile(event: Event): void {
+    event.stopPropagation(); // Evita que se active el toggle
+    const officeFileId = this.datasheetDetails()?.officeFileId;
+    if (!officeFileId) {
+      console.warn('No hay archivo de oficina disponible');
+      return;
+    }
+    const projectName = this.datasheetDetails()?.projectName;
+    const title = projectName ? `Documento Resolutivo - ${projectName}` : 'Documento Resolutivo';
+    this.pdfModalService.openFitacPdf(officeFileId, title);
+  }
+
+  viewOfficeFileMod(event: Event, index: number): void {
+    event.stopPropagation(); // Evita que se active el toggle
+
+    const fitacMod = this.datasheetDetails()?.datasheetMods[index];
+    if (!fitacMod?.officeFileId) {
+      console.warn('No hay archivo de oficina disponible');
+      return;
+    }
+
+    const projectName = this.datasheetDetails()?.projectName;
+    const title = projectName ? `Documento Resolutivo - ${projectName}` : 'Documento Resolutivo';
+
+    this.pdfModalService.openFitacPdf(fitacMod.officeFileId, title);
+  }
+
   viewFitacFileMod(event: Event, index: number): void {
     event.stopPropagation(); // Evita que se active el toggle
 
@@ -189,7 +216,7 @@ export class DatasheetCardComponent implements IExpandableContent {
       console.warn('No hay datasheet disponible para aplicar la transición de mod');
       return;
     }
-    this.changeStatusOrchestratorService.applyModForSignatureTransition(datasheet, modIndex).subscribe( resp =>{
+    this.changeStatusOrchestratorService.applyModForSignatureTransition(datasheet, modIndex).subscribe(resp => {
       if (resp.success) {
         this.loadDatasheets();
       }

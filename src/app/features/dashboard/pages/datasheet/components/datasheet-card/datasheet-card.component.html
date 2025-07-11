@@ -93,16 +93,27 @@
             <!-- Botón menú (1 col) -->
             <div class="col-span-1 flex justify-center">
                 <button mat-icon-button
-                    class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                    class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 relative"
                     [matMenuTriggerFor]="datasheetMenu"
                     (click)="$event.stopPropagation()">
                     <mat-icon>more_vert</mat-icon>
+                    <!-- Badge rojo para archivo de oficina -->
+                    <div
+                        *ngIf="datasheetDetails()?.officeFileId && ((datasheetDetails()?.datasheetMods?.length ?? 0) === 0)"
+                        class="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full min-w-[8px] h-[8px] flex items-center justify-center">
+                    </div>
                 </button>
                 <mat-menu #datasheetMenu="matMenu">
                     @if(datasheetDetails()?.fitacFileId){
                     <button mat-menu-item (click)="viewFitacFile($event)">
                         <mat-icon>attach_file</mat-icon>
                         <span>Ver archivo FITAC</span>
+                    </button>
+                    }
+                    @if(datasheetDetails()?.officeFileId){
+                    <button mat-menu-item (click)="viewOfficeFile($event)">
+                        <mat-icon>gavel</mat-icon>
+                        <span>Ver Resolutivo</span>
                     </button>
                     }
                     @if(canDelete()){
@@ -112,8 +123,10 @@
                     </button>
                     }
                     @if(canTransition()) {
-                    <button mat-menu-item (click)="applyTransition()" [disabled]="isLoading()">
-                        <mat-icon>{{isLoading() ? 'hourglass_empty' : 'arrow_forward'}}</mat-icon>
+                    <button mat-menu-item (click)="applyTransition()"
+                        [disabled]="isLoading()">
+                        <mat-icon>{{isLoading() ? 'hourglass_empty' :
+                            'arrow_forward'}}</mat-icon>
                         <span>{{datasheetDetails()?.status?.transitionName}}</span>
                     </button>
                     }
@@ -161,10 +174,15 @@
                                     {{ datasheetDetails()?.status?.name }}
                                 </app-custom-chip>
                                 <button mat-icon-button
-                                    class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 flex-shrink-0"
+                                    class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 flex-shrink-0 relative"
                                     (click)="$event.stopPropagation()"
                                     [matMenuTriggerFor]="datasheetMenu">
                                     <mat-icon>more_vert</mat-icon>
+                                    <!-- Badge rojo para archivo de oficina -->
+                                    <div
+                                        *ngIf="datasheetDetails()?.officeFileId && ((datasheetDetails()?.datasheetMods?.length ?? 0) === 0)"
+                                        class="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full min-w-[8px] h-[8px] flex items-center justify-center">
+                                    </div>
                                 </button>
                                 <mat-menu #datasheetMenu="matMenu">
                                     @if(datasheetDetails()?.fitacFileId){
@@ -172,6 +190,13 @@
                                         (click)="viewFitacFile($event)">
                                         <mat-icon>attach_file</mat-icon>
                                         <span>Ver archivo FITAC</span>
+                                    </button>
+                                    }
+                                    @if(datasheetDetails()?.officeFileId){
+                                    <button mat-menu-item
+                                        (click)="viewOfficeFile($event)">
+                                        <mat-icon>gavel</mat-icon>
+                                        <span>Ver Resolutivo</span>
                                     </button>
                                     }
                                     @if(canDelete()){
@@ -233,10 +258,15 @@
                                     {{ datasheetDetails()?.status?.name }}
                                 </app-custom-chip>
                                 <button mat-icon-button
-                                    class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 flex-shrink-0"
+                                    class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 flex-shrink-0 relative"
                                     (click)="$event.stopPropagation()"
                                     [matMenuTriggerFor]="datasheetMenu">
                                     <mat-icon>more_vert</mat-icon>
+                                    <!-- Badge rojo para archivo de oficina -->
+                                    <div
+                                        *ngIf="datasheetDetails()?.officeFileId && ((datasheetDetails()?.datasheetMods?.length ?? 0) === 0)"
+                                        class="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full min-w-[8px] h-[8px] flex items-center justify-center">
+                                    </div>
                                 </button>
                                 <mat-menu #datasheetMenu="matMenu">
                                     @if(datasheetDetails()?.fitacFileId){
@@ -244,6 +274,13 @@
                                         (click)="viewFitacFile($event)">
                                         <mat-icon>attach_file</mat-icon>
                                         <span>Ver archivo FITAC</span>
+                                    </button>
+                                    }
+                                    @if(datasheetDetails()?.officeFileId){
+                                    <button mat-menu-item
+                                        (click)="viewOfficeFile($event)">
+                                        <mat-icon>gavel</mat-icon>
+                                        <span>Ver Resolutivo</span>
                                     </button>
                                     }
                                     @if(canDelete()){
@@ -513,6 +550,11 @@
                                     (click)="$event.stopPropagation()"
                                     [matMenuTriggerFor]="datasheetModMenu">
                                     <mat-icon>more_vert</mat-icon>
+                                    <!-- Badge rojo para archivo de oficina -->
+                                    <div
+                                        *ngIf="mod.officeFileId"
+                                        class="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full min-w-[8px] h-[8px] flex items-center justify-center">
+                                    </div>
                                 </button>
                                 <mat-menu #datasheetModMenu="matMenu">
                                     @if(mod.fitacFileId){
@@ -522,11 +564,20 @@
                                         <span>Ver archivo FITAC</span>
                                     </button>
                                     }
+                                    @if(mod.officeFileId)
+                                    {
+                                    <button mat-menu-item
+                                        (click)="viewOfficeFileMod($event, i)">
+                                        <mat-icon>gavel</mat-icon>
+                                        <span>Ver Resolutivo</span>
+                                    </button>
+                                    }
                                     @if(canModTransition(i)){
                                     <button mat-menu-item
                                         (click)="applyModTransition(i)">
                                         <mat-icon>arrow_forward</mat-icon>
-                                        <span>{{ mod.status?.transitionName }}</span>
+                                        <span>{{ mod.status?.transitionName
+                                            }}</span>
                                     </button>
                                     }
                                 </mat-menu>
@@ -547,6 +598,10 @@
                                     (click)="$event.stopPropagation()"
                                     [matMenuTriggerFor]="datasheetModMenu">
                                     <mat-icon>more_vert</mat-icon>
+                                    <div
+                                        *ngIf="mod.officeFileId"
+                                        class="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full min-w-[8px] h-[8px] flex items-center justify-center">
+                                    </div>
                                 </button>
                                 <mat-menu #datasheetModMenu="matMenu">
                                     @if(mod.fitacFileId){
@@ -554,6 +609,22 @@
                                         (click)="viewFitacFileMod($event, i)">
                                         <mat-icon>attach_file</mat-icon>
                                         <span>Ver archivo FITAC</span>
+                                    </button>
+                                    }
+                                    @if(mod.officeFileId)
+                                    {
+                                    <button mat-menu-item
+                                        (click)="viewOfficeFileMod($event, i)">
+                                        <mat-icon>gavel</mat-icon>
+                                        <span>Ver Resolutivo</span>
+                                    </button>
+                                    }
+                                    @if(canModTransition(i)){
+                                    <button mat-menu-item
+                                        (click)="applyModTransition(i)">
+                                        <mat-icon>arrow_forward</mat-icon>
+                                        <span>{{ mod.status?.transitionName
+                                            }}</span>
                                     </button>
                                     }
                                 </mat-menu>
