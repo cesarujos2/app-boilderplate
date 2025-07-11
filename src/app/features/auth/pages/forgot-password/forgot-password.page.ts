@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
 import { AUTH_ROUTE_BRANCHES } from '../auth.routes';
 import { rucValidator } from '@shared/validators/peruvian/ruc.validator';
 import { peruvianDocumentValidator } from '@shared/validators/peruvian/peruvian-doc.validator';
-import { LookupService } from '@shared/services';
+import { LookupService, NotificationService } from '@shared/services';
+import { AccountService } from '../../services';
 
 @Component({
   selector: 'app-forgot-password',
@@ -23,7 +24,7 @@ import { LookupService } from '@shared/services';
     MatSelect,
     MatButton,
     MatIcon
-],
+  ],
   templateUrl: './forgot-password.page.html',
   styleUrl: './forgot-password.page.scss'
 })
@@ -31,7 +32,9 @@ export default class ForgotPasswordComponent {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly lookupService = inject(LookupService);
-  
+  private readonly accountService = inject(AccountService);
+  private readonly notificationService = inject(NotificationService);
+
   form: FormGroup = this.fb.group({
     documentNumber: [null, [Validators.required, rucValidator()]],
     contactDocumentTypeId: [null, Validators.required],
@@ -42,13 +45,31 @@ export default class ForgotPasswordComponent {
 
   onSubmit() {
     if (this.form.valid) {
-      console.log('Form submitted:', this.form.value);
+      this.notificationService.showConfirmation(
+        'Confirmación',
+        '¿Estás seguro de que deseas recuperar tu contraseña?'
+      ).subscribe((result) => {
+        if (result.confirmed) {
+          this.accountService.recoverPassword(this.form.value).subscribe({
+            next: (response) => {
+              if (response.success) {
+                this.notificationService.showSuccess(
+                  'Éxito',
+                  response.message || 'Se ha enviado un correo electrónico para recuperar tu contraseña.');
+                this.toLoginPage();
+              } else {
+                this.notificationService.showError('Error al recuperar la contraseña');
+              }
+            }
+          });
+        }
+      })
     } else {
-      console.log('Form is invalid');
+      this.form.markAllAsTouched();
     }
   }
 
-  toLoginPage(){
+  toLoginPage() {
     this.router.navigate(AUTH_ROUTE_BRANCHES.LOGIN.fullPath());
   }
 

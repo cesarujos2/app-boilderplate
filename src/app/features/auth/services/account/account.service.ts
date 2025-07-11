@@ -12,6 +12,7 @@ import { Router } from "@angular/router";
 import { AUTH_ROUTE_BRANCHES } from "../../pages/auth.routes";
 import { AppInfoService } from "@core/services";
 import { serialize } from 'object-to-formdata';
+import { RecoverPasswordRequest } from "../../models/account/recover-password-request.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -157,5 +158,12 @@ export class AccountService {
             }),
             switchMap(() => of(true))
         );
+    }
+
+    /**
+     * Recuperar la contraseña del usuario
+     */
+    recoverPassword(request: RecoverPasswordRequest): Observable<ApiResponse<any>> {
+        return this.http.post<ApiResponse<any>>(`${this.API_URL}/recover-password`, request);
     }
 }
