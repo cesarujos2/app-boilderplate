@@ -13,6 +13,7 @@ import { AUTH_ROUTE_BRANCHES } from "../../pages/auth.routes";
 import { AppInfoService } from "@core/services";
 import { serialize } from 'object-to-formdata';
 import { RecoverPasswordRequest } from "../../models/account/recover-password-request.interface";
+import { RegisterRequest } from "../../models/account/register.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -166,4 +167,11 @@ export class AccountService {
     recoverPassword(request: RecoverPasswordRequest): Observable<ApiResponse<any>> {
         return this.http.post<ApiResponse<any>>(`${this.API_URL}/recover-password`, request);
     }
+
+    /**
+     *  Registrar un nuevo usuario
+    */
+   registerUser(request: RegisterRequest): Observable<ApiResponse<any>> {
+       return this.http.post<ApiResponse<any>>(`${this.API_URL}/register`, request);
+   }
 }
