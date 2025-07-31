@@ -1,4 +1,5 @@
 import { DOCUMENT, inject, Injectable, signal } from '@angular/core';
+import { STORAGE_KEYS, THEME_CONFIG } from '@core';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class ThemeService {
   toggleTheme() {
     this.isDark.update(v => !v);
     const isDark = this.isDark();
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    localStorage.setItem(STORAGE_KEYS.THEME, isDark ? THEME_CONFIG.DARK : THEME_CONFIG.LIGHT);
     this.applyThemeClassesWithTransition(isDark);
   }
 
@@ -33,8 +34,8 @@ export class ThemeService {
 
   private isInitialDarkMode(): boolean {
     return (
-      localStorage.getItem('theme') === 'dark' ||
-      (localStorage.getItem('theme') !== 'light' &&
+      localStorage.getItem(STORAGE_KEYS.THEME) === THEME_CONFIG.DARK ||
+      (localStorage.getItem(STORAGE_KEYS.THEME) !== THEME_CONFIG.LIGHT &&
         window.matchMedia('(prefers-color-scheme: dark)').matches)
     );
   }

@@ -5,15 +5,15 @@
   "compilerOptions": {
     "baseUrl": "src",
     "paths": {
-      "@models/*": ["app/models/*"],
-      "@styles/*": ["app/styles/*"],
-      "@validators/*": ["app/validators/*"],
-      "@components/*": ["app/components/*"],
-      "@services/*": ["app/services/*"],
-      "@pipes/*": ["app/pipes/*"],
+      "@core": ["app/core"],
+      "@core/*": ["app/core/*"],
+      "@shared": ["app/shared"],
       "@shared/*": ["app/shared/*"],
-      "@environments/*": ["environments/*"],
-      "@assets/*": ["assets/*"],
+      "@features": ["app/features"],
+      "@features/*": ["app/features/*"],
+      "@layouts/*": ["app/layouts/*"],
+      "@styles/*": ["app/styles/*"],
+      "@environments/*": ["environments/*"]
     },
     "outDir": "./dist/out-tsc",
     "strict": true,
@@ -28,7 +28,8 @@
     "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
-    "module": "ES2022"
+    "module": "ES2022",
+    "lib": ["ES2022", "dom"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
